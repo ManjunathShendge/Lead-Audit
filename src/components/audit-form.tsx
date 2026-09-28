@@ -14,7 +14,7 @@ export interface InitialAudit {
   tier: string;
   handles: Handles;
 }
-export function AuditForm({ initial }: { initial?: InitialAudit }) {
+export function AuditForm({ initial, mockCollection }: { initial?: InitialAudit; mockCollection: boolean }) {
   const router = useRouter();
   const [step, setStep] = useState(initial ? 2 : 1);
   const [source, setSource] = useState('');
@@ -26,6 +26,7 @@ export function AuditForm({ initial }: { initial?: InitialAudit }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState(initial ? 'Review these handles before starting a new audit.' : '');
+  const [warnings, setWarnings] = useState<string[]>([]);
   const [cached, setCached] = useState<{ id: string; createdAt: string } | null>(null);
   const edit = (platform: Platform, value: string) => {
     setCached(null);
@@ -49,6 +50,7 @@ export function AuditForm({ initial }: { initial?: InitialAudit }) {
       setBrand(data.brand);
       setWebsite(data.website ?? '');
       setNotice(data.notice);
+      setWarnings(Array.isArray(data.warnings) ? data.warnings : []);
       setStep(2);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unable to read this input.');
@@ -105,7 +107,9 @@ export function AuditForm({ initial }: { initial?: InitialAudit }) {
         </p>
         <div className="notice">
           <FlaskConical size={15} style={{ verticalAlign: 'middle', marginRight: 7 }} />
-          Mock mode · No live scraping or paid API calls.
+          {mockCollection
+            ? 'Discovery crawls the real website. Collection is in mock mode · no paid API calls.'
+            : 'Live mode · discovery and collection call real services and may cost money.'}
         </div>
         {step === 1 ? (
           <form
@@ -164,6 +168,13 @@ export function AuditForm({ initial }: { initial?: InitialAudit }) {
             }}
           >
             <p className="notice">{notice}</p>
+            {warnings.length > 0 && (
+              <ul className="discovery-warnings">
+                {warnings.map((w) => (
+                  <li key={w}>{w}</li>
+                ))}
+              </ul>
+            )}
             <div className="grid-2">
               <div>
                 <label htmlFor="brand">Brand name</label>

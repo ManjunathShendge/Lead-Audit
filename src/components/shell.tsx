@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ArrowUpRight, CirclePlus, History, SlidersHorizontal, LogOut, Layers3 } from 'lucide-react';
-export function Shell({ children }: { children: React.ReactNode }) {
+import { ArrowUpRight, CirclePlus, History, SlidersHorizontal, LogOut, Layers3, Target } from 'lucide-react';
+export function Shell({ children, mode }: { children: React.ReactNode; mode: 'mock' | 'live' }) {
   const path = usePathname();
   const router = useRouter();
   if (path.endsWith('/print')) return <>{children}</>;
@@ -20,6 +20,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           {[
             { Icon: CirclePlus, label: 'New audit', href: '/audits/new' },
             { Icon: History, label: 'Audit library', href: '/history' },
+            { Icon: Target, label: 'Accuracy', href: '/accuracy' },
             { Icon: SlidersHorizontal, label: 'Configuration', href: '/settings' },
           ].map(({ Icon, label, href }) => (
             <Link key={href} className={path === href ? 'nav-link active' : 'nav-link'} href={href}>
@@ -75,14 +76,16 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 ? 'Social presence report'
                 : path.includes('settings')
                   ? 'Configuration'
-                  : path.includes('new')
-                    ? 'New audit'
-                    : 'Audit library'}
+                  : path.includes('accuracy')
+                    ? 'Accuracy harness'
+                    : path.includes('new')
+                      ? 'New audit'
+                      : 'Audit library'}
             </strong>
           </span>
-          <span className="mode-badge">
+          <span className={mode === 'live' ? 'mode-badge live' : 'mode-badge'}>
             <i />
-            Mock workspace
+            {mode === 'live' ? 'Live workspace' : 'Mock workspace'}
           </span>
         </header>
         <main id="main-content" className="main-content">

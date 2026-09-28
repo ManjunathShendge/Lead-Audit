@@ -1,6 +1,16 @@
 import { db } from '@/lib/db';
-import { configSchema } from '@/lib/scoring/config';
-import { platformNames, type Platform } from '@/lib/collectors/types';
+import { configSchema, defaults } from '@/lib/scoring/config';
+import { platformNames, platforms, type Platform } from '@/lib/collectors/types';
+import { currentMode, liveAvailability } from '@/lib/collectors';
+import { SettingsForm, type BenchmarkRow } from '@/components/settings-form';
+
+const SOURCE: Record<Platform, string> = {
+  instagram: 'APIFY_ACTOR_INSTAGRAM',
+  facebook: 'APIFY_ACTOR_FACEBOOK',
+  linkedin: 'APIFY_ACTOR_LINKEDIN',
+  youtube: 'YouTube Data API v3',
+};
+
 export default async function Settings() {
   const [row, benchmarks] = await Promise.all([
     db.config.findUnique({ where: { id: 'default' } }),
@@ -8,129 +18,58 @@ export default async function Settings() {
   ]);
   if (!row) return <div className="notice">Configuration not found. Run the database seed.</div>;
   const config = configSchema.parse(row.value);
+  const mode = currentMode();
+  const availability = liveAvailability();
+
   return (
     <>
       <div className="page-heading">
         <div>
           <span className="eyebrow">THE FRAMEWORK BEHIND THE SCORE</span>
           <h1>Configuration</h1>
-          <p>Current scoring rules. Each audit keeps its own immutable snapshot.</p>
+          <p>Editable scoring rules. Each audit keeps its own immutable snapshot.</p>
         </div>
-        <span className="tag">Read-only review checkpoint</span>
+        <span className={mode === 'live' ? 'tag live' : 'tag'}>
+          {mode === 'live' ? 'Live mode' : 'Mock mode'}
+        </span>
       </div>
-      <div className="notice">
-        Placeholder benchmarks, replace them with Tier2 data. Settings editing is scheduled for milestone 11.
-      </div>
-      <div className="grid-2">
-        <ConfigTable title="Channel weights" values={config.channels} />
-        <ConfigTable title="Social component weights" values={config.components} />
-        <ConfigTable title="Website criteria · collector later" values={config.website} />
-        <ConfigTable title="Google Business Profile · collector later" values={config.gbp} />
-      </div>
-      <section className="panel settings-panel">
-        <h2>Platform weights by industry</h2>
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Industry</th>
-                <th>Instagram</th>
-                <th>Facebook</th>
-                <th>LinkedIn</th>
-                <th>YouTube</th>
-                <th>Relevant platforms</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(config.industries).map(([name, c]) => (
-                <tr key={name}>
-                  <td>{name}</td>
-                  {(['instagram', 'facebook', 'linkedin', 'youtube'] as const).map((p) => (
-                    <td key={p}>{c.weights[p]}%</td>
-                  ))}
-                  <td>{c.relevant.map((p) => platformNames[p]).join(', ')}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <section className="panel settings-panel">
-        <h2>Placeholder benchmarks</h2>
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Industry</th>
-                <th>Platform</th>
-                <th>Posts / month</th>
-                <th>Engagement</th>
-                <th>Follower band</th>
-                <th>Review band</th>
-              </tr>
-            </thead>
-            <tbody>
-              {benchmarks.map((b) => (
-                <tr key={b.id}>
-                  <td>{b.industry}</td>
-                  <td>{b.platform}</td>
-                  <td>{b.postsTarget}</td>
-                  <td>{b.engagementTarget}%</td>
-                  <td>
-                    {b.followerLow}–{b.followerHigh}
-                  </td>
-                  <td>
-                    {b.reviewLow}–{b.reviewHigh}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+
       <section className="panel settings-panel">
         <h2>Collector configuration</h2>
-        <p>Live integrations are pending report review. Tokens stay on the server.</p>
-        <table>
-          <thead>
-            <tr>
-              <th>Platform</th>
-              <th>Included</th>
-              <th>Actor ID / source</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(['instagram', 'facebook', 'linkedin', 'youtube'] as Platform[]).map((p) => (
-              <tr key={p}>
-                <td>{platformNames[p]}</td>
-                <td>{config.enabled.includes(p) ? 'Enabled' : 'Disabled'}</td>
-                <td>
-                  {p === 'youtube'
-                    ? 'YouTube Data API v3 (not wired)'
-                    : process.env[`APIFY_ACTOR_${p.toUpperCase()}`] || 'Not selected'}
-                </td>
+        <p className="field-help">
+          Actor IDs and keys come from the server environment and are never sent to the browser. Only whether
+          a value is set is shown here.
+        </p>
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Platform</th>
+                <th>Included in audits</th>
+                <th>Source</th>
+                <th>Live status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {platforms.map((p) => (
+                <tr key={p}>
+                  <td>{platformNames[p]}</td>
+                  <td>{config.enabled.includes(p) ? 'Enabled' : 'Disabled'}</td>
+                  <td>{p === 'youtube' ? SOURCE[p] : process.env[SOURCE[p]] || `${SOURCE[p]} not set`}</td>
+                  <td className={availability[p].ready ? 'target-met' : 'target-missed'}>
+                    {availability[p].ready ? 'Configured' : availability[p].reason}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
+
+      <SettingsForm
+        initialConfig={{ ...defaults, ...config }}
+        initialBenchmarks={benchmarks as BenchmarkRow[]}
+      />
     </>
-  );
-}
-function ConfigTable({ title, values }: { title: string; values: Record<string, number> }) {
-  return (
-    <section className="panel">
-      <h2>{title}</h2>
-      <table>
-        <tbody>
-          {Object.entries(values).map(([key, value]) => (
-            <tr key={key}>
-              <td style={{ textTransform: 'capitalize' }}>{key}</td>
-              <td>{value}%</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
   );
 }

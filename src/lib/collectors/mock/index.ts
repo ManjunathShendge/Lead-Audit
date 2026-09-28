@@ -41,13 +41,11 @@ export function mockCollector(
         posts:
           fixture.status === 'private'
             ? []
-            : fixture.posts
-                .slice(0, postsLimit)
-                .map(({ daysAgo, ...post }) => ({
-                  ...post,
-                  publishedAt: new Date(asOf.getTime() - daysAgo * 86400000).toISOString(),
-                  url: null,
-                })),
+            : fixture.posts.slice(0, postsLimit).map(({ daysAgo, ...post }) => ({
+                ...post,
+                publishedAt: new Date(asOf.getTime() - daysAgo * 86400000).toISOString(),
+                url: null,
+              })),
         costUsd: 0,
         warnings: [
           'Synthetic fixture data — not collected from a live platform.',

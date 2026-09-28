@@ -37,13 +37,23 @@ Audit stores brand, website, industry, confirmed handles, fixture tier, immutabl
 - [x] 3: Complete report UI and three demo audits, responsive/print-aware charts; verify; commit.
 - [x] 4: Handle confirmation, durable parallel jobs, retries, caching, progress/history/delete; E2E; commit.
 - [x] 5: A4 Playwright PDF with branding and chart readiness; E2E download and visual verification; commit.
-- [ ] REVIEW GATE: Show report to user before live integrations.
-- [ ] 6: Verified Instagram collector and saved real response (requires key).
-- [ ] 7: Verified YouTube collector (requires key).
-- [ ] 8: Live discovery; 8/10 websites verified.
-- [ ] 9: Propose two Facebook/LinkedIn actors each, user selection, then integrate.
-- [ ] 10: Persisted accuracy harness and CSV.
-- [ ] 11: Editable settings, final cost tracking and production readiness review.
+- [x] REVIEW GATE: Report reviewed; the user authorised live integrations on 28 September 2026.
+- [x] 6: Instagram collector verified against a real `hpix/instagram-scraper` response on 28 September 2026
+      (`fixtures/instagram/raw-live-mamaearth.in.json`, $0.0268). 30/30 posts returned date, likes and comments.
+      Capture corrected two things: the actor splits a profile across `data`, `stats` and `metadata` siblings,
+      and pinned posts are flagged `pinned_for_users`, not `is_pinned`.
+- [x] 7: YouTube Data API v3 collector verified against a real channel (`raw-live-UC5qhqSIcahBKKMEdLPFqeVA`),
+      3 quota units, no cost. One batched `videos.list` call per page of uploads as the brief requires.
+- [x] 8: Live Playwright discovery with SSRF guards. Verified 10/10 real sites against the 8/10 bar.
+- [x] 9: Two candidates proposed per platform; the user selected on 28 September 2026. Wired and verified:
+      Facebook = `apify/facebook-pages-scraper` + `apify/facebook-posts-scraper` ($0.121 for a page plus 30
+      posts), LinkedIn = `automation-lab/linkedin-company-scraper` + `harvestapi/linkedin-company-posts`.
+      No single actor returns both page metadata and posts, so each platform runs a pair and
+      `APIFY_ACTOR_*_POSTS` was added. The LinkedIn posts actor takes `targetUrls` with full URLs; the first
+      capture returned nothing because a slug was sent, which the collector reported as a clean degradation
+      rather than a wrong number.
+- [x] 10: Persisted accuracy harness at `/accuracy` with durable items, grading and CSV export.
+- [x] 11: Editable settings, cost tracking and README refresh.
 
 ## Verification
 
@@ -51,4 +61,31 @@ Each milestone gets appropriate tests and an app smoke check. Final checkpoint: 
 
 ## Checkpoint result
 
-Milestones 0-5 are complete. See VERIFICATION.md for checks and BUILD_BRIEF.md for the mandatory review gate. No live API calls were made. README setup also passed against a separate empty database. Final dependency audit: 0 known vulnerabilities. PDF pages inspected for all three scenarios.
+Milestones 0-5 are complete. See VERIFICATION.md for checks and BUILD_BRIEF.md for the review gate that has
+now been passed. README setup also passed against a separate empty database. PDF pages inspected for all
+three scenarios.
+
+## Live phase status (28 September 2026)
+
+All eleven milestones are implemented. Every collector has been run against a real account and its response
+saved under `fixtures/<platform>/raw-live-*.json`. `USE_MOCK_DATA=false`; collection is live.
+
+Fields the selected actors genuinely do not return, which stay null and are reported as data notes rather
+than scored as zero:
+
+- Instagram: total post count, category, business flag and the bio link. Profile completeness therefore
+  scores on bio and avatar only, re-normalised. `sampleComplete` can never be true, so activity counts are
+  always lower bounds.
+- Facebook and LinkedIn: no total post count, for the same reason.
+- Facebook: the posts actor omits `comments` entirely on posts that have none while still emitting
+  `shares: 0`. An absent count cannot be distinguished from a real zero, so it stays null and the report
+  states how many posts were affected and that engagement may read high as a result.
+
+What remains before showing a report to a prospect: run `/accuracy` against a list of real accounts, enter
+the true values, and confirm each platform clears 95% accuracy and 90% coverage. Nothing so far establishes
+those targets.
+
+Live collection is gated per platform by `liveAvailability()` in `src/lib/collectors/index.ts`. An audit run
+in live mode against an unconfigured platform produces a failed collector run with a stated reason rather
+than a wrong number, and the rest of the audit still completes. Discovery is now always a real crawl; it
+costs nothing and is independent of `USE_MOCK_DATA`, which governs collectors only.

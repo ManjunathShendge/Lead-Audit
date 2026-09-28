@@ -1,0 +1,685 @@
+{
+  "capturedAt": "2026-09-28T10:47:45.268Z",
+  "platform": "youtube",
+  "handle": "UC5qhqSIcahBKKMEdLPFqeVA",
+  "synthetic": false,
+  "raw": {
+    "source": "youtube.v3",
+    "via": "id",
+    "quotaUnits": 3,
+    "channelId": "UC5qhqSIcahBKKMEdLPFqeVA",
+    "channel": {
+      "items": [
+        {
+          "id": "UC5qhqSIcahBKKMEdLPFqeVA",
+          "snippet": {
+            "title": "Mamaearth India",
+            "description": "At Mamaearth, we are creating a better world with our #GoodnessInside by making natural and cruelty free personal & baby care products that are safe for you and your baby!\n\nWe choose to \n- keep the nasties away \n- bring the best of nature\n- be cruelty free \n- stay plastic positive and,\n- strive for a greener planet\n\nCome join us in our mission to make this world a better place! \n",
+            "customUrl": "@mamaearthindia1509",
+            "thumbnails": {
+              "high": {
+                "url": "https://yt3.ggpht.com/EfyFQmBJUmTFue8wFxppxTN8yCJw0KZGruJCyv6DXe6ugQJEsQJOJTYMRvb9jpTISo8mlYVtctM=s800-c-k-c0x00ffffff-no-rj"
+              },
+              "medium": {
+                "url": "https://yt3.ggpht.com/EfyFQmBJUmTFue8wFxppxTN8yCJw0KZGruJCyv6DXe6ugQJEsQJOJTYMRvb9jpTISo8mlYVtctM=s240-c-k-c0x00ffffff-no-rj"
+              },
+              "default": {
+                "url": "https://yt3.ggpht.com/EfyFQmBJUmTFue8wFxppxTN8yCJw0KZGruJCyv6DXe6ugQJEsQJOJTYMRvb9jpTISo8mlYVtctM=s88-c-k-c0x00ffffff-no-rj"
+              }
+            }
+          },
+          "statistics": {
+            "viewCount": "1981646094",
+            "subscriberCount": "182000",
+            "hiddenSubscriberCount": false,
+            "videoCount": "1525"
+          },
+          "contentDetails": {
+            "relatedPlaylists": {
+              "uploads": "UU5qhqSIcahBKKMEdLPFqeVA"
+            }
+          }
+        }
+      ]
+    },
+    "playlistItems": {
+      "items": [
+        {
+          "contentDetails": {
+            "videoId": "YnJ9FarE3-Y",
+            "videoPublishedAt": "2026-09-21T09:04:46Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "WF5UnbLuuHI",
+            "videoPublishedAt": "2026-07-08T05:59:30Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "3Ak7MQ3r7bc",
+            "videoPublishedAt": "2026-03-09T12:21:07Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "AM50hi2SU4Y",
+            "videoPublishedAt": "2026-03-09T11:51:49Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "escGqadLZls",
+            "videoPublishedAt": "2026-02-07T05:37:50Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "V7QD0aVgE6k",
+            "videoPublishedAt": "2026-02-06T08:55:40Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "GrrCnnrKAyk",
+            "videoPublishedAt": "2026-02-06T08:53:11Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "3H9_QsEVWqs",
+            "videoPublishedAt": "2026-02-06T08:53:04Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "wkZQRIQabCA",
+            "videoPublishedAt": "2026-02-06T08:52:57Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "Igc6VUTZs2U",
+            "videoPublishedAt": "2026-02-06T08:16:03Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "Fb1-OQJn6yI",
+            "videoPublishedAt": "2025-11-20T12:24:10Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "Hbg3QNRhW-g",
+            "videoPublishedAt": "2025-11-17T06:06:43Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "SPGepjR3-uc",
+            "videoPublishedAt": "2025-11-13T08:04:12Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "72c762UD9nc",
+            "videoPublishedAt": "2025-11-13T05:48:43Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "lvyGOjdxjZA",
+            "videoPublishedAt": "2025-11-12T11:05:50Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "3kLlicNZNK0",
+            "videoPublishedAt": "2025-10-10T05:01:47Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "-ZrwmVotMPk",
+            "videoPublishedAt": "2025-06-16T11:02:18Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "gQ_3CSYSvrI",
+            "videoPublishedAt": "2025-04-02T04:57:49Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "g93XCkap81s",
+            "videoPublishedAt": "2025-04-02T04:40:49Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "G79ksb61LWE",
+            "videoPublishedAt": "2025-03-24T11:53:13Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "kkyFFMfQXEc",
+            "videoPublishedAt": "2025-03-24T11:40:10Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "mtMHUAMYwJ4",
+            "videoPublishedAt": "2025-03-18T06:45:59Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "plr0QsCFp68",
+            "videoPublishedAt": "2025-03-13T08:24:13Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "DBGdjRRf3y4",
+            "videoPublishedAt": "2025-03-06T11:29:44Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "1SjpJq5PKTk",
+            "videoPublishedAt": "2025-03-06T10:57:06Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "DiaNTzhBwWY",
+            "videoPublishedAt": "2025-02-28T11:16:16Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "cDT03p1Tjis",
+            "videoPublishedAt": "2025-02-28T08:08:37Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "QNqyvYjAQ8M",
+            "videoPublishedAt": "2025-02-17T06:02:27Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "1z984PLZhhQ",
+            "videoPublishedAt": "2025-02-17T06:01:53Z"
+          }
+        },
+        {
+          "contentDetails": {
+            "videoId": "AzPdj6yZvLQ",
+            "videoPublishedAt": "2025-01-02T10:32:57Z"
+          }
+        }
+      ],
+      "nextPageToken": "EAAaHlBUOkNCNGlFREJCUlVJMU5ETTROMFJGUmpORFJVTQ"
+    },
+    "videos": {
+      "items": [
+        {
+          "id": "YnJ9FarE3-Y",
+          "snippet": {
+            "title": "Mamaearth Beetroot Light Moisturiser | Get 8X Pink Glow",
+            "publishedAt": "2026-09-21T09:04:46Z"
+          },
+          "statistics": {
+            "viewCount": "10225248",
+            "likeCount": "8",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT20S"
+          }
+        },
+        {
+          "id": "WF5UnbLuuHI",
+          "snippet": {
+            "title": "Mamaearth Tea Tree Pimple Control Facewash | 4x Pimple Reduction in Just 3 Days!",
+            "publishedAt": "2026-07-08T05:59:30Z"
+          },
+          "statistics": {
+            "viewCount": "10170699",
+            "likeCount": "23",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT20S"
+          }
+        },
+        {
+          "id": "3Ak7MQ3r7bc",
+          "snippet": {
+            "title": "Beetroot Hydraful Light Moisturizing Cream with Beetroot & Hyaluronic Acid for Hydrated Pink Glow",
+            "publishedAt": "2026-03-09T12:21:07Z"
+          },
+          "statistics": {
+            "viewCount": "67889037",
+            "likeCount": "24",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT21S"
+          }
+        },
+        {
+          "id": "AM50hi2SU4Y",
+          "snippet": {
+            "title": "Mamaearth Ubtan Natural Glow Face Wash | Tan Hataye, Glow Lautaye",
+            "publishedAt": "2026-03-09T11:51:49Z"
+          },
+          "statistics": {
+            "viewCount": "43345767",
+            "likeCount": "465",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT25S"
+          }
+        },
+        {
+          "id": "escGqadLZls",
+          "snippet": {
+            "title": "Mamaearth Baby DermaSoft Range",
+            "publishedAt": "2026-02-07T05:37:50Z"
+          },
+          "statistics": {
+            "viewCount": "794",
+            "likeCount": "3",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT26S"
+          }
+        },
+        {
+          "id": "V7QD0aVgE6k",
+          "snippet": {
+            "title": "Mamaearth Rosemary Anti-Hair Fall Shampoo",
+            "publishedAt": "2026-02-06T08:55:40Z"
+          },
+          "statistics": {
+            "viewCount": "2140",
+            "likeCount": "29",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT36S"
+          }
+        },
+        {
+          "id": "GrrCnnrKAyk",
+          "snippet": {
+            "title": "Mamaearth Rosemary Anti-Hair Fall Shampoo",
+            "publishedAt": "2026-02-06T08:53:11Z"
+          },
+          "statistics": {
+            "viewCount": "1089",
+            "likeCount": "4",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT7S"
+          }
+        },
+        {
+          "id": "3H9_QsEVWqs",
+          "snippet": {
+            "title": "Mamaearth Rosemary Anti-Hair Fall Shampoo",
+            "publishedAt": "2026-02-06T08:53:04Z"
+          },
+          "statistics": {
+            "viewCount": "177502308",
+            "likeCount": "14",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT20S"
+          }
+        },
+        {
+          "id": "wkZQRIQabCA",
+          "snippet": {
+            "title": "Mamaearth Rosemary Anti-Hair Fall Shampoo",
+            "publishedAt": "2026-02-06T08:52:57Z"
+          },
+          "statistics": {
+            "viewCount": "170927685",
+            "likeCount": "858",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT35S"
+          }
+        },
+        {
+          "id": "Igc6VUTZs2U",
+          "snippet": {
+            "title": "Mamaearth Rosemary Anti-Hair Fall Shampoo",
+            "publishedAt": "2026-02-06T08:16:03Z"
+          },
+          "statistics": {
+            "viewCount": "4309",
+            "likeCount": "93",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT35S"
+          }
+        },
+        {
+          "id": "Fb1-OQJn6yI",
+          "snippet": {
+            "title": "ಓಟ್ಸ್ ಜೊತೆ ಮಿಲ್ಕಿ ಸಾಫ್ಟ್ ಕ್ರೀಮ್ 🌾💧| ಸುರಕ್ಷಿತವಾಗಿ ಮಾಡಲಾಗಿದೆ",
+            "publishedAt": "2025-11-20T12:24:10Z"
+          },
+          "statistics": {
+            "viewCount": "2013312",
+            "likeCount": "3",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT21S"
+          }
+        },
+        {
+          "id": "Hbg3QNRhW-g",
+          "snippet": {
+            "title": "Mamaearth పాల వంటి మృదువైన క్రీమ్ తో ఓట్స్ 🌾💧 | సురక్షితంగా తయారు చేయబడింది",
+            "publishedAt": "2025-11-17T06:06:43Z"
+          },
+          "statistics": {
+            "viewCount": "3227151",
+            "likeCount": "5",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT21S"
+          }
+        },
+        {
+          "id": "SPGepjR3-uc",
+          "snippet": {
+            "title": "Mamaearth Milky Soft Cream with Oats 🌾💧| Made Safe",
+            "publishedAt": "2025-11-13T08:04:12Z"
+          },
+          "statistics": {
+            "viewCount": "131752197",
+            "likeCount": "12",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT21S"
+          }
+        },
+        {
+          "id": "72c762UD9nc",
+          "snippet": {
+            "title": "Mamaearth ఓట్స్ తో మిల్కీ సాఫ్ట్ క్రీమ్ 🌾💧| సురక్షితంగా తయారు చేయబడింది",
+            "publishedAt": "2025-11-13T05:48:43Z"
+          },
+          "statistics": {
+            "viewCount": "3253287",
+            "likeCount": "1",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT21S"
+          }
+        },
+        {
+          "id": "lvyGOjdxjZA",
+          "snippet": {
+            "title": "Mamaearth Milky Soft Cream with Oats 🌾💧| Made Safe",
+            "publishedAt": "2025-11-12T11:05:50Z"
+          },
+          "statistics": {
+            "viewCount": "541",
+            "likeCount": "5",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT21S"
+          }
+        },
+        {
+          "id": "3kLlicNZNK0",
+          "snippet": {
+            "title": "Mamaearth Rice Dewy Bright Face Wash | 20X Hydration For Glass Skin Glow",
+            "publishedAt": "2025-10-10T05:01:47Z"
+          },
+          "statistics": {
+            "viewCount": "68407741",
+            "likeCount": "496",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT35S"
+          }
+        },
+        {
+          "id": "-ZrwmVotMPk",
+          "snippet": {
+            "title": "Mamaearth Rosemary Anti- Hair Fall Shampoo",
+            "publishedAt": "2025-06-16T11:02:18Z"
+          },
+          "statistics": {
+            "viewCount": "8736",
+            "likeCount": "45",
+            "commentCount": "23"
+          },
+          "contentDetails": {
+            "duration": "PT21S"
+          }
+        },
+        {
+          "id": "gQ_3CSYSvrI",
+          "snippet": {
+            "title": "Mamaearth Baby Mosquito Repellent Spray | 100% natural oils | Free from toxins & harmful chemicals",
+            "publishedAt": "2025-04-02T04:57:49Z"
+          },
+          "statistics": {
+            "viewCount": "6556",
+            "likeCount": "45",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT21S"
+          }
+        },
+        {
+          "id": "g93XCkap81s",
+          "snippet": {
+            "title": "Mosquito Repellent Patches | Up to 12 hrs protection | Free from toxins & harmful chemicals",
+            "publishedAt": "2025-04-02T04:40:49Z"
+          },
+          "statistics": {
+            "viewCount": "55796",
+            "likeCount": "12",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT21S"
+          }
+        },
+        {
+          "id": "G79ksb61LWE",
+          "snippet": {
+            "title": "Mamaearth Baby Milky Soft Head To Toe Wash, Safe & Gentle 2-in-1 Cleansing for Babies #MamaApproved",
+            "publishedAt": "2025-03-24T11:53:13Z"
+          },
+          "statistics": {
+            "viewCount": "323279",
+            "likeCount": "282",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT1M2S"
+          }
+        },
+        {
+          "id": "kkyFFMfQXEc",
+          "snippet": {
+            "title": "Mamaearth Vitamin C Daily Glow Sunscreen | Toxin-free sun protection with SPF 50 & PA++++",
+            "publishedAt": "2025-03-24T11:40:10Z"
+          },
+          "statistics": {
+            "viewCount": "10774016",
+            "likeCount": "202",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT20S"
+          }
+        },
+        {
+          "id": "mtMHUAMYwJ4",
+          "snippet": {
+            "title": "Glow with Glass Skin, Har Din with Mamaearth Rice Water Face Wash",
+            "publishedAt": "2025-03-18T06:45:59Z"
+          },
+          "statistics": {
+            "viewCount": "1995",
+            "likeCount": "18",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT6S"
+          }
+        },
+        {
+          "id": "plr0QsCFp68",
+          "snippet": {
+            "title": "Mamaearth Ubtan Natural Glow Face Wash | Tan Hataye, Glow Lautaye",
+            "publishedAt": "2025-03-13T08:24:13Z"
+          },
+          "statistics": {
+            "viewCount": "302089650",
+            "likeCount": "1141",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT20S"
+          }
+        },
+        {
+          "id": "DBGdjRRf3y4",
+          "snippet": {
+            "title": "Mamaearth Ubtan Natural Glow Face Wash | Tan Hataye, Glow Lautaye",
+            "publishedAt": "2025-03-06T11:29:44Z"
+          },
+          "statistics": {
+            "viewCount": "2982381",
+            "likeCount": "29106",
+            "commentCount": "186"
+          },
+          "contentDetails": {
+            "duration": "PT31S"
+          }
+        },
+        {
+          "id": "1SjpJq5PKTk",
+          "snippet": {
+            "title": "Mamaearth Ubtan Natural Glow Face Wash | Tan Hataye, Glow Lautaye",
+            "publishedAt": "2025-03-06T10:57:06Z"
+          },
+          "statistics": {
+            "viewCount": "14447291",
+            "likeCount": "94",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT30S"
+          }
+        },
+        {
+          "id": "DiaNTzhBwWY",
+          "snippet": {
+            "title": "Mamaearth Baby Milky Soft Head to Toe Wash, Safe & Gentle 2 in 1 Cleansing for Babies",
+            "publishedAt": "2025-02-28T11:16:16Z"
+          },
+          "statistics": {
+            "viewCount": "22281443",
+            "likeCount": "48629",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT31S"
+          }
+        },
+        {
+          "id": "cDT03p1Tjis",
+          "snippet": {
+            "title": "Mamaearth Baby Milky Soft Head to Toe Wash, Safe & Gentle 2 in 1 Cleansing for Babies",
+            "publishedAt": "2025-02-28T08:08:37Z"
+          },
+          "statistics": {
+            "viewCount": "1214778",
+            "likeCount": "10303",
+            "commentCount": "0"
+          },
+          "contentDetails": {
+            "duration": "PT42S"
+          }
+        },
+        {
+          "id": "QNqyvYjAQ8M",
+          "snippet": {
+            "title": "Get up to 12 hours of oil control with Tea Tree & Neem in Mamaearth Tea Tree Face Wash",
+            "publishedAt": "2025-02-17T06:02:27Z"
+          },
+          "statistics": {
+            "viewCount": "7886675",
+            "likeCount": "1689",
+            "commentCount": "7"
+          },
+          "contentDetails": {
+            "duration": "PT30S"
+          }
+        },
+        {
+          "id": "1z984PLZhhQ",
+          "snippet": {
+            "title": "Get up to 12 hours of oil control with Tea Tree & Neem in Mamaearth Tea Tree Face Wash",
+            "publishedAt": "2025-02-17T06:01:53Z"
+          },
+          "statistics": {
+            "viewCount": "2979576",
+            "likeCount": "504",
+            "commentCount": "13"
+          },
+          "contentDetails": {
+            "duration": "PT35S"
+          }
+        },
+        {
+          "id": "AzPdj6yZvLQ",
+          "snippet": {
+            "title": "New Year, New Resolutions 🌱 Mamaearth x Zepto | Goodness Delivered in 10 mins",
+            "publishedAt": "2025-01-02T10:32:57Z"
+          },
+          "statistics": {
+            "viewCount": "1821398",
+            "likeCount": "306",
+            "commentCount": "10"
+          },
+          "contentDetails": {
+            "duration": "PT46S"
+          }
+        }
+      ]
+    }
+  }
+}

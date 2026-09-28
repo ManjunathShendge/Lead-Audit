@@ -1,7 +1,7 @@
 # Build Brief: Tier2 Social Profile Audit Tool
 
 > **How to use this file:** Put it in the root of an empty project folder, open Claude Code there, and say:
-> *"Read CLAUDE_BUILD_BRIEF.md and build the project milestone by milestone. Start with Milestone 0."*
+> _"Read CLAUDE_BUILD_BRIEF.md and build the project milestone by milestone. Start with Milestone 0."_
 
 ---
 
@@ -27,6 +27,7 @@ A web app where a Tier2 team member enters a brand's **website URL** or its **so
 **Who uses it:** Tier2 sales and strategy staff, internally. It is not public-facing in v1.
 
 **What "done" means for v1:**
+
 - One click from input to report. The only manual step is confirming the discovered handles.
 - Every number in the report traces back to a stored raw API response.
 - Scrapers pass the accuracy test in Section 9: at least **95% accuracy** and at least **90% coverage** per platform.
@@ -38,21 +39,21 @@ A web app where a Tier2 team member enters a brand's **website URL** or its **so
 
 Use this stack unless you have a strong reason not to. If you want to change something, explain why in `PLAN.md` first.
 
-| Layer | Choice |
-|---|---|
-| Framework | **Next.js (App Router) + TypeScript** (strict mode) |
-| Styling | **Tailwind CSS** + CSS variables for the brand theme |
-| Charts | **Recharts** (or ECharts if the calendar heatmap needs it) |
-| Animation | **Framer Motion** (score rings counting up, cards fading in) |
-| Database | **PostgreSQL + Prisma**. SQLite is fine for local development. |
-| Jobs | A simple DB-backed job queue; the UI polls the job status. No Redis in v1. |
-| Scraping | **Apify** via the `apify-client` npm package |
-| YouTube | **YouTube Data API v3** (official, free quota) |
-| Website crawl | **Playwright** (headless Chromium), used to find social links |
-| PDF | **Playwright** `page.pdf()` rendering the report's print route, so the PDF matches the screen |
-| Validation | **Zod** for every external response and every API route input |
-| Tests | **Vitest** for unit tests; **Playwright Test** for one end-to-end test in mock mode |
-| Auth | Simple password login from an env var in v1 (internal tool). Keep it swappable. |
+| Layer         | Choice                                                                                        |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| Framework     | **Next.js (App Router) + TypeScript** (strict mode)                                           |
+| Styling       | **Tailwind CSS** + CSS variables for the brand theme                                          |
+| Charts        | **Recharts** (or ECharts if the calendar heatmap needs it)                                    |
+| Animation     | **Framer Motion** (score rings counting up, cards fading in)                                  |
+| Database      | **PostgreSQL + Prisma**. SQLite is fine for local development.                                |
+| Jobs          | A simple DB-backed job queue; the UI polls the job status. No Redis in v1.                    |
+| Scraping      | **Apify** via the `apify-client` npm package                                                  |
+| YouTube       | **YouTube Data API v3** (official, free quota)                                                |
+| Website crawl | **Playwright** (headless Chromium), used to find social links                                 |
+| PDF           | **Playwright** `page.pdf()` rendering the report's print route, so the PDF matches the screen |
+| Validation    | **Zod** for every external response and every API route input                                 |
+| Tests         | **Vitest** for unit tests; **Playwright Test** for one end-to-end test in mock mode           |
+| Auth          | Simple password login from an env var in v1 (internal tool). Keep it swappable.               |
 
 ---
 
@@ -118,6 +119,7 @@ This actor was already tested manually. Known facts from its documentation:
 ### 4.4 Profile discovery from a website
 
 Given a website URL:
+
 1. Load the homepage with Playwright and wait for it to finish loading.
 2. Collect all links to instagram.com, facebook.com, linkedin.com/company, youtube.com and x.com / twitter.com.
 3. Normalise them to handles. Ignore share links and intent links (such as `sharer.php` or `/intent/`).
@@ -166,24 +168,38 @@ interface CollectorResult {
   status: 'ok' | 'partial' | 'not_found' | 'private' | 'failed';
   profile: NormalizedProfile | null;
   posts: NormalizedPost[];
-  raw: unknown;          // stored verbatim in the DB for traceability
+  raw: unknown; // stored verbatim in the DB for traceability
   costUsd: number | null;
   warnings: string[];
-  fetchedAt: string;     // ISO
+  fetchedAt: string; // ISO
 }
 
 interface NormalizedProfile {
-  handle: string; displayName: string | null; url: string;
-  followers: number | null; following: number | null; totalPosts: number | null;
-  verified: boolean | null; isBusiness: boolean | null; category: string | null;
-  bio: string | null; bioLink: string | null; avatarUrl: string | null;
+  handle: string;
+  displayName: string | null;
+  url: string;
+  followers: number | null;
+  following: number | null;
+  totalPosts: number | null;
+  verified: boolean | null;
+  isBusiness: boolean | null;
+  category: string | null;
+  bio: string | null;
+  bioLink: string | null;
+  avatarUrl: string | null;
 }
 
 interface NormalizedPost {
-  id: string; url: string | null; publishedAt: string | null;
+  id: string;
+  url: string | null;
+  publishedAt: string | null;
   type: 'image' | 'video' | 'carousel' | 'reel' | 'text' | 'link';
-  likes: number | null; comments: number | null; shares: number | null; views: number | null;
-  isPinned: boolean; captionPreview: string | null;
+  likes: number | null;
+  comments: number | null;
+  shares: number | null;
+  views: number | null;
+  isPinned: boolean;
+  captionPreview: string | null;
 }
 ```
 
@@ -197,16 +213,16 @@ interface NormalizedPost {
 
 Compute these per platform from the normalized data. Exclude pinned posts from anything about recency or frequency.
 
-| Metric | Definition |
-|---|---|
-| Posts last 30 days | Non-pinned posts published in the last 30 days. If every fetched post falls inside the window, show "≥ N". |
-| Last post date | Most recent non-pinned post. |
-| Longest gap (90 days) | Largest gap in days between consecutive posts in the last 90 days, including the gap from the latest post to today. |
-| Avg likes / avg comments | Average over posts where the value is not `null`. |
-| Engagement rate | (avg likes + avg comments) ÷ followers × 100. `null` if followers is `null`. |
-| Content mix | Share of reels/videos vs static posts. |
-| Profile completeness | Bio, link in bio, business/category set, avatar present: 25 points each. |
-| Top posts | Top 3 by likes + comments. |
+| Metric                   | Definition                                                                                                          |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| Posts last 30 days       | Non-pinned posts published in the last 30 days. If every fetched post falls inside the window, show "≥ N".          |
+| Last post date           | Most recent non-pinned post.                                                                                        |
+| Longest gap (90 days)    | Largest gap in days between consecutive posts in the last 90 days, including the gap from the latest post to today. |
+| Avg likes / avg comments | Average over posts where the value is not `null`.                                                                   |
+| Engagement rate          | (avg likes + avg comments) ÷ followers × 100. `null` if followers is `null`.                                        |
+| Content mix              | Share of reels/videos vs static posts.                                                                              |
+| Profile completeness     | Bio, link in bio, business/category set, avatar present: 25 points each.                                            |
+| Top posts                | Top 3 by likes + comments.                                                                                          |
 
 ---
 
@@ -228,35 +244,36 @@ Overall = Website 40% + Social 40% + Google Business Profile 20%
 
 Each platform gets a score from 0 to 100, made up of four components:
 
-| Component | Weight | What it checks | How it scores |
-|---|---|---|---|
-| **Activity** | 35% | Posts in the last 30 days, and the longest gap in the last 90 days | At or above the industry benchmark = 100, linear below; minus 20 points if the longest gap is over 21 days (floor 0) |
-| **Engagement** | 35% | Engagement rate = (avg likes + avg comments) ÷ followers × 100 | At or above the industry benchmark = 100, linear below |
-| **Audience** | 15% | Follower count | Placed within the industry follower band on a log scale (bottom of band = 20, top of band or above = 100) |
-| **Profile completeness** | 15% | Bio, link in bio, business/category set, profile photo | 25 points each |
+| Component                | Weight | What it checks                                                     | How it scores                                                                                                        |
+| ------------------------ | ------ | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| **Activity**             | 35%    | Posts in the last 30 days, and the longest gap in the last 90 days | At or above the industry benchmark = 100, linear below; minus 20 points if the longest gap is over 21 days (floor 0) |
+| **Engagement**           | 35%    | Engagement rate = (avg likes + avg comments) ÷ followers × 100     | At or above the industry benchmark = 100, linear below                                                               |
+| **Audience**             | 15%    | Follower count                                                     | Placed within the industry follower band on a log scale (bottom of band = 20, top of band or above = 100)            |
+| **Profile completeness** | 15%    | Bio, link in bio, business/category set, profile photo             | 25 points each                                                                                                       |
 
 **Social score** = weighted average of the platform scores.
+
 - Default platform weights: **Instagram 35, LinkedIn 25, Facebook 20, YouTube 20**.
 - Store per-industry overrides. Seed two: B2B (LinkedIn 40, Instagram 20, Facebook 15, YouTube 25) and D2C (Instagram 45, Facebook 25, YouTube 20, LinkedIn 10).
 
 ### 7.2 Website score (scoring module now, collector later)
 
-| Criterion | Weight | What it checks | How it scores |
-|---|---|---|---|
-| **Performance** | 30% | Mobile PageSpeed performance score + Core Web Vitals | 60% = PageSpeed performance score (median of 3 runs); 40% = Core Web Vitals, each of LCP ≤ 2.5 s, INP ≤ 200 ms and CLS ≤ 0.1 worth a third (field data if available, else lab) |
-| **SEO basics** | 30% | PageSpeed SEO score + on-page checklist | 50% = PageSpeed SEO score; 50% = checklist with equal points each: title tag, meta description, exactly one H1, ≥ 90% of images with alt text, schema markup, sitemap.xml, robots.txt, HTTPS |
-| **Tracking installed** | 20% | Analytics and ad pixels | GA4 or Google Tag Manager 40, Meta Pixel 30, Google Ads tag 15, LinkedIn Insight Tag 15 |
-| **Conversion basics** | 20% | Ways to convert a visitor | Contact form 30, clear call to action above the fold 30, WhatsApp button 20, click-to-call link 20 |
-| **Content freshness** | 0% (optional) | Latest blog post date, footer copyright year | Collected and shown in the report; weight 0 by default, editable in Settings |
+| Criterion              | Weight        | What it checks                                       | How it scores                                                                                                                                                                                |
+| ---------------------- | ------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Performance**        | 30%           | Mobile PageSpeed performance score + Core Web Vitals | 60% = PageSpeed performance score (median of 3 runs); 40% = Core Web Vitals, each of LCP ≤ 2.5 s, INP ≤ 200 ms and CLS ≤ 0.1 worth a third (field data if available, else lab)               |
+| **SEO basics**         | 30%           | PageSpeed SEO score + on-page checklist              | 50% = PageSpeed SEO score; 50% = checklist with equal points each: title tag, meta description, exactly one H1, ≥ 90% of images with alt text, schema markup, sitemap.xml, robots.txt, HTTPS |
+| **Tracking installed** | 20%           | Analytics and ad pixels                              | GA4 or Google Tag Manager 40, Meta Pixel 30, Google Ads tag 15, LinkedIn Insight Tag 15                                                                                                      |
+| **Conversion basics**  | 20%           | Ways to convert a visitor                            | Contact form 30, clear call to action above the fold 30, WhatsApp button 20, click-to-call link 20                                                                                           |
+| **Content freshness**  | 0% (optional) | Latest blog post date, footer copyright year         | Collected and shown in the report; weight 0 by default, editable in Settings                                                                                                                 |
 
 ### 7.3 Google Business Profile score (scoring module now, collector later)
 
-| Criterion | Weight | How it scores |
-|---|---|---|
-| **Star rating** | 40% | 4.5 or above = 100; 3.0 or below = 0; linear between |
-| **Review count** | 30% | Against the industry benchmark band, log scale |
-| **Owner replies** | 15% | Share of the latest 10 reviews with an owner reply |
-| **Profile completeness** | 15% | Category, hours, phone, website, photos: 20 points each |
+| Criterion                | Weight | How it scores                                           |
+| ------------------------ | ------ | ------------------------------------------------------- |
+| **Star rating**          | 40%    | 4.5 or above = 100; 3.0 or below = 0; linear between    |
+| **Review count**         | 30%    | Against the industry benchmark band, log scale          |
+| **Owner replies**        | 15%    | Share of the latest 10 reviews with an owner reply      |
+| **Profile completeness** | 15%    | Category, hours, phone, website, photos: 20 points each |
 
 ### 7.4 Rules (apply to every channel)
 
@@ -264,7 +281,7 @@ Each platform gets a score from 0 to 100, made up of four components:
 - **A missing platform that matters does score 0.** A platform that matters for the lead's industry but has **no account** (e.g. no Instagram for a D2C brand, no LinkedIn for a B2B company) scores 0 and appears as a gap. Store "which platforms matter" per industry in the DB.
 - **Low scores become gaps.** Any component or criterion scoring **below 50** becomes a gap in the Gaps section, mapped to a Tier2 service (Section 10). Show the 6 lowest.
 - **Bands:** **80+ Strong · 60–79 Good · 40–59 Needs work · below 40 Weak.** Use the same bands for the overall score, channel scores and platform scores.
-- **Benchmarks:** seed a `Benchmark` table with clearly marked placeholder values. It holds, per industry × platform: target posts per month, target engagement rate %, follower band (low–high), and review-count band for Google Business Profile. Show a banner on the Settings page: *"Placeholder benchmarks, replace them with Tier2 data."*
+- **Benchmarks:** seed a `Benchmark` table with clearly marked placeholder values. It holds, per industry × platform: target posts per month, target engagement rate %, follower band (low–high), and review-count band for Google Business Profile. Show a banner on the Settings page: _"Placeholder benchmarks, replace them with Tier2 data."_
 - **Explainability:** every score in the UI has a tooltip or expandable row showing its components, their raw values and the weights used.
 
 ---
@@ -287,6 +304,7 @@ Each platform gets a score from 0 to 100, made up of four components:
 10. **Data notes:** what couldn't be measured and why (private account, hidden likes, platform not found), plus the data timestamp.
 
 **Other screens:**
+
 - **New audit:** a single input that accepts a URL or handles, a discovery step with editable handle chips per platform, and a Run button.
 - **Progress:** per-platform steps with live status and elapsed time.
 - **History:** a table of past audits with score, date and a re-run button.
@@ -318,20 +336,20 @@ This is how we decide whether to pay for each scraper.
 
 ## 10. Gap → Tier2 service mapping (for the Gaps section)
 
-| Gap detected | Recommended Tier2 service |
-|---|---|
-| Low activity or long posting gaps | Branding & Social Media (content calendar) |
-| Low engagement rate | Branding & Social Media (content strategy, reels) |
-| Missing or weak LinkedIn for a B2B brand | B2B Marketing |
-| Incomplete profiles, inconsistent bios or visuals | Branding |
-| No reels/video in the content mix | Videos & Animation |
-| Platform missing entirely | Digital strategy call |
-| Slow site, failing Core Web Vitals | Web & UI |
-| Weak SEO basics (tags, schema, sitemap) | SEO / AEO / GEO |
-| No analytics or ad pixels installed | Growth & Performance Marketing |
-| Weak conversion basics (no form, CTA, WhatsApp) | Web & UI + CRO |
-| Stale content (no recent blog posts) | Copy & Content |
-| Low rating, few reviews, no owner replies on Google | Local SEO / reputation management |
+| Gap detected                                        | Recommended Tier2 service                         |
+| --------------------------------------------------- | ------------------------------------------------- |
+| Low activity or long posting gaps                   | Branding & Social Media (content calendar)        |
+| Low engagement rate                                 | Branding & Social Media (content strategy, reels) |
+| Missing or weak LinkedIn for a B2B brand            | B2B Marketing                                     |
+| Incomplete profiles, inconsistent bios or visuals   | Branding                                          |
+| No reels/video in the content mix                   | Videos & Animation                                |
+| Platform missing entirely                           | Digital strategy call                             |
+| Slow site, failing Core Web Vitals                  | Web & UI                                          |
+| Weak SEO basics (tags, schema, sitemap)             | SEO / AEO / GEO                                   |
+| No analytics or ad pixels installed                 | Growth & Performance Marketing                    |
+| Weak conversion basics (no form, CTA, WhatsApp)     | Web & UI + CRO                                    |
+| Stale content (no recent blog posts)                | Copy & Content                                    |
+| Low rating, few reviews, no owner replies on Google | Local SEO / reputation management                 |
 
 Store this mapping in the DB. The copy stays editable.
 
@@ -354,20 +372,20 @@ Store this mapping in the DB. The copy stays editable.
 
 ## 12. Milestones (build in this order)
 
-| # | Milestone | Done when |
-|---|---|---|
-| 0 | `PLAN.md`, project scaffold, Prisma schema, env setup, password login | App boots; login works |
-| 1 | Normalized types, mock collectors with rich fixtures (3 demo brands: strong, average, weak) | `USE_MOCK_DATA=true` returns realistic data |
-| 2 | Metrics + scoring modules, with unit tests | All tests pass; scores match hand calculations |
-| 3 | Full report UI with all charts, running on mock data | Report looks polished on all 3 demo brands |
-| 4 | New audit flow, job queue, progress screen, history | End-to-end in mock mode |
-| 5 | PDF export | The downloaded PDF matches the screen |
-| 6 | Live Instagram collector (`hpix/instagram-scraper`) + saved fixtures | A real audit works for Instagram |
-| 7 | Live YouTube collector | A real audit works for YouTube |
-| 8 | Website → handle discovery | Handles are found for 8 of 10 test sites |
-| 9 | Propose, then wire in the Facebook and LinkedIn actors | Real audits work, or degrade cleanly |
-| 10 | Accuracy harness | A CSV export of a test run is produced |
-| 11 | Settings page, cost tracking, polish, README | A teammate can set up and run it from the README alone |
+| #   | Milestone                                                                                   | Done when                                              |
+| --- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| 0   | `PLAN.md`, project scaffold, Prisma schema, env setup, password login                       | App boots; login works                                 |
+| 1   | Normalized types, mock collectors with rich fixtures (3 demo brands: strong, average, weak) | `USE_MOCK_DATA=true` returns realistic data            |
+| 2   | Metrics + scoring modules, with unit tests                                                  | All tests pass; scores match hand calculations         |
+| 3   | Full report UI with all charts, running on mock data                                        | Report looks polished on all 3 demo brands             |
+| 4   | New audit flow, job queue, progress screen, history                                         | End-to-end in mock mode                                |
+| 5   | PDF export                                                                                  | The downloaded PDF matches the screen                  |
+| 6   | Live Instagram collector (`hpix/instagram-scraper`) + saved fixtures                        | A real audit works for Instagram                       |
+| 7   | Live YouTube collector                                                                      | A real audit works for YouTube                         |
+| 8   | Website → handle discovery                                                                  | Handles are found for 8 of 10 test sites               |
+| 9   | Propose, then wire in the Facebook and LinkedIn actors                                      | Real audits work, or degrade cleanly                   |
+| 10  | Accuracy harness                                                                            | A CSV export of a test run is produced                 |
+| 11  | Settings page, cost tracking, polish, README                                                | A teammate can set up and run it from the README alone |
 
 **Stop after Milestone 5 and show me the report UI before starting the live integrations.**
 

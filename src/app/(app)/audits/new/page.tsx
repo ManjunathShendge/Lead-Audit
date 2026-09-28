@@ -22,7 +22,7 @@ export default async function NewAudit({ searchParams }: { searchParams: Promise
           <p>From a social footprint to a focused plan of action.</p>
         </div>
       </div>
-      <AuditForm initial={initial} />
+      <AuditForm initial={initial} mockCollection={process.env.USE_MOCK_DATA === 'true'} />
     </>
   );
 }

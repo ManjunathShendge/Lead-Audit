@@ -5,6 +5,7 @@ import { apiGuard, jsonInput } from '@/lib/http';
 import { auditInputSchema } from '@/lib/validation';
 import { loadSnapshot } from '@/lib/config-store';
 import { platforms } from '@/lib/collectors/types';
+import { currentMode, liveAvailability } from '@/lib/collectors';
 const json = (value: unknown) => JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
 export async function POST(request: Request) {
   const guard = await apiGuard(request, true);
@@ -18,16 +19,20 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  if (process.env.USE_MOCK_DATA !== 'true')
-    return Response.json(
-      { error: 'Only mock audits are enabled until live integrations are reviewed.' },
-      { status: 409 },
-    );
+  const mode = currentMode();
   try {
     const snapshot = await loadSnapshot(input.industry);
     const active = platforms.filter(
       (p) => snapshot.settings.enabled.includes(p) && input.handles[p].presence === 'present',
     );
+    if (mode === 'live' && active.length && !active.some((p) => liveAvailability()[p].ready))
+      return Response.json(
+        {
+          error:
+            'No live collector is configured for the confirmed platforms. Set the required keys or confirm a platform that has one.',
+        },
+        { status: 409 },
+      );
     if (
       !active.length &&
       !platforms.some((p) => snapshot.settings.enabled.includes(p) && input.handles[p].presence === 'absent')
@@ -45,7 +50,7 @@ export async function POST(request: Request) {
           brand: input.brand,
           website: input.website,
           config: snapshot,
-          mode: 'mock',
+          mode,
         }),
       )
       .digest('hex');
@@ -70,6 +75,7 @@ export async function POST(request: Request) {
         industry: input.industry,
         handles: json(input.handles),
         tier: input.tier,
+        mode,
         config: json(snapshot),
         cacheKey: key,
         runs: { create: active.map((platform) => ({ platform, handle: input.handles[platform].handle })) },

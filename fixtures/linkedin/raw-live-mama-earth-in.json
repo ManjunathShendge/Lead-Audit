@@ -1,0 +1,417 @@
+{
+  "capturedAt": "2026-09-28T10:54:08.552Z",
+  "platform": "linkedin",
+  "handle": "mama-earth-in",
+  "synthetic": false,
+  "raw": {
+    "source": "apify.linkedin",
+    "companyActor": "automation-lab/linkedin-company-scraper",
+    "postsActor": "harvestapi/linkedin-company-posts",
+    "matchedFields": {
+      "category": "industry",
+      "employees": "employeeCount",
+      "displayName": "name",
+      "companyUrl": "linkedinUrl",
+      "followers": "followerCount",
+      "bio": "description",
+      "bioLink": "website",
+      "avatar": "logoUrl"
+    },
+    "employeeCount": 912,
+    "companyItems": [
+      {
+        "name": "Mamaearth",
+        "linkedinUrl": "https://www.linkedin.com/company/mama-earth-in",
+        "website": "https://mamaearth.in",
+        "description": "We are parents just like you. Our journey began when we, Ghazal and Varun, were expecting our first child. That’s the time we turned from a bungee jumping, pub hopping, carefree couple to basically a couple of safety wardens. Everything had to be safe, kosher & googled. When the morning sickness became a routine, we were shocked to find that there were no safer alternatives to pills and ended up having to struggle a lot.\n\nAfter 9 rigorous months, we were finally blessed with our tiny little bundle of joy and just like you and every other parent in the world; we too wanted the best for our cute bambino. So we wore our spyglasses & did all the possible research available. Whoa, we were shocked to see how most baby products, be it lotion or shampoo contained toxins which have proven to be harmful to the little ones. We were worried sick and it wasn’t just our baby we were worried about but also for all the little ones we knew in our friend circle. That’s when we decided to do something about it & create products which were completely safe & certified toxin free. A brand, by a parent, for the parent. A brand which develops products from world-class research and attempts to solve every little problem that we as parents face. With the aim of making products which are mum-baby friendly, toxin-free, meet stringent international standards & are basically ultra-awesome, Mamaearth was born.",
+        "industry": "Health, Wellness & Fitness",
+        "companyType": "Privately Held",
+        "companySize": "51-200 employees",
+        "employeeCount": 912,
+        "followerCount": 226578,
+        "foundedYear": 2016,
+        "headquarters": "Gurgaon, Haryana",
+        "street": "2904 Netaji Subhash Marg",
+        "city": "Gurgaon",
+        "state": "Haryana",
+        "country": "IN",
+        "specialties": [],
+        "logoUrl": "https://media.licdn.com/dms/image/v2/D560BAQH96k6M4RaHCg/company-logo_200_200/B56ZgX5K3zHUAI-/0/1752747520020/mama_earth_in_logo?e=2147483647&v=beta&t=X7qDfowi94H-1vKpBtbc_it0ncGs9e3mhCQ8Fl5b9xo",
+        "scrapedAt": "2026-09-28T10:54:00.044Z"
+      }
+    ],
+    "postItems": [
+      {
+        "type": "post",
+        "id": "7404469334405939201",
+        "linkedinUrl": "https://www.linkedin.com/posts/mama-earth-in_mamaearth-turns-9-activity-7404469334405939201-AKvD",
+        "content": "Turning 9 doesn’t just mark time passed. It marks time used - to grow, to listen, to learn, and to act. As a brand born out of purpose, we’ve always believed that goodness must extend beyond our products and into the world that uses them.\n\nAs we looked around, we saw a city we love struggling to breathe. Gurugram’s air quality has been a harsh reminder of how deeply our environment shapes our everyday lives.\n\nSo instead of celebrating our anniversary with fanfare, we chose to stand with the community that has stood with us for nine years. From 8-14 December, Mamaearth is deploying anti-smog guns across schools, hospitals, colleges, and busy city routes - places where every bit of cleaner air can make a difference.\n\nThis effort sits on a foundation close to our heart with over 1 million trees planted and 13000+ tonnes of plastic recycled. 🌳 \n\nBecause goodness, to us, has always been more than a brand belief. It’s the quiet, everyday work of trying to leave things better than we found them.\n\nOn our 9th birthday, we’re not just marking a milestone - we’re reaffirming a promise.\n\nTo care. To act. To show up when it matters most. 💚🍃",
+        "contentAttributes": [],
+        "author": {
+          "id": "18636572",
+          "universalName": "mama-earth-in",
+          "publicIdentifier": null,
+          "type": "company",
+          "name": "Mamaearth",
+          "linkedinUrl": "https://www.linkedin.com/company/mama-earth-in/posts",
+          "info": "226,578 followers",
+          "website": null,
+          "websiteLabel": null,
+          "avatar": {
+            "url": "https://media.licdn.com/dms/image/v2/D560BAQH96k6M4RaHCg/company-logo_400_400/B56ZgX5K3zHUAY-/0/1752747520020/mama_earth_in_logo?e=1792022400&v=beta&t=CabVV0Jcz09DEhgkrJHDYvRCZGd4Ge753UoxeiYeNDw",
+            "width": 400,
+            "height": 400
+          },
+          "urn": "18636572",
+          "companyId": "18636572"
+        },
+        "postedAt": {
+          "timestamp": 1765363057710,
+          "date": "2025-12-10T10:37:37.710Z",
+          "postedAgoShort": "9mo",
+          "postedAgoText": "9 months ago • Visible to anyone on or off LinkedIn"
+        },
+        "postImages": [],
+        "document": {
+          "title": "Mamaearth turns 9 💚💙",
+          "transcribedDocumentUrl": "https://media.licdn.com/dms/document/media/v2/D561FAQETf6Q5adbYsw/feedshare-document-chunked-pdf/B56ZsH1X0WHABs-/0/1765362993490?e=1791198000&v=beta&t=vVP01jnRH0tsHjNL_QZ1Qzefd_okLdO9_ac_0hlQLvE",
+          "coverPages": [
+            {
+              "width": 1363,
+              "imageUrls": [
+                "https://media.licdn.com/dms/image/v2/D561FAQETf6Q5adbYsw/feedshare-document-cover-images_1920/B56ZsH1X0WHAA0-/0/1765362993346?e=1791198000&v=beta&t=OUEp4dJLeDj8hr-DZkv08Hz7WfiAb5clQiL21MsPa2s",
+                "https://media.licdn.com/dms/image/v2/D561FAQETf6Q5adbYsw/feedshare-document-cover-images_1920/B56ZsH1X0WHAA0-/1/1765362993346?e=1791198000&v=beta&t=WlmliZsb6862WT42FKnunGRqDb9B3EDjhv3axfMUpO8",
+                "https://media.licdn.com/dms/image/v2/D561FAQETf6Q5adbYsw/feedshare-document-cover-images_1920/B56ZsH1X0WHAA0-/2/1765362993346?e=1791198000&v=beta&t=2BbeS5U3Xtb2bKtoEIuG-64tZUf9YMfs6EWKzp2w3fI"
+              ],
+              "height": 1929
+            }
+          ],
+          "totalPageCount": 6,
+          "manifestUrl": "https://media.licdn.com/dms/document/pl/v2/D561FAQETf6Q5adbYsw/feedshare-document-master-manifest/B56ZsH1X0WHABg-/0/1765362993479?e=1791198000&v=beta&t=4JEx0Bz2zaSqzMW8IVgtv2nZnhx5PNJyGNU6GJE1gJ8",
+          "manifest": {
+            "asset": "urn:li:digitalmediaAsset:D561FAQETf6Q5adbYsw",
+            "transcriptManifestUrl": "https://media.licdn.com/dms/document/media/v2/D561FAQETf6Q5adbYsw/feedshare-document-transcript/B56ZsH1X0WHAA8-/0/1765362993479?e=1791417600&v=beta&t=RYFUt5zBIw6F4iV6F7iC-o51B_NNOCY4fI-0spKfGQA",
+            "transcribedDocumentUrl": "https://media.licdn.com/dms/document/media/v2/D561FAQETf6Q5adbYsw/feedshare-document-pdf-analyzed/B56ZsH1X0WHAAc-/0/1765362993479?e=1791417600&v=beta&t=ooXu4hYKK679QnCLCapAsih7dt_0keU442P85B2FKV0",
+            "scanRequiredForDownload": true,
+            "perResolutions": [
+              {
+                "width": 570,
+                "height": 806,
+                "imageManifestUrl": "https://media.licdn.com/dms/document/pl/v2/D561FAQETf6Q5adbYsw/feedshare-document-images_800/B56ZsH1X0WHAAg-/0/1765362993479?e=1791417600&v=beta&t=heL-AAKKZXbIW0VajIKEbFLfpqzXVTpJf-bVLxJv6HY"
+              },
+              {
+                "width": 347,
+                "height": 491,
+                "imageManifestUrl": "https://media.licdn.com/dms/document/pl/v2/D561FAQETf6Q5adbYsw/feedshare-document-images_480/B56ZsH1X0WHAAk-/0/1765362993479?e=1791417600&v=beta&t=5GZQ1ggVDOZ0I7JKcqGo7LiDI_8nkqofwKim-KdqnDk"
+              },
+              {
+                "width": 115,
+                "height": 163,
+                "imageManifestUrl": "https://media.licdn.com/dms/document/pl/v2/D561FAQETf6Q5adbYsw/feedshare-document-images_160/B56ZsH1X0WHAAs-/0/1765362993479?e=1791417600&v=beta&t=OHR2PeT-xrF9CW8EIyjng2WcvQ-FjqrSIDHGfZ4Tvv0"
+              },
+              {
+                "width": 909,
+                "height": 1286,
+                "imageManifestUrl": "https://media.licdn.com/dms/document/pl/v2/D561FAQETf6Q5adbYsw/feedshare-document-images_1280/B56ZsH1X0WHAAw-/0/1765362993479?e=1791417600&v=beta&t=MEIDyekTzsp_PVo2dpz565E6DThjODRPOptzJ7xuJJg"
+              },
+              {
+                "width": 1363,
+                "height": 1929,
+                "imageManifestUrl": "https://media.licdn.com/dms/document/pl/v2/D561FAQETf6Q5adbYsw/feedshare-document-images_1920/B56ZsH1X0WHAAY-/0/1765362993479?e=1791417600&v=beta&t=yMbzxU3Zk7WVE6r9GpvULg3bgl7nDw6xXTQ8I9yE6DA"
+              }
+            ]
+          }
+        },
+        "socialContent": {
+          "hideCommentsCount": false,
+          "hideReactionsCount": false,
+          "hideSocialActivityCounts": false,
+          "hideShareAction": true,
+          "hideSendAction": true,
+          "hideRepostsCount": false,
+          "hideViewsCount": false,
+          "trustInterventionBanner": null,
+          "hideReactAction": false,
+          "hideCommentAction": false,
+          "shareUrl": "https://www.linkedin.com/posts/mama-earth-in_mamaearth-turns-9-activity-7404469334405939201-AKvD?",
+          "showContributionExperience": false,
+          "showSocialDetail": true
+        },
+        "header": {
+          "text": null
+        },
+        "entityId": "7404469334405939201",
+        "shareUrn": "urn:li:ugcPost:7404469333135015936",
+        "shareLinkedinUrl": "https://www.linkedin.com/feed/update/urn:li:ugcPost:7404469333135015936",
+        "engagement": {
+          "id": "7404469333135015936",
+          "likes": 204,
+          "comments": 32,
+          "shares": 1,
+          "reactions": [
+            {
+              "type": "LIKE",
+              "count": 189
+            },
+            {
+              "type": "EMPATHY",
+              "count": 10
+            },
+            {
+              "type": "PRAISE",
+              "count": 4
+            },
+            {
+              "type": "ENTERTAINMENT",
+              "count": 1
+            }
+          ]
+        },
+        "reactionIds": [],
+        "commentIds": [],
+        "query": {
+          "sortBy": "date",
+          "page": "1",
+          "targetUrl": "https://www.linkedin.com/company/mama-earth-in/",
+          "sessionId": "f315b375-7828-437a-ac04-afafe979d3ce"
+        }
+      },
+      {
+        "type": "post",
+        "id": "7487757756393807872",
+        "linkedinUrl": "https://www.linkedin.com/posts/cmendi_how-do-women-sample-a-lipstick-with-a-lipstick-activity-7487743846752317440-teF2",
+        "content": "How do women sample a lipstick? With a lipstick swatch.\n\nSo what if we could create a flyer which lets them sample their perfect shade. So we did!\n\nWe partnered with Mamaearth to sample their Moisture Matte Lipsticks and this is what we came up with. Thanks to these good folks Harsh Agarwal, Simranjeet Singh, Nikhil Jain, Richa Gupta, Pragati Mahapatra, Snigdha Anand, Anantika Gupta, Varun Alagh, Ghazal Alagh for bringing these beautiful shades to life",
+        "contentAttributes": [
+          {
+            "start": 166,
+            "length": 9,
+            "type": "COMPANY_NAME",
+            "hyperlink": "https://www.linkedin.com/company/mama-earth-in/",
+            "textLink": null,
+            "company": {
+              "id": "18636572",
+              "name": "Mamaearth",
+              "linkedinUrl": "https://www.linkedin.com/company/mama-earth-in/"
+            }
+          },
+          {
+            "start": 278,
+            "length": 13,
+            "type": "PROFILE_MENTION",
+            "hyperlink": "https://www.linkedin.com/in/ACoAADk7DaEBvNreKSZTED0ubHPEqLs_Mbqk4G8",
+            "textLink": null,
+            "profile": {
+              "id": "ACoAADk7DaEBvNreKSZTED0ubHPEqLs_Mbqk4G8",
+              "firstName": "Harsh",
+              "lastName": "Agarwal",
+              "linkedinUrl": "https://www.linkedin.com/in/harsh-agarwal-915686229",
+              "publicIdentifier": "harsh-agarwal-915686229"
+            }
+          },
+          {
+            "start": 293,
+            "length": 16,
+            "type": "PROFILE_MENTION",
+            "hyperlink": "https://www.linkedin.com/in/ACoAABdGXJEBdK6jalqDswUBNKl8CYdeLzJlfxk",
+            "textLink": null,
+            "profile": {
+              "id": "ACoAABdGXJEBdK6jalqDswUBNKl8CYdeLzJlfxk",
+              "firstName": "Simranjeet",
+              "lastName": "Singh",
+              "linkedinUrl": "https://www.linkedin.com/in/simranjeet-singh",
+              "publicIdentifier": "simranjeet-singh"
+            }
+          },
+          {
+            "start": 311,
+            "length": 11,
+            "type": "PROFILE_MENTION",
+            "hyperlink": "https://www.linkedin.com/in/ACoAAA0cjCcBAqzAfrn57R9oPiAs6y4R5pwFsWc",
+            "textLink": null,
+            "profile": {
+              "id": "ACoAAA0cjCcBAqzAfrn57R9oPiAs6y4R5pwFsWc",
+              "firstName": "Nikhil",
+              "lastName": "Jain",
+              "linkedinUrl": "https://www.linkedin.com/in/nikhil-jain-20780461",
+              "publicIdentifier": "nikhil-jain-20780461"
+            }
+          },
+          {
+            "start": 324,
+            "length": 11,
+            "type": "PROFILE_MENTION",
+            "hyperlink": "https://www.linkedin.com/in/ACoAAAMxrn8BqbmAHOH82Z_fPwq9sbycd8J7BK4",
+            "textLink": null,
+            "profile": {
+              "id": "ACoAAAMxrn8BqbmAHOH82Z_fPwq9sbycd8J7BK4",
+              "firstName": "Richa ",
+              "lastName": "Gupta ",
+              "linkedinUrl": "https://www.linkedin.com/in/richa-gupta-0111rg",
+              "publicIdentifier": "richa-gupta-0111rg"
+            }
+          },
+          {
+            "start": 337,
+            "length": 17,
+            "type": "PROFILE_MENTION",
+            "hyperlink": "https://www.linkedin.com/in/ACoAAByGsnkBlOvlghVo4AHeclK4Svmm5E-Pi84",
+            "textLink": null,
+            "profile": {
+              "id": "ACoAAByGsnkBlOvlghVo4AHeclK4Svmm5E-Pi84",
+              "firstName": "Pragati",
+              "lastName": "Mahapatra",
+              "linkedinUrl": "https://www.linkedin.com/in/pragati-mahapatra-675341114",
+              "publicIdentifier": "pragati-mahapatra-675341114"
+            }
+          },
+          {
+            "start": 356,
+            "length": 13,
+            "type": "PROFILE_MENTION",
+            "hyperlink": "https://www.linkedin.com/in/ACoAAAceJ3QBdhgnaCC2KSnB6Zue6Mf2ks7hQi4",
+            "textLink": null,
+            "profile": {
+              "id": "ACoAAAceJ3QBdhgnaCC2KSnB6Zue6Mf2ks7hQi4",
+              "firstName": "Snigdha",
+              "lastName": "Anand",
+              "linkedinUrl": "https://www.linkedin.com/in/snigdha-anand-a70baa33",
+              "publicIdentifier": "snigdha-anand-a70baa33"
+            }
+          },
+          {
+            "start": 371,
+            "length": 14,
+            "type": "PROFILE_MENTION",
+            "hyperlink": "https://www.linkedin.com/in/ACoAAAgI_2gBhWWeojz-FMJqexpafcz2vF8UtRM",
+            "textLink": null,
+            "profile": {
+              "id": "ACoAAAgI_2gBhWWeojz-FMJqexpafcz2vF8UtRM",
+              "firstName": "Anantika",
+              "lastName": "Gupta",
+              "linkedinUrl": "https://www.linkedin.com/in/anantikagupta",
+              "publicIdentifier": "anantikagupta"
+            }
+          },
+          {
+            "start": 387,
+            "length": 11,
+            "type": "PROFILE_MENTION",
+            "hyperlink": "https://www.linkedin.com/in/ACoAAAFqMvoBqn7KDPGWMDYGB0v9-UXXm9uA_lw",
+            "textLink": null,
+            "profile": {
+              "id": "ACoAAAFqMvoBqn7KDPGWMDYGB0v9-UXXm9uA_lw",
+              "firstName": "Varun",
+              "lastName": "Alagh",
+              "linkedinUrl": "https://www.linkedin.com/in/varunalagh84",
+              "publicIdentifier": "varunalagh84"
+            }
+          },
+          {
+            "start": 400,
+            "length": 12,
+            "type": "PROFILE_MENTION",
+            "hyperlink": "https://www.linkedin.com/in/ACoAAB9pK2kBfaZ9gk7B1xGmMe86nOPljFdnJmk",
+            "textLink": null,
+            "profile": {
+              "id": "ACoAAB9pK2kBfaZ9gk7B1xGmMe86nOPljFdnJmk",
+              "firstName": "Ghazal",
+              "lastName": "Alagh",
+              "linkedinUrl": "https://www.linkedin.com/in/ghazal-alagh-9755a0128",
+              "publicIdentifier": "ghazal-alagh-9755a0128"
+            }
+          }
+        ],
+        "author": {
+          "id": "ACoAAASQz1cBxg_OKkbqosnQVBAMezhgkonDWf0",
+          "universalName": null,
+          "publicIdentifier": "cmendi",
+          "type": "profile",
+          "name": "Chandan Mendiratta",
+          "linkedinUrl": "https://www.linkedin.com/in/cmendi?miniProfileUrn=urn%3Ali%3Afsd_profile%3AACoAAASQz1cBxg_OKkbqosnQVBAMezhgkonDWf0",
+          "info": "Chief Brand Officer, Zepto",
+          "website": null,
+          "websiteLabel": null,
+          "avatar": {
+            "url": "https://media.licdn.com/dms/image/v2/D5603AQEa6kdvd17khQ/profile-displayphoto-crop_800_800/B56ZvfOkVFHAAI-/0/1768976697324?e=1792022400&v=beta&t=Area78M2Tbpbe3HpiX-EuRGM_1ah_QdhGc5_V8qIVoU",
+            "width": 800,
+            "height": 800
+          },
+          "urn": "76599127",
+          "profileId": "ACoAAASQz1cBxg_OKkbqosnQVBAMezhgkonDWf0"
+        },
+        "postedAt": {
+          "timestamp": 1785220564936,
+          "date": "2026-07-28T06:36:04.936Z",
+          "postedAgoShort": "2mo",
+          "postedAgoText": "2 months ago • Edited • Visible to anyone on or off LinkedIn"
+        },
+        "postImages": [
+          {
+            "url": "https://media.licdn.com/dms/image/v2/D4D22AQEGctqlGixZcg/feedshare-shrink_1280/B4DZ.nPWUiGkAM-/0/1785217246790?e=1792022400&v=beta&t=fRjystSW8qx4ofxnZ_70wLT47hWDZrIGilLwkZ1IXtc",
+            "width": 1080,
+            "height": 1350
+          }
+        ],
+        "socialContent": {
+          "hideCommentsCount": false,
+          "hideReactionsCount": false,
+          "hideSocialActivityCounts": false,
+          "hideShareAction": true,
+          "hideSendAction": true,
+          "hideRepostsCount": false,
+          "hideViewsCount": false,
+          "trustInterventionBanner": null,
+          "hideReactAction": false,
+          "hideCommentAction": false,
+          "shareUrl": "https://www.linkedin.com/posts/cmendi_how-do-women-sample-a-lipstick-with-a-lipstick-activity-7487743846752317440-teF2?",
+          "showContributionExperience": false,
+          "showSocialDetail": true
+        },
+        "header": {
+          "linkedinUrl": "https://www.linkedin.com/posts/cmendi_how-do-women-sample-a-lipstick-with-a-lipstick-activity-7487757756393807872-7jeX?openCollaboratorList=false",
+          "imageLink": "https://www.linkedin.com/company/mama-earth-in/?miniCompanyUrn=urn%3Ali%3Afsd_company%3A18636572",
+          "text": "Mamaearth collaborated on this"
+        },
+        "entityId": "7487757756393807872",
+        "shareUrn": "urn:li:share:7487743845259083777",
+        "shareLinkedinUrl": "https://www.linkedin.com/feed/update/urn:li:share:7487743845259083777",
+        "engagement": {
+          "id": "7487743846752317440",
+          "likes": 1180,
+          "comments": 82,
+          "shares": 9,
+          "reactions": [
+            {
+              "type": "LIKE",
+              "count": 1056
+            },
+            {
+              "type": "EMPATHY",
+              "count": 89
+            },
+            {
+              "type": "PRAISE",
+              "count": 19
+            },
+            {
+              "type": "APPRECIATION",
+              "count": 9
+            },
+            {
+              "type": "INTEREST",
+              "count": 7
+            }
+          ]
+        },
+        "reactionIds": [],
+        "commentIds": [],
+        "query": {
+          "sortBy": "date",
+          "page": "1",
+          "targetUrl": "https://www.linkedin.com/company/mama-earth-in/",
+          "sessionId": "f315b375-7828-437a-ac04-afafe979d3ce"
+        }
+      }
+    ]
+  }
+}

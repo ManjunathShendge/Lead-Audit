@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 import { db } from '../db';
-import { mockCollector } from '../collectors/mock';
+import { getCollector } from '../collectors';
 import { resultSchema, type CollectorResult, type Platform } from '../collectors/types';
 import { buildReport, type Snapshot } from '../report';
 import { handlesSchema } from '../validation';
@@ -99,14 +99,14 @@ export async function queueTick() {
       );
       try {
         if (run.attempts >= 2) throw new Error('Collector lease expired after two attempts.');
-        if (process.env.USE_MOCK_DATA !== 'true' || run.audit.mode !== 'mock')
-          throw new Error('Live integrations are not enabled at this review checkpoint.');
+        const collector = getCollector(
+          run.platform as Platform,
+          run.audit.mode === 'live' ? 'live' : 'mock',
+          run.audit.tier as 'strong' | 'average' | 'weak',
+          run.audit.createdAt,
+        );
         const result = await withTimeout((signal) =>
-          mockCollector(
-            run.platform as Platform,
-            run.audit.tier as 'strong' | 'average' | 'weak',
-            run.audit.createdAt,
-          ).collect(run.handle, { postsLimit: 60, signal }),
+          collector.collect(run.handle, { postsLimit: 60, signal }),
         );
         const valid = resultSchema.parse(result);
         if (valid.status === 'failed') throw new Error('Collector returned a failed result.');

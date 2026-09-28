@@ -2,38 +2,18 @@ import { z } from 'zod';
 import { apiGuard, jsonInput } from '@/lib/http';
 import { parseSource } from '@/lib/validation';
 import { platforms } from '@/lib/collectors/types';
+import { discoverFromWebsite, DiscoveryBusyError, UnsafeUrlError } from '@/lib/discovery';
+
 export async function POST(request: Request) {
   const guard = await apiGuard(request, true);
   if (guard) return guard;
+  let parsed: ReturnType<typeof parseSource>;
   try {
     const { source } = z
       .object({ source: z.string().trim().min(1).max(2048) })
       .strict()
       .parse(await jsonInput(request));
-    if (process.env.USE_MOCK_DATA !== 'true')
-      return Response.json(
-        { error: 'Live website discovery is pending the milestone 5 review.' },
-        { status: 409 },
-      );
-    const parsed = parseSource(source);
-    const slug = parsed.website
-      ? new URL(parsed.website).hostname
-          .replace(/^www\./, '')
-          .split('.')[0]
-          .replace(/[^a-zA-Z0-9_-]/g, '')
-      : null;
-    if (slug)
-      for (const p of platforms)
-        if (parsed.handles[p].presence !== 'present')
-          parsed.handles[p] = { handle: slug, presence: 'present' };
-    return Response.json({
-      ...parsed,
-      brand: slug ? slug.charAt(0).toUpperCase() + slug.slice(1) : '',
-      mock: true,
-      notice: parsed.website
-        ? 'Mock suggestions based on the website name. No website was crawled. Edit and confirm each account.'
-        : 'Handles parsed locally. No accounts have been verified.',
-    });
+    parsed = parseSource(source);
   } catch (error) {
     return Response.json(
       {
@@ -45,6 +25,48 @@ export async function POST(request: Request) {
               : 'Invalid input.',
       },
       { status: 400 },
+    );
+  }
+
+  if (!parsed.website)
+    return Response.json({
+      ...parsed,
+      brand: '',
+      crawled: false,
+      warnings: [],
+      pagesVisited: [],
+      notice: 'Handles parsed from your input. No accounts have been verified.',
+    });
+
+  try {
+    const found = await discoverFromWebsite(parsed.website);
+    const handles = { ...parsed.handles };
+    for (const platform of platforms) {
+      // A handle typed by the user always wins over a discovered link.
+      if (handles[platform].presence === 'present') continue;
+      const hit = found.handles[platform];
+      if (hit) handles[platform] = { handle: hit.handle, presence: 'present' };
+    }
+    return Response.json({
+      website: found.website,
+      handles,
+      brand: found.brand ?? '',
+      crawled: true,
+      warnings: found.warnings,
+      pagesVisited: found.pagesVisited,
+      notice: `Crawled ${found.pagesVisited.length} page(s) on ${new URL(found.website).hostname}. Links found on the site are not proof the account is active. Edit and confirm each account.`,
+    });
+  } catch (error) {
+    if (error instanceof UnsafeUrlError) return Response.json({ error: error.message }, { status: 400 });
+    if (error instanceof DiscoveryBusyError) return Response.json({ error: error.message }, { status: 503 });
+    return Response.json(
+      {
+        error:
+          error instanceof Error && error.message === 'The website could not be loaded.'
+            ? 'The website could not be loaded. Check the URL or enter handles directly.'
+            : 'Discovery failed. Enter handles directly.',
+      },
+      { status: 502 },
     );
   }
 }

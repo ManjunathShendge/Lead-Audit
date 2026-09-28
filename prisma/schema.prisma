@@ -72,6 +72,29 @@ model LoginThrottle {
 model AccuracyRun {
   id String @id @default(cuid())
   createdAt DateTime @default(now())
+  label String @default("")
+  mode String @default("live")
   results Json
   costUsd Float?
+  items AccuracyItem[]
+}
+model AccuracyItem {
+  id String @id @default(cuid())
+  runId String
+  run AccuracyRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  platform String
+  handle String
+  state String @default("queued")
+  attempts Int @default(0)
+  leaseUntil DateTime?
+  followers Int?
+  totalPosts Int?
+  lastPostAt String?
+  costUsd Float?
+  error String?
+  trueFollowers Int?
+  trueTotalPosts Int?
+  trueLastPostAt String?
+  @@unique([runId, platform, handle])
+  @@index([state, leaseUntil])
 }
