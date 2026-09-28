@@ -1,0 +1,22 @@
+import type { Metrics } from '../metrics';
+import { checklist } from '../metrics';
+import { defaults, type Benchmark, type ScoreConfig } from './config';
+export const clamp=(v:number)=>Math.max(0,Math.min(100,v));
+export function weighted(values:Record<string,number|null>,weights:Record<string,number>) { let sum=0,total=0;for(const [key,value] of Object.entries(values)){const w=weights[key]??0;if(value!==null&&Number.isFinite(value)&&w>0){sum+=clamp(value)*w;total+=w;}}return total?sum/total:null; }
+export function effectiveWeights(values:Record<string,number|null>,weights:Record<string,number>) {const total=Object.keys(values).reduce((sum,k)=>sum+(values[k]!==null&&Number.isFinite(values[k])?weights[k]??0:0),0);return Object.fromEntries(Object.keys(values).map(k=>[k,values[k]===null||!total?0:(weights[k]??0)/total*100]));}
+export function linear(value:number|null,target:number) {return value===null||!Number.isFinite(value)||target<=0?null:clamp(value/target*100);}
+export function logBand(value:number|null,low:number,high:number) { if(value===null||!Number.isFinite(value)||low<=0||high<=low)return null;if(value<=0)return 0;return clamp(20+80*Math.log(value/low)/Math.log(high/low)); }
+export function band(score:number|null,config=defaults){return score===null?'Not measured':score>=config.thresholds.strong?'Strong':score>=config.thresholds.good?'Good':score>=config.thresholds.needsWork?'Needs work':'Weak';}
+export function scorePlatform(metrics:Metrics,followers:number|null,benchmark:Benchmark,config:ScoreConfig=defaults) {
+  const frequency=linear(metrics.count,benchmark.postsTarget);
+  const activity=frequency===null?null:Math.max(0,frequency-(metrics.longestGap!==null&&metrics.longestGap>config.thresholds.gapDays?config.thresholds.gapPenalty:0));
+  const components={activity,engagement:linear(metrics.engagement,benchmark.engagementTarget),audience:logBand(followers,benchmark.followerLow,benchmark.followerHigh),completeness:metrics.completeness};
+  return {components,weights:effectiveWeights(components,config.components),score:weighted(components,config.components)};
+}
+export function scoreOverall(channels:{website:number|null;social:number|null;gbp:number|null},config=defaults) {return {score:weighted(channels,config.channels),label:channels.website===null&&channels.gbp===null?'Social Presence Score':'Digital Presence Score',weights:effectiveWeights(channels,config.channels)};}
+type Maybe=number|null;
+export interface WebsiteInput {performanceRuns:Maybe[];lcp:Maybe;inp:Maybe;cls:Maybe;seoScore:Maybe;seoChecklist:(boolean|null)[];tracking:{analytics:boolean|null;meta:boolean|null;ads:boolean|null;linkedin:boolean|null};conversion:{form:boolean|null;cta:boolean|null;whatsapp:boolean|null;phone:boolean|null};freshness:Maybe}
+export function median(values:Maybe[]){const v=values.filter((n):n is number=>n!==null&&Number.isFinite(n)).sort((a,b)=>a-b);return v.length?(v[Math.floor(v.length/2)]+v[Math.ceil(v.length/2)-1])/2:null;}
+const booleans=(v:Record<string,boolean|null>)=>Object.fromEntries(Object.entries(v).map(([k,n])=>[k,n===null?null:n?100:0]));
+export function scoreWebsite(input:WebsiteInput,config=defaults){const t=config.thresholds;const cwv=checklist([input.lcp===null?null:input.lcp<=t.lcp,input.inp===null?null:input.inp<=t.inp,input.cls===null?null:input.cls<=t.cls]);const criteria={performance:weighted({pagespeed:median(input.performanceRuns),cwv},{pagespeed:60,cwv:40}),seo:weighted({pagespeed:input.seoScore,checklist:checklist(input.seoChecklist)},{pagespeed:50,checklist:50}),tracking:weighted(booleans(input.tracking),{analytics:40,meta:30,ads:15,linkedin:15}),conversion:weighted(booleans(input.conversion),{form:30,cta:30,whatsapp:20,phone:20}),freshness:input.freshness};return {criteria,weights:effectiveWeights(criteria,config.website),score:weighted(criteria,config.website)};}
+export function scoreGbp(input:{rating:Maybe;reviews:Maybe;ownerReplies:(boolean|null)[];completeness:(boolean|null)[]},benchmark:Benchmark,config=defaults){const criteria={rating:input.rating===null?null:clamp((input.rating-config.thresholds.ratingLow)/(config.thresholds.ratingHigh-config.thresholds.ratingLow)*100),reviews:logBand(input.reviews,benchmark.reviewLow,benchmark.reviewHigh),replies:checklist(input.ownerReplies.slice(0,10)),completeness:checklist(input.completeness)};return {criteria,weights:effectiveWeights(criteria,config.gbp),score:weighted(criteria,config.gbp)};}
