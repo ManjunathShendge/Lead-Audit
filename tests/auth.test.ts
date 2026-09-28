@@ -8,7 +8,18 @@ describe('password and origin boundary', () => {
     vi.stubEnv('APP_PASSWORD', 'long-demo-password');
     expect(passwordMatches('long-demo-password')).toBe(true);
     expect(passwordMatches('wrong')).toBe(false);
-    vi.stubEnv('APP_PASSWORD', ''); expect(passwordMatches('')).toBe(false); vi.unstubAllEnvs();
+    vi.stubEnv('APP_PASSWORD', '');
+    expect(passwordMatches('')).toBe(false);
+    vi.unstubAllEnvs();
   });
-  it('rejects cross-origin mutations', () => { vi.stubEnv('APP_ORIGIN', 'http://localhost:3000'); expect(sameOrigin(new Request('http://localhost:3000', { headers: { origin: 'https://evil.example' } }))).toBe(false); expect(sameOrigin(new Request('http://localhost:3000', { headers: { origin: 'http://localhost:3000' } }))).toBe(true); vi.unstubAllEnvs(); });
+  it('rejects cross-origin mutations', () => {
+    vi.stubEnv('APP_ORIGIN', 'http://localhost:3000');
+    expect(
+      sameOrigin(new Request('http://localhost:3000', { headers: { origin: 'https://evil.example' } })),
+    ).toBe(false);
+    expect(
+      sameOrigin(new Request('http://localhost:3000', { headers: { origin: 'http://localhost:3000' } })),
+    ).toBe(true);
+    vi.unstubAllEnvs();
+  });
 });

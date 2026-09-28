@@ -6,3 +6,6 @@ package-lock.json
 prisma/migrations
 test-results
 playwright-report
+
+.qa-python
+output/pdf

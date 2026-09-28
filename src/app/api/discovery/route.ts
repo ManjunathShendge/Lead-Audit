@@ -1,5 +1,50 @@
 import { z } from 'zod';
-import { apiGuard,jsonInput } from '@/lib/http';
+import { apiGuard, jsonInput } from '@/lib/http';
 import { parseSource } from '@/lib/validation';
 import { platforms } from '@/lib/collectors/types';
-export async function POST(request:Request){const guard=await apiGuard(request,true);if(guard)return guard;try{const {source}=z.object({source:z.string().trim().min(1).max(2048)}).strict().parse(await jsonInput(request));if(process.env.USE_MOCK_DATA!=='true')return Response.json({error:'Live website discovery is pending the milestone 5 review.'},{status:409});const parsed=parseSource(source);const slug=parsed.website?new URL(parsed.website).hostname.replace(/^www\./,'').split('.')[0].replace(/[^a-zA-Z0-9_-]/g,''):null;if(slug)for(const p of platforms)if(parsed.handles[p].presence!=='present')parsed.handles[p]={handle:slug,presence:'present'};return Response.json({...parsed,brand:slug?slug.charAt(0).toUpperCase()+slug.slice(1):'',mock:true,notice:parsed.website?'Mock suggestions based on the website name. No website was crawled. Edit and confirm each account.':'Handles parsed locally. No accounts have been verified.'});}catch(error){return Response.json({error:error instanceof z.ZodError?'Enter a website or supported handle.':error instanceof Error?error.message:'Invalid input.'},{status:400});}}
+export async function POST(request: Request) {
+  const guard = await apiGuard(request, true);
+  if (guard) return guard;
+  try {
+    const { source } = z
+      .object({ source: z.string().trim().min(1).max(2048) })
+      .strict()
+      .parse(await jsonInput(request));
+    if (process.env.USE_MOCK_DATA !== 'true')
+      return Response.json(
+        { error: 'Live website discovery is pending the milestone 5 review.' },
+        { status: 409 },
+      );
+    const parsed = parseSource(source);
+    const slug = parsed.website
+      ? new URL(parsed.website).hostname
+          .replace(/^www\./, '')
+          .split('.')[0]
+          .replace(/[^a-zA-Z0-9_-]/g, '')
+      : null;
+    if (slug)
+      for (const p of platforms)
+        if (parsed.handles[p].presence !== 'present')
+          parsed.handles[p] = { handle: slug, presence: 'present' };
+    return Response.json({
+      ...parsed,
+      brand: slug ? slug.charAt(0).toUpperCase() + slug.slice(1) : '',
+      mock: true,
+      notice: parsed.website
+        ? 'Mock suggestions based on the website name. No website was crawled. Edit and confirm each account.'
+        : 'Handles parsed locally. No accounts have been verified.',
+    });
+  } catch (error) {
+    return Response.json(
+      {
+        error:
+          error instanceof z.ZodError
+            ? 'Enter a website or supported handle.'
+            : error instanceof Error
+              ? error.message
+              : 'Invalid input.',
+      },
+      { status: 400 },
+    );
+  }
+}

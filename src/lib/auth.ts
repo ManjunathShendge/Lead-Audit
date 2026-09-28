@@ -15,12 +15,22 @@ export async function sessionValid() {
   const session = await db.session.findUnique({ where: { tokenHash: hash(token) } });
   return !!session && session.expiresAt > new Date();
 }
-export async function requirePageSession() { if (!(await sessionValid())) redirect('/login'); }
+export async function requirePageSession() {
+  if (!(await sessionValid())) redirect('/login');
+}
 export async function createSession() {
   const token = randomBytes(32).toString('hex');
   await db.session.deleteMany({ where: { expiresAt: { lt: new Date() } } });
-  await db.session.create({ data: { tokenHash: hash(token), expiresAt: new Date(Date.now() + 8 * 3600_000) } });
-  (await cookies()).set(SESSION_COOKIE, token, { httpOnly: true, sameSite: 'strict', secure: process.env.APP_ORIGIN?.startsWith('https://') ?? false, path: '/', maxAge: 8 * 3600 });
+  await db.session.create({
+    data: { tokenHash: hash(token), expiresAt: new Date(Date.now() + 8 * 3600_000) },
+  });
+  (await cookies()).set(SESSION_COOKIE, token, {
+    httpOnly: true,
+    sameSite: 'strict',
+    secure: process.env.APP_ORIGIN?.startsWith('https://') ?? false,
+    path: '/',
+    maxAge: 8 * 3600,
+  });
 }
 export async function destroySession() {
   const store = await cookies();
@@ -28,4 +38,6 @@ export async function destroySession() {
   if (token) await db.session.deleteMany({ where: { tokenHash: hash(token) } });
   store.delete(SESSION_COOKIE);
 }
-export function sameOrigin(request: Request) { return request.headers.get('origin') === (process.env.APP_ORIGIN || 'http://localhost:3000'); }
+export function sameOrigin(request: Request) {
+  return request.headers.get('origin') === (process.env.APP_ORIGIN || 'http://localhost:3000');
+}

@@ -1,4 +1,27 @@
 import { db } from '@/lib/db';
 import { apiGuard } from '@/lib/http';
 import { idSchema } from '@/lib/validation';
-export async function GET(request:Request,{params}:{params:Promise<{id:string}>}){const guard=await apiGuard(request);if(guard)return guard;const parsed=idSchema.safeParse((await params).id);if(!parsed.success)return Response.json({error:'Invalid audit ID.'},{status:400});const audit=await db.audit.findUnique({where:{id:parsed.data},select:{id:true,mode:true,createdAt:true,config:true,handles:true,runs:{select:{id:true,platform:true,raw:true,result:true,costUsd:true}}}});if(!audit)return Response.json({error:'Audit not found.'},{status:404});return Response.json(audit,{headers:{'Cache-Control':'no-store','Content-Disposition':`inline; filename="${parsed.data}-sources.json"`}});}
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const guard = await apiGuard(request);
+  if (guard) return guard;
+  const parsed = idSchema.safeParse((await params).id);
+  if (!parsed.success) return Response.json({ error: 'Invalid audit ID.' }, { status: 400 });
+  const audit = await db.audit.findUnique({
+    where: { id: parsed.data },
+    select: {
+      id: true,
+      mode: true,
+      createdAt: true,
+      config: true,
+      handles: true,
+      runs: { select: { id: true, platform: true, raw: true, result: true, costUsd: true } },
+    },
+  });
+  if (!audit) return Response.json({ error: 'Audit not found.' }, { status: 404 });
+  return Response.json(audit, {
+    headers: {
+      'Cache-Control': 'no-store',
+      'Content-Disposition': `inline; filename="${parsed.data}-sources.json"`,
+    },
+  });
+}

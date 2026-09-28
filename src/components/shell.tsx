@@ -3,8 +3,95 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ArrowUpRight, CirclePlus, History, SlidersHorizontal, LogOut, Layers3 } from 'lucide-react';
 export function Shell({ children }: { children: React.ReactNode }) {
-  const path = usePathname(); const router = useRouter();
+  const path = usePathname();
+  const router = useRouter();
   if (path.endsWith('/print')) return <>{children}</>;
-  return <div className="workspace"><a className="skip-link" href="#main-content">Skip to content</a><aside className="sidebar"><Link className="wordmark" href="/history">tier2<span>®</span></Link><span className="workspace-label">SOCIAL INTELLIGENCE</span><nav aria-label="Main navigation">{[{ Icon: CirclePlus, label: 'New audit', href: '/audits/new' }, { Icon: History, label: 'Audit library', href: '/history' }, { Icon: SlidersHorizontal, label: 'Configuration', href: '/settings' }].map(({ Icon, label, href }) => <Link key={href} className={path === href ? 'nav-link active' : 'nav-link'} href={href}><Icon size={18} />{label}</Link>)}</nav><div className="sidebar-bottom"><div className="workspace-note"><Layers3 size={19} /><strong>A little clarity.<br />A lot of possibility.</strong><p>Better insights.<br />Bolder next steps.</p><a href="https://www.tier2.digital" target="_blank" rel="noreferrer">Meet Tier2 <ArrowUpRight size={14} /></a></div><div className="team-avatar"><span>T2</span><div><strong>Tier2 workspace</strong><small>Strategy & growth</small></div><button aria-label="Sign out" className="icon-button" onClick={async () => { const res = await fetch('/api/auth', { method: 'DELETE' }); if (res.ok) { router.push('/login'); router.refresh(); } }}><LogOut size={16} /></button></div></div></aside><div className="main-wrap"><header className="topbar"><span>Workspace <span className="breadcrumb">/</span> <strong>{path.includes('/audits/') && !path.endsWith('/new') ? 'Social presence report' : path.includes('settings') ? 'Configuration' : path.includes('new') ? 'New audit' : 'Audit library'}</strong></span><span className="mode-badge"><i />Mock workspace</span></header><main id="main-content" className="main-content">{children}</main><footer className="app-footer">TIER2 DIGITAL <span>Clarity before strategy.</span></footer></div></div>;
+  return (
+    <div className="workspace">
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+      <aside className="sidebar">
+        <Link className="wordmark" href="/history">
+          tier2<span>®</span>
+        </Link>
+        <span className="workspace-label">SOCIAL INTELLIGENCE</span>
+        <nav aria-label="Main navigation">
+          {[
+            { Icon: CirclePlus, label: 'New audit', href: '/audits/new' },
+            { Icon: History, label: 'Audit library', href: '/history' },
+            { Icon: SlidersHorizontal, label: 'Configuration', href: '/settings' },
+          ].map(({ Icon, label, href }) => (
+            <Link key={href} className={path === href ? 'nav-link active' : 'nav-link'} href={href}>
+              <Icon size={18} />
+              {label}
+            </Link>
+          ))}
+        </nav>
+        <div className="sidebar-bottom">
+          <div className="workspace-note">
+            <Layers3 size={19} />
+            <strong>
+              A little clarity.
+              <br />A lot of possibility.
+            </strong>
+            <p>
+              Better insights.
+              <br />
+              Bolder next steps.
+            </p>
+            <a href="https://www.tier2.digital" target="_blank" rel="noreferrer">
+              Meet Tier2 <ArrowUpRight size={14} />
+            </a>
+          </div>
+          <div className="team-avatar">
+            <span>T2</span>
+            <div>
+              <strong>Tier2 workspace</strong>
+              <small>Strategy & growth</small>
+            </div>
+            <button
+              aria-label="Sign out"
+              className="icon-button"
+              onClick={async () => {
+                const res = await fetch('/api/auth', { method: 'DELETE' });
+                if (res.ok) {
+                  router.push('/login');
+                  router.refresh();
+                }
+              }}
+            >
+              <LogOut size={16} />
+            </button>
+          </div>
+        </div>
+      </aside>
+      <div className="main-wrap">
+        <header className="topbar">
+          <span>
+            Workspace <span className="breadcrumb">/</span>{' '}
+            <strong>
+              {path.includes('/audits/') && !path.endsWith('/new')
+                ? 'Social presence report'
+                : path.includes('settings')
+                  ? 'Configuration'
+                  : path.includes('new')
+                    ? 'New audit'
+                    : 'Audit library'}
+            </strong>
+          </span>
+          <span className="mode-badge">
+            <i />
+            Mock workspace
+          </span>
+        </header>
+        <main id="main-content" className="main-content">
+          {children}
+        </main>
+        <footer className="app-footer">
+          TIER2 DIGITAL <span>Clarity before strategy.</span>
+        </footer>
+      </div>
+    </div>
+  );
 }
-

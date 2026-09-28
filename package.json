@@ -9,7 +9,7 @@
     "lint": "eslint",
     "worker": "tsx src/lib/jobs/worker.ts",
     "dev:all": "concurrently -k npm:dev npm:worker",
-    "db:setup": "prisma migrate deploy && prisma generate && tsx prisma/seed.ts",
+    "db:setup": "node scripts/prepare-db.mjs && prisma migrate deploy && prisma generate && tsx prisma/seed.ts",
     "db:seed": "tsx prisma/seed.ts",
     "test": "vitest run",
     "test:e2e": "playwright test",
@@ -31,7 +31,7 @@
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^22.20.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "concurrently": "^10.0.5",
@@ -42,9 +42,12 @@
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5",
-    "vitest": "^3.2.7"
+    "vitest": "^5.0.2"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
+  },
+  "overrides": {
+    "deepmerge-ts": "^8.0.0"
   }
 }
