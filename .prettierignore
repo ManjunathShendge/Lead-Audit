@@ -1,0 +1,8 @@
+node_modules
+.next
+.npm-cache
+.browsers
+package-lock.json
+prisma/migrations
+test-results
+playwright-report

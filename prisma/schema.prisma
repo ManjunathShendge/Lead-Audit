@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "sqlite"
+  url = env("DATABASE_URL")
+}
+model Audit {
+  id String @id @default(cuid())
+  brand String
+  website String?
+  industry String
+  handles Json
+  tier String @default("average")
+  mode String @default("mock")
+  state String @default("queued")
+  config Json
+  report Json?
+  cacheKey String
+  createdAt DateTime @default(now())
+  completedAt DateTime?
+  runs CollectorRun[]
+  @@index([cacheKey, createdAt])
+}
+model CollectorRun {
+  id String @id @default(cuid())
+  auditId String
+  audit Audit @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  platform String
+  handle String
+  state String @default("queued")
+  attempts Int @default(0)
+  leaseUntil DateTime?
+  result Json?
+  raw Json?
+  costUsd Float?
+  error String?
+  @@unique([auditId, platform])
+  @@index([state, leaseUntil])
+}
+model Config {
+  id String @id @default("default")
+  value Json
+}
+model Benchmark {
+  id String @id @default(cuid())
+  industry String
+  platform String
+  postsTarget Float
+  engagementTarget Float
+  followerLow Float
+  followerHigh Float
+  reviewLow Float
+  reviewHigh Float
+  placeholder Boolean @default(true)
+  @@unique([industry, platform])
+}
+model ServiceMapping {
+  key String @id
+  service String
+  explanation String
+}
+model Session {
+  tokenHash String @id
+  expiresAt DateTime
+}
+model LoginThrottle {
+  key String @id
+  attempts Int @default(0)
+  resetAt DateTime
+}
+model AccuracyRun {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  results Json
+  costUsd Float?
+}
