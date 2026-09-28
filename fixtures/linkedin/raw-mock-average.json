@@ -1,0 +1,122 @@
+{
+  "synthetic": true,
+  "fixtureVersion": 1,
+  "platform": "linkedin",
+  "tier": "average",
+  "status": "ok",
+  "sampleComplete": false,
+  "subscriberHidden": false,
+  "profile": {
+    "displayName": "Earthkind Living",
+    "followers": 1820,
+    "following": 312,
+    "totalPosts": 63,
+    "verified": false,
+    "isBusiness": true,
+    "category": "Design & lifestyle",
+    "bio": "Thoughtfully made. For a life well lived.",
+    "bioLink": "https://example.com",
+    "avatarUrl": "https://example.com/synthetic-avatar.png"
+  },
+  "posts": [
+    {
+      "id": "linkedin-average-0",
+      "daysAgo": 12,
+      "type": "reel",
+      "likes": 16,
+      "comments": 1,
+      "shares": 3,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Small changes. A better everyday."
+    },
+    {
+      "id": "linkedin-average-1",
+      "daysAgo": 21,
+      "type": "text",
+      "likes": 18,
+      "comments": 2,
+      "shares": 4,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Made with intention, designed to last."
+    },
+    {
+      "id": "linkedin-average-2",
+      "daysAgo": 30,
+      "type": "text",
+      "likes": null,
+      "comments": 3,
+      "shares": 5,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "A closer look at what we are building."
+    },
+    {
+      "id": "linkedin-average-3",
+      "daysAgo": 39,
+      "type": "carousel",
+      "likes": 23,
+      "comments": 1,
+      "shares": 6,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Meet the people behind the process."
+    },
+    {
+      "id": "linkedin-average-4",
+      "daysAgo": 48,
+      "type": "reel",
+      "likes": 25,
+      "comments": 2,
+      "shares": 7,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Your next chapter starts here."
+    },
+    {
+      "id": "linkedin-average-5",
+      "daysAgo": 57,
+      "type": "text",
+      "likes": 16,
+      "comments": 3,
+      "shares": 8,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Small changes. A better everyday."
+    },
+    {
+      "id": "linkedin-average-6",
+      "daysAgo": 66,
+      "type": "carousel",
+      "likes": 18,
+      "comments": 1,
+      "shares": 9,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Made with intention, designed to last."
+    },
+    {
+      "id": "linkedin-average-7",
+      "daysAgo": 75,
+      "type": "text",
+      "likes": 20,
+      "comments": 2,
+      "shares": 3,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "A closer look at what we are building."
+    },
+    {
+      "id": "linkedin-average-8",
+      "daysAgo": 84,
+      "type": "reel",
+      "likes": 23,
+      "comments": 3,
+      "shares": 4,
+      "views": null,
+      "isPinned": true,
+      "captionPreview": "Meet the people behind the process."
+    }
+  ]
+}

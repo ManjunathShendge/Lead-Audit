@@ -27,7 +27,7 @@ Audit stores brand, website, industry, confirmed handles, fixture tier, immutabl
 
 ## Milestones
 - [x] 0: Plan, scaffold, schema/migration, env, secure password login; boot and login verification; commit.
-- [ ] 1: Normalized contracts and three fixture-backed mock brands; fixture tests; commit.
+- [x] 1: Normalized contracts and three fixture-backed mock brands; fixture tests; commit.
 - [ ] 2: Metrics, social/website/GBP scoring, recommendations and edge-case tests; commit.
 - [ ] 3: Complete report UI and three demo audits, responsive/print-aware charts; verify; commit.
 - [ ] 4: Handle confirmation, durable parallel jobs, retries, caching, progress/history/delete; E2E; commit.
@@ -42,4 +42,5 @@ Audit stores brand, website, industry, confirmed handles, fixture tier, immutabl
 
 ## Verification
 Each milestone gets appropriate tests and an app smoke check. Final checkpoint: TypeScript, ESLint, Vitest, production build, authenticated browser workflow and valid PDF download. Test no posts/all pinned, null/zero followers, hidden/negative counts, partial failures, date windows, weighted re-normalization, absent relevant platforms, disabled platforms, scoring bounds, auth, invalid input and cache reuse. Report any unavailable checks honestly.
+
 

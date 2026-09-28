@@ -1,0 +1,188 @@
+{
+  "synthetic": true,
+  "fixtureVersion": 1,
+  "platform": "facebook",
+  "tier": "average",
+  "status": "ok",
+  "sampleComplete": false,
+  "subscriberHidden": false,
+  "profile": {
+    "displayName": "Earthkind Living",
+    "followers": 4300,
+    "following": 312,
+    "totalPosts": 105,
+    "verified": false,
+    "isBusiness": true,
+    "category": "Design & lifestyle",
+    "bio": "Thoughtfully made. For a life well lived.",
+    "bioLink": "https://example.com",
+    "avatarUrl": "https://example.com/synthetic-avatar.png"
+  },
+  "posts": [
+    {
+      "id": "facebook-average-0",
+      "daysAgo": 6,
+      "type": "reel",
+      "likes": 26,
+      "comments": 3,
+      "shares": 3,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Small changes. A better everyday."
+    },
+    {
+      "id": "facebook-average-1",
+      "daysAgo": 11,
+      "type": "image",
+      "likes": 29,
+      "comments": 4,
+      "shares": 4,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Made with intention, designed to last."
+    },
+    {
+      "id": "facebook-average-2",
+      "daysAgo": 16,
+      "type": "image",
+      "likes": null,
+      "comments": 5,
+      "shares": 5,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "A closer look at what we are building."
+    },
+    {
+      "id": "facebook-average-3",
+      "daysAgo": 21,
+      "type": "carousel",
+      "likes": 35,
+      "comments": 3,
+      "shares": 6,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Meet the people behind the process."
+    },
+    {
+      "id": "facebook-average-4",
+      "daysAgo": 26,
+      "type": "reel",
+      "likes": 39,
+      "comments": 4,
+      "shares": 7,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Your next chapter starts here."
+    },
+    {
+      "id": "facebook-average-5",
+      "daysAgo": 31,
+      "type": "image",
+      "likes": 26,
+      "comments": 5,
+      "shares": 8,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Small changes. A better everyday."
+    },
+    {
+      "id": "facebook-average-6",
+      "daysAgo": 36,
+      "type": "carousel",
+      "likes": 29,
+      "comments": 3,
+      "shares": 9,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Made with intention, designed to last."
+    },
+    {
+      "id": "facebook-average-7",
+      "daysAgo": 41,
+      "type": "image",
+      "likes": 32,
+      "comments": 4,
+      "shares": 3,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "A closer look at what we are building."
+    },
+    {
+      "id": "facebook-average-8",
+      "daysAgo": 46,
+      "type": "reel",
+      "likes": 35,
+      "comments": 5,
+      "shares": 4,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Meet the people behind the process."
+    },
+    {
+      "id": "facebook-average-9",
+      "daysAgo": 51,
+      "type": "carousel",
+      "likes": 39,
+      "comments": 3,
+      "shares": 5,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Your next chapter starts here."
+    },
+    {
+      "id": "facebook-average-10",
+      "daysAgo": 56,
+      "type": "image",
+      "likes": 26,
+      "comments": 4,
+      "shares": 6,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Small changes. A better everyday."
+    },
+    {
+      "id": "facebook-average-11",
+      "daysAgo": 61,
+      "type": "image",
+      "likes": 29,
+      "comments": 5,
+      "shares": 7,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Made with intention, designed to last."
+    },
+    {
+      "id": "facebook-average-12",
+      "daysAgo": 66,
+      "type": "reel",
+      "likes": 32,
+      "comments": 3,
+      "shares": 8,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "A closer look at what we are building."
+    },
+    {
+      "id": "facebook-average-13",
+      "daysAgo": 71,
+      "type": "image",
+      "likes": 35,
+      "comments": 4,
+      "shares": 9,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Meet the people behind the process."
+    },
+    {
+      "id": "facebook-average-14",
+      "daysAgo": 76,
+      "type": "image",
+      "likes": 39,
+      "comments": 5,
+      "shares": 3,
+      "views": null,
+      "isPinned": true,
+      "captionPreview": "Your next chapter starts here."
+    }
+  ]
+}

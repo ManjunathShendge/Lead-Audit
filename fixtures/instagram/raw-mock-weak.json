@@ -1,0 +1,67 @@
+{
+  "synthetic": true,
+  "fixtureVersion": 1,
+  "platform": "instagram",
+  "tier": "weak",
+  "status": "ok",
+  "sampleComplete": true,
+  "subscriberHidden": false,
+  "profile": {
+    "displayName": "Northstar Works",
+    "followers": 420,
+    "following": 312,
+    "totalPosts": 28,
+    "verified": false,
+    "isBusiness": false,
+    "category": null,
+    "bio": null,
+    "bioLink": null,
+    "avatarUrl": null
+  },
+  "posts": [
+    {
+      "id": "instagram-weak-0",
+      "daysAgo": 27,
+      "type": "reel",
+      "likes": 1,
+      "comments": 0,
+      "shares": null,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Small changes. A better everyday."
+    },
+    {
+      "id": "instagram-weak-1",
+      "daysAgo": 51,
+      "type": "image",
+      "likes": 1,
+      "comments": 1,
+      "shares": null,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "Made with intention, designed to last."
+    },
+    {
+      "id": "instagram-weak-2",
+      "daysAgo": 75,
+      "type": "image",
+      "likes": null,
+      "comments": 2,
+      "shares": null,
+      "views": null,
+      "isPinned": false,
+      "captionPreview": "A closer look at what we are building."
+    },
+    {
+      "id": "instagram-weak-3",
+      "daysAgo": 99,
+      "type": "carousel",
+      "likes": 1,
+      "comments": 0,
+      "shares": null,
+      "views": null,
+      "isPinned": true,
+      "captionPreview": "Meet the people behind the process."
+    }
+  ]
+}
