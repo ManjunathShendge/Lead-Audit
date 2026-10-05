@@ -1,0 +1,609 @@
+/* PDF document. Printed only; light palette always. Content flows continuously — nothing forces a
+   page break, so pages fill. Figures, table rows and headings are kept whole instead. */
+@page {
+  size: A4;
+}
+html:has(.pdf-doc),
+body:has(.pdf-doc) {
+  background: #fff !important;
+}
+.pdf-doc {
+  --text: #20291d;
+  --muted: #5f6958;
+  --line: #dce2d7;
+  --soft: #f5f7f1;
+  --brand: #3f6523;
+  --accent: #5b4690;
+  color: var(--text);
+  background: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12.5px;
+  line-height: 1.5;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.pdf-doc * {
+  box-sizing: border-box;
+}
+.pdf-doc h1,
+.pdf-doc h2,
+.pdf-doc h3 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  break-after: avoid;
+}
+.pdf-doc small {
+  color: var(--muted);
+}
+.pdf-doc .muted {
+  color: var(--muted);
+}
+.pdf-doc .good {
+  color: #36601e;
+}
+.pdf-doc .warn {
+  color: #8a6420;
+}
+.pdf-doc .bad,
+.pdf-doc .below {
+  color: #a33a33;
+}
+.pdf-eyebrow {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--brand);
+}
+
+/* ---------- Cover ---------- */
+.pdf-cover h1 {
+  font-size: 30px;
+  margin: 4px 0 2px;
+}
+.pdf-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+.pdf-provenance {
+  display: inline-block;
+  margin: 8px 0 0;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  background: #eef4e8;
+  color: #3f5a30;
+}
+.pdf-provenance.mock {
+  background: #fbf4e4;
+  color: #6e5628;
+}
+.pdf-hero {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin: 14px 0;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(120deg, #eef5e6, #f7faf3);
+  break-inside: avoid;
+}
+.pdf-hero h2 {
+  font-size: 18px;
+  margin: 6px 0 10px;
+}
+.pdf-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+.pdf-facts strong {
+  color: var(--text);
+  font-size: 15px;
+  margin-right: 3px;
+}
+.band {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 10.5px;
+  font-weight: 700;
+  background: #e3edd8;
+  color: #36601e;
+}
+.band-good {
+  background: #e8efdc;
+  color: #4a6a1f;
+}
+.band-needs-work {
+  background: #f6ecd6;
+  color: #7a5818;
+}
+.band-weak {
+  background: #f8e3dd;
+  color: #a33a33;
+}
+.band-not-measured {
+  background: #eee;
+  color: var(--muted);
+}
+
+/* ---------- Sections ---------- */
+.pdf-section {
+  margin-top: 22px;
+}
+.pdf-section-head {
+  border-top: 2px solid var(--text);
+  padding-top: 8px;
+  margin-bottom: 10px;
+  break-inside: avoid;
+  break-after: avoid;
+}
+.pdf-section-head h2 {
+  font-size: 19px;
+  margin-top: 3px;
+}
+.pdf-section-head p {
+  margin: 3px 0 0;
+  color: var(--muted);
+}
+.pdf-doc h3 {
+  font-size: 13px;
+  margin: 0 0 6px;
+}
+.pdf-lede {
+  font-size: 13.5px;
+  margin: 0 0 10px;
+}
+.pdf-small {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+.pdf-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 10px;
+  break-inside: avoid;
+}
+.pdf-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+.pdf-row > .pdf-figure {
+  margin-top: 12px;
+}
+.pdf-points {
+  margin: 0;
+  padding-left: 16px;
+}
+.pdf-points li + li {
+  margin-top: 5px;
+}
+.pdf-callout {
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: #ece6f7;
+  break-inside: avoid;
+}
+
+/* ---------- Figures ---------- */
+.pdf-figure {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  break-inside: avoid;
+}
+.pdf-figure figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.pdf-figure figcaption strong {
+  font-size: 13.5px;
+}
+.pdf-figure figcaption span {
+  font-size: 10.5px;
+  color: var(--muted);
+  text-align: right;
+}
+.pdf-insight {
+  margin-top: 10px;
+  padding: 7px 10px 7px 12px;
+  border-left: 3px solid var(--accent);
+  background: #f6f3fc;
+  border-radius: 0 6px 6px 0;
+  font-size: 11.5px;
+}
+.pdf-insight b {
+  display: block;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+.pdf-insight ul {
+  margin: 0;
+  padding-left: 15px;
+}
+.pdf-insight li + li {
+  margin-top: 2px;
+}
+.pdf-key {
+  margin: 6px 0 0;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+/* ---------- Tables ---------- */
+.pdf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+.pdf-table th {
+  text-align: left;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 8px 5px 0;
+  border-bottom: 1px solid var(--text);
+}
+.pdf-table td {
+  padding: 5px 8px 5px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.pdf-table tr {
+  break-inside: avoid;
+}
+.pdf-table thead {
+  display: table-header-group;
+}
+.pdf-table td small {
+  display: block;
+  font-size: 10px;
+}
+.pdf-table td > small:only-child,
+.pdf-glance td small,
+.pdf-seo td small {
+  display: inline;
+}
+.pdf-glance {
+  break-inside: avoid;
+}
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+.pdf-matrix td {
+  white-space: nowrap;
+}
+.pdf-cellbar {
+  display: inline-block;
+  width: 46px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 3px;
+  background: #e9ede5;
+  overflow: hidden;
+  vertical-align: 1px;
+}
+.pdf-cellbar i {
+  display: block;
+  height: 100%;
+}
+.pdf-caption {
+  max-width: 300px;
+}
+.pdf-serp tr.own td {
+  background: #e8f1fc;
+}
+.pdf-serp td:first-child {
+  width: 22px;
+  color: var(--muted);
+}
+.pdf-serp td:last-child {
+  width: 70px;
+  color: #2a64ad;
+  font-size: 10px;
+}
+.pdf-gaps td:nth-child(4) {
+  font-weight: 700;
+}
+.pdf-checks td:last-child {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ---------- Charts ---------- */
+.pdf-hbars {
+  display: grid;
+  gap: 7px;
+}
+.pdf-hbar {
+  display: grid;
+  grid-template-columns: 170px 1fr 34px;
+  gap: 10px;
+  align-items: center;
+}
+.pdf-hbar-label {
+  font-size: 11.5px;
+}
+.pdf-hbar-label small {
+  display: block;
+  font-size: 9.5px;
+}
+.pdf-hbar-track {
+  position: relative;
+  height: 10px;
+  border-radius: 5px;
+  background: #e9ede5;
+}
+.pdf-hbar-track i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 5px;
+}
+.pdf-hbar-track b,
+.pdf-key b {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 0;
+  border-left: 1.5px dashed var(--text);
+}
+.pdf-key b {
+  position: relative;
+  display: inline-block;
+  height: 10px;
+  margin-right: 4px;
+  vertical-align: -1px;
+}
+.pdf-hbar strong {
+  text-align: right;
+  font-size: 13px;
+}
+.pdf-stack-bar {
+  display: flex;
+  height: 26px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #e9ede5;
+}
+.pdf-stack-bar span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 11px;
+}
+.pdf-stack-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.pdf-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 6px;
+  font-size: 11px;
+}
+.pdf-legend i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+.pdf-legend.vertical {
+  flex-direction: column;
+}
+.pdf-radar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pdf-radar svg {
+  width: 230px;
+  height: 230px;
+  flex-shrink: 0;
+}
+.pdf-donuts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+}
+.pdf-donuts strong,
+.pdf-donuts small {
+  display: block;
+}
+.pdf-zone + .pdf-zone {
+  margin-top: 10px;
+}
+.pdf-zone-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+}
+.pdf-zone-track {
+  position: relative;
+  height: 9px;
+  margin: 4px 0 2px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.pdf-zone-track span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.pdf-zone-track i {
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  width: 3px;
+  margin-left: -1.5px;
+  background: var(--text);
+}
+.pdf-zone small {
+  font-size: 9.5px;
+}
+
+/* ---------- Notes, appendix, closing ---------- */
+.pdf-notes {
+  columns: 2;
+  column-gap: 20px;
+  font-size: 10.5px;
+}
+.pdf-notes > div {
+  break-inside: avoid;
+  margin-bottom: 10px;
+}
+.pdf-notes ul {
+  margin: 2px 0;
+  padding-left: 14px;
+}
+.pdf-notes small {
+  font-size: 9.5px;
+}
+.pdf-appendix {
+  margin-top: 24px;
+}
+.pdf-appendix .print-methodology {
+  border-top: 2px solid var(--text);
+  padding-top: 8px;
+  font-size: 10.5px;
+  color: var(--text);
+}
+.pdf-appendix .print-methodology .eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--brand);
+}
+.pdf-appendix .print-methodology h2 {
+  font-size: 17px;
+  margin: 3px 0 6px;
+}
+.pdf-appendix .print-methodology h3 {
+  font-size: 11.5px;
+  margin: 10px 0 4px;
+}
+.pdf-appendix .print-methodology p {
+  margin: 4px 0;
+}
+.pdf-appendix .print-methodology > div {
+  break-inside: avoid;
+}
+.pdf-appendix .print-methodology table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+}
+.pdf-appendix .print-methodology th,
+.pdf-appendix .print-methodology td {
+  text-align: left;
+  padding: 3px 6px 3px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.pdf-closing {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 10.5px;
+  color: var(--muted);
+  break-inside: avoid;
+}
+.pdf-closing .wordmark {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* The app's global table styles (17px cells, 19px padding) are for screens; reset them here. */
+.pdf-doc table td,
+.pdf-doc table th {
+  font-size: inherit;
+  letter-spacing: normal;
+}
+.pdf-doc .pdf-table th {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0 8px 5px 0;
+  border-bottom: 1px solid var(--text);
+}
+.pdf-doc .pdf-table td {
+  padding: 5px 8px 5px 0;
+  border-bottom: 1px solid var(--line);
+}
+.pdf-doc .pdf-table tr:last-child td {
+  border-bottom: 0;
+}
+/* A long table may continue on the next page between rows rather than leave a gap. */
+.pdf-figure.breakable {
+  break-inside: auto;
+}
+.pdf-figure.breakable figcaption {
+  break-after: avoid;
+}
+.pdf-doc small {
+  font-size: 0.85em;
+}
+.pdf-doc .pdf-table th small {
+  font-size: 9px;
+  font-weight: 400;
+}
+.pdf-donuts small {
+  font-size: 10.5px;
+}
+.pdf-figure.breakable .pdf-key,
+.pdf-figure.breakable .pdf-insight {
+  break-before: avoid;
+  break-inside: avoid;
+}
+.pdf-row .pdf-figure-body svg {
+  max-width: 100%;
+}
+.pdf-doc .pdf-seo td:last-child {
+  white-space: nowrap;
+}
+.pdf-hero-count {
+  flex-shrink: 0;
+  width: 104px;
+  text-align: center;
+  font-size: 54px;
+  font-weight: 700;
+  color: #a33a33;
+}

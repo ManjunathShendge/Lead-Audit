@@ -1,0 +1,201 @@
+{
+  "synthetic": true,
+  "fixtureVersion": 1,
+  "channel": "website",
+  "tier": "weak",
+  "status": "partial",
+  "pagespeed": {
+    "runs": [
+      {
+        "performance": 28,
+        "seo": 69
+      },
+      {
+        "performance": 34,
+        "seo": 69
+      }
+    ],
+    "lcpMs": 6900,
+    "inpMs": null,
+    "cls": 0.31,
+    "vitalsSource": "lab"
+  },
+  "seo": {
+    "title": true,
+    "metaDescription": false,
+    "singleH1": false,
+    "h1Count": 0,
+    "imageAltRatio": 0.35,
+    "imageCount": 23,
+    "schema": false,
+    "sitemap": false,
+    "robots": true,
+    "https": true
+  },
+  "tracking": {
+    "analytics": false,
+    "meta": false,
+    "ads": false,
+    "linkedin": false
+  },
+  "conversion": {
+    "form": false,
+    "cta": false,
+    "whatsapp": false,
+    "phone": true
+  },
+  "ctaText": null,
+  "freshness": {
+    "latestPostDaysAgo": null,
+    "blogPath": null,
+    "copyrightYearsAgo": 4
+  },
+  "warnings": [
+    "1 of 3 PageSpeed runs failed: PageSpeed run timed out.",
+    "Performance uses the median of 2 run(s), not 3.",
+    "No Chrome field data for this site; Core Web Vitals use lab values and INP is not measured.",
+    "No blog or news section was linked from the homepage."
+  ],
+  "seoAudit": {
+    "statusCode": 200,
+    "titleLength": 18,
+    "descriptionLength": 0,
+    "canonical": false,
+    "viewport": true,
+    "lang": false,
+    "openGraph": false,
+    "twitterCard": false,
+    "noindex": false,
+    "hreflang": false,
+    "favicon": false,
+    "h2Count": 0,
+    "wordCount": 140,
+    "internalLinks": 2,
+    "externalLinks": 1,
+    "schemaTypes": [],
+    "ttfbMs": 2300,
+    "fcpMs": 4100,
+    "lighthouse": [
+      {
+        "id": "document-title",
+        "title": "Document has a <title> element",
+        "passed": true
+      },
+      {
+        "id": "meta-description",
+        "title": "Document has a meta description",
+        "passed": false
+      },
+      {
+        "id": "http-status-code",
+        "title": "Page has successful HTTP status code",
+        "passed": true
+      },
+      {
+        "id": "link-text",
+        "title": "Links have descriptive text",
+        "passed": false
+      },
+      {
+        "id": "crawlable-anchors",
+        "title": "Links are crawlable",
+        "passed": true
+      },
+      {
+        "id": "is-crawlable",
+        "title": "Page is not blocked from indexing",
+        "passed": true
+      },
+      {
+        "id": "robots-txt",
+        "title": "robots.txt is valid",
+        "passed": true
+      },
+      {
+        "id": "image-alt",
+        "title": "Image elements have [alt] attributes",
+        "passed": false
+      },
+      {
+        "id": "hreflang",
+        "title": "Document has a valid hreflang",
+        "passed": true
+      },
+      {
+        "id": "canonical",
+        "title": "Document has a valid rel=canonical",
+        "passed": false
+      }
+    ],
+    "search": {
+      "indexedPages": 4,
+      "indexedLowerBound": true,
+      "brandQuery": "Sample brand",
+      "brandPosition": null,
+      "brandSitelinks": false,
+      "topResults": [
+        {
+          "position": 1,
+          "title": "Sample result: Home",
+          "url": "https://example.org/home",
+          "own": false
+        },
+        {
+          "position": 2,
+          "title": "Sample result: Instagram",
+          "url": "https://example.org/instagram",
+          "own": false
+        },
+        {
+          "position": 3,
+          "title": "Sample result: LinkedIn",
+          "url": "https://example.org/linkedin",
+          "own": false
+        },
+        {
+          "position": 4,
+          "title": "Sample result: Facebook",
+          "url": "https://example.org/facebook",
+          "own": false
+        },
+        {
+          "position": 5,
+          "title": "Sample result: Reviews",
+          "url": "https://example.org/reviews",
+          "own": false
+        },
+        {
+          "position": 6,
+          "title": "Sample result: Directory",
+          "url": "https://example.org/directory",
+          "own": false
+        },
+        {
+          "position": 7,
+          "title": "Sample result: News",
+          "url": "https://example.org/news",
+          "own": false
+        },
+        {
+          "position": 8,
+          "title": "Sample result: YouTube",
+          "url": "https://example.org/youtube",
+          "own": false
+        },
+        {
+          "position": 9,
+          "title": "Sample result: Careers",
+          "url": "https://example.org/careers",
+          "own": false
+        },
+        {
+          "position": 10,
+          "title": "Sample result: Blog",
+          "url": "https://example.org/blog",
+          "own": false
+        }
+      ],
+      "peopleAlsoAsk": []
+    }
+  }
+}

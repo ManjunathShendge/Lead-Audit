@@ -1,4 +1,5 @@
 import type { CollectorResult, NormalizedPost, NormalizedProfile } from '../collectors/types';
+import type { Window } from '../period';
 const DAY = 86400000;
 export function average(values: (number | null)[]): number | null {
   const known = values.filter((n): n is number => n !== null && Number.isFinite(n) && n >= 0);
@@ -34,33 +35,56 @@ export function datedPosts(posts: NormalizedPost[], asOf: Date) {
     )
     .sort((a, b) => Date.parse(b.publishedAt!) - Date.parse(a.publishedAt!));
 }
-export function frequency(posts: NormalizedPost[], asOf: Date, sampleComplete: boolean) {
-  const dated = datedPosts(posts, asOf);
-  const recent = dated.filter((p) => Date.parse(p.publishedAt!) >= asOf.getTime() - 30 * DAY);
+export function frequency(posts: NormalizedPost[], asOf: Date, sampleComplete: boolean, window?: Window) {
+  const end = window?.end ?? asOf;
+  const start = window?.start.getTime() ?? asOf.getTime() - 30 * DAY;
+  const dated = datedPosts(posts, end);
+  const recent = dated.filter((p) => Date.parse(p.publishedAt!) >= start);
   const unknownDates = posts.some(
     (p) =>
       !p.isPinned &&
       (!p.publishedAt ||
         !Number.isFinite(Date.parse(p.publishedAt)) ||
-        Date.parse(p.publishedAt) > asOf.getTime()),
+        (!window && Date.parse(p.publishedAt) > asOf.getTime())),
   );
-  const count = dated.length ? recent.length : posts.length === 0 && sampleComplete ? 0 : null;
+  const raw = window
+    ? recent.length || sampleComplete
+      ? recent.length
+      : null
+    : dated.length
+      ? recent.length
+      : posts.length === 0 && sampleComplete
+        ? 0
+        : null;
+  // A chosen period is reported as its average per 30 days so it compares with the monthly benchmark.
+  const count = raw === null || !window ? raw : Math.round(((raw * 30) / window.days) * 10) / 10;
   return {
     count,
+    postsInPeriod: window ? raw : null,
     lowerBound:
       count !== null &&
       (unknownDates ||
-        (dated.length > 0 && recent.length === dated.length) ||
-        (!sampleComplete && !dated.some((p) => Date.parse(p.publishedAt!) < asOf.getTime() - 30 * DAY))),
+        (!window && dated.length > 0 && recent.length === dated.length) ||
+        (!sampleComplete && !dated.some((p) => Date.parse(p.publishedAt!) < start))),
     lastPost: dated[0]?.publishedAt ?? null,
   };
 }
-export function longestGap(posts: NormalizedPost[], asOf: Date, sampleComplete: boolean): number | null {
-  const dated = datedPosts(posts, asOf);
-  if (!dated.length) return posts.length === 0 && sampleComplete ? 90 : null;
-  const days = dated.map((p) => (asOf.getTime() - Date.parse(p.publishedAt!)) / DAY).filter((n) => n <= 90);
-  if (!days.length) return 90;
-  return Math.max(days[0], ...days.slice(1).map((n, i) => n - days[i]));
+export function longestGap(
+  posts: NormalizedPost[],
+  asOf: Date,
+  sampleComplete: boolean,
+  window?: Window,
+): number | null {
+  const span = window?.days ?? 90;
+  const end = window?.end ?? asOf;
+  const dated = datedPosts(posts, end);
+  if (!dated.length) return posts.length === 0 && sampleComplete ? span : null;
+  const days = dated.map((p) => (end.getTime() - Date.parse(p.publishedAt!)) / DAY).filter((n) => n <= span);
+  if (!days.length) return span;
+  const gaps = [days[0], ...days.slice(1).map((n, i) => n - days[i])];
+  // Inside a chosen period the quiet stretch before its first post counts too.
+  if (window) gaps.push(span - days[days.length - 1]);
+  return Math.max(...gaps);
 }
 export function contentMix(posts: NormalizedPost[]) {
   if (!posts.length) return null;
@@ -81,33 +105,55 @@ export function dayKey(date: string | Date) {
     day: '2-digit',
   }).format(new Date(date));
 }
-export function calendar(posts: NormalizedPost[], asOf: Date) {
+export function calendar(posts: NormalizedPost[], asOf: Date, window?: Window) {
+  const end = window?.end ?? asOf;
+  const length = window ? Math.ceil(window.days) : 90;
   const counts = new Map<string, number>();
-  datedPosts(posts, asOf).forEach((p) => {
+  datedPosts(posts, end).forEach((p) => {
     const key = dayKey(p.publishedAt!);
     counts.set(key, (counts.get(key) ?? 0) + 1);
   });
-  return Array.from({ length: 90 }, (_, i) => {
-    const date = dayKey(new Date(asOf.getTime() - (89 - i) * DAY));
+  return Array.from({ length }, (_, i) => {
+    const date = dayKey(new Date(end.getTime() - (length - 1 - i) * DAY));
     return { date, count: counts.get(date) ?? 0 };
   });
 }
-export function computeMetrics(result: CollectorResult, asOf: Date) {
+export function computeMetrics(result: CollectorResult, asOf: Date, window?: Window) {
   const usable = ['ok', 'partial'].includes(result.status) && result.profile !== null;
-  const posts = usable ? result.posts : [];
+  const fetched = usable ? result.posts : [];
+  // With a chosen period, every post-based metric looks only at posts published inside it.
+  const posts = window
+    ? fetched.filter((p) => {
+        const t = p.publishedAt ? Date.parse(p.publishedAt) : NaN;
+        return t >= window.start.getTime() && t <= window.end.getTime();
+      })
+    : fetched;
+  // A fetched post from before the period proves the whole period was covered.
+  const complete =
+    result.sampleComplete ||
+    (!!window &&
+      fetched.some((p) => !p.isPinned && !!p.publishedAt && Date.parse(p.publishedAt) < window.start.getTime()));
   const recency = usable
-    ? frequency(posts, asOf, result.sampleComplete)
-    : { count: null, lowerBound: false, lastPost: null };
+    ? frequency(posts, asOf, complete, window)
+    : { count: null, postsInPeriod: null, lowerBound: false, lastPost: null };
   const avgLikes = average(posts.map((p) => p.likes)),
     avgComments = average(posts.map((p) => p.comments));
   const notes = [...result.warnings];
   if (recency.lowerBound)
     notes.push(
-      'Posting frequency is a lower bound; the fetched sample does not establish the full 30-day count.',
+      window
+        ? `Posting frequency is a lower bound; the fetched sample does not cover all of ${window.label}.`
+        : 'Posting frequency is a lower bound; the fetched sample does not establish the full 30-day count.',
     );
-  if (!result.sampleComplete && usable)
+  if (!complete && usable)
     notes.push(
-      'The 90-day calendar and longest gap describe observed posts only; unsampled days are not confirmed inactivity.',
+      window
+        ? `The ${window.label} calendar and longest gap describe observed posts only; unsampled days are not confirmed inactivity.`
+        : 'The 90-day calendar and longest gap describe observed posts only; unsampled days are not confirmed inactivity.',
+    );
+  if (window && usable && recency.postsInPeriod !== null)
+    notes.push(
+      `${recency.postsInPeriod} posts in ${window.label}, averaged to posts per 30 days. Engagement uses today's follower count.`,
     );
   if (posts.some((p) => p.isPinned))
     notes.push('Pinned posts excluded from recency, frequency and calendar.');
@@ -115,21 +161,21 @@ export function computeMetrics(result: CollectorResult, asOf: Date) {
     notes.push('Hidden or unavailable likes excluded from averages and top-post rankings.');
   if (posts.some((p) => p.publishedAt === null))
     notes.push('Undated posts excluded from date-based metrics.');
-  if (usable && posts.length && datedPosts(posts, asOf).length === 0)
+  if (usable && posts.length && datedPosts(posts, window?.end ?? asOf).length === 0)
     notes.push('No usable non-pinned dates; activity is not measured.');
   if (result.profile?.followers === 0) notes.push('Zero followers: engagement rate is undefined.');
   if (usable && profileCompleteness(result.profile) === null)
     notes.push('Profile completeness is not measured.');
   return {
     ...recency,
-    longestGap: usable ? longestGap(posts, asOf, result.sampleComplete) : null,
+    longestGap: usable ? longestGap(posts, asOf, complete, window) : null,
     avgLikes,
     avgComments,
     engagement: engagementRate(avgLikes, avgComments, result.profile?.followers ?? null),
     completeness: usable ? profileCompleteness(result.profile) : null,
     mix: contentMix(posts),
     top: topPosts(posts),
-    calendar: usable ? calendar(posts, asOf) : null,
+    calendar: usable ? calendar(posts, asOf, window) : null,
     notes,
   };
 }

@@ -1,8 +1,10 @@
 import { db } from '@/lib/db';
+import { aiConfigured, aiModel, aiName } from '@/lib/ai/provider';
 import { configSchema, defaults } from '@/lib/scoring/config';
 import { platformNames, platforms, type Platform } from '@/lib/collectors/types';
 import { currentMode, liveAvailability } from '@/lib/collectors';
 import { SettingsForm, type BenchmarkRow } from '@/components/settings-form';
+import { channelAvailability } from '@/lib/collectors/channels';
 
 const SOURCE: Record<Platform, string> = {
   instagram: 'APIFY_ACTOR_INSTAGRAM',
@@ -20,6 +22,7 @@ export default async function Settings() {
   const config = configSchema.parse(row.value);
   const mode = currentMode();
   const availability = liveAvailability();
+  const channelsReady = channelAvailability();
 
   return (
     <>
@@ -61,6 +64,34 @@ export default async function Settings() {
                   </td>
                 </tr>
               ))}
+              <tr>
+                <td>Website</td>
+                <td>{config.channels.website > 0 ? 'Enabled' : 'Disabled (weight 0)'}</td>
+                <td>PageSpeed Insights API + Playwright crawl</td>
+                <td className={process.env.PAGESPEED_API_KEY ? 'target-met' : 'target-missed'}>
+                  {process.env.PAGESPEED_API_KEY
+                    ? 'Configured'
+                    : 'PAGESPEED_API_KEY not set: the crawl runs, but PageSpeed usually hits the shared quota.'}
+                </td>
+              </tr>
+              <tr>
+                <td>Google Business Profile</td>
+                <td>{config.channels.gbp > 0 ? 'Enabled' : 'Disabled (weight 0)'}</td>
+                <td>{process.env.APIFY_ACTOR_GBP || 'APIFY_ACTOR_GBP not set'}</td>
+                <td className={channelsReady.gbp.ready ? 'target-met' : 'target-missed'}>
+                  {channelsReady.gbp.ready ? 'Configured' : channelsReady.gbp.reason}
+                </td>
+              </tr>
+              <tr>
+                <td>AI summary &amp; audience alignment</td>
+                <td>{aiConfigured() ? 'Enabled' : 'Disabled'}</td>
+                <td>{aiConfigured() ? `${aiName()} · ${aiModel()}` : 'No AI provider'}</td>
+                <td className={aiConfigured() ? 'target-met' : 'target-missed'}>
+                  {aiConfigured()
+                    ? 'Configured'
+                    : 'ANTHROPIC_KEY not set: reports show no summary or audience alignment.'}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

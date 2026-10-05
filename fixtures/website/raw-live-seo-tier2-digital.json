@@ -1,0 +1,2091 @@
+{
+  "capturedAt": "2026-10-01T04:59:36.634Z",
+  "site": "https://www.tier2.digital",
+  "brand": "Tier2 Digital",
+  "synthetic": false,
+  "result": {
+    "kind": "website",
+    "status": "ok",
+    "raw": {
+      "pagespeed": [
+        {
+          "error": null,
+          "response": {
+            "id": "https://www.tier2.digital/",
+            "analysisUTCTimestamp": "2026-10-01T04:59:40.935Z",
+            "loadingExperience": {
+              "initial_url": "https://www.tier2.digital/"
+            },
+            "lighthouseResult": {
+              "finalDisplayedUrl": "https://www.tier2.digital/",
+              "lighthouseVersion": "13.5.0",
+              "categories": {
+                "performance": {
+                  "id": "performance",
+                  "title": "Performance",
+                  "score": 0.61,
+                  "auditRefs": [
+                    {
+                      "id": "first-contentful-paint",
+                      "weight": 10,
+                      "group": "metrics",
+                      "acronym": "FCP"
+                    },
+                    {
+                      "id": "largest-contentful-paint",
+                      "weight": 25,
+                      "group": "metrics",
+                      "acronym": "LCP"
+                    },
+                    {
+                      "id": "total-blocking-time",
+                      "weight": 30,
+                      "group": "metrics",
+                      "acronym": "TBT"
+                    },
+                    {
+                      "id": "cumulative-layout-shift",
+                      "weight": 25,
+                      "group": "metrics",
+                      "acronym": "CLS"
+                    },
+                    {
+                      "id": "speed-index",
+                      "weight": 10,
+                      "group": "metrics",
+                      "acronym": "SI"
+                    },
+                    {
+                      "id": "cache-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "cls-culprits-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "document-latency-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "dom-size-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "duplicated-javascript-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "font-display-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "forced-reflow-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "image-delivery-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "inp-breakdown-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "lcp-breakdown-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "lcp-discovery-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "legacy-javascript-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "network-dependency-tree-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "render-blocking-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "third-parties-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "viewport-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "interactive",
+                      "weight": 0,
+                      "group": "hidden",
+                      "acronym": "TTI"
+                    },
+                    {
+                      "id": "max-potential-fid",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "unminified-css",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unminified-javascript",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unused-css-rules",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unused-javascript",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "total-byte-weight",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "user-timings",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "bootup-time",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "mainthread-work-breakdown",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "long-tasks",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "non-composited-animations",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unsized-images",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "network-requests",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "network-rtt",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "network-server-latency",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "main-thread-tasks",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "diagnostics",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "metrics",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "screenshot-thumbnails",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "final-screenshot",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "script-treemap-data",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "resource-summary",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "redirects",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "server-response-time",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "layout-shifts",
+                      "weight": 0,
+                      "group": "hidden"
+                    }
+                  ]
+                },
+                "seo": {
+                  "id": "seo",
+                  "title": "SEO",
+                  "description": "These checks ensure that your page is following basic search engine optimization advice. There are many additional factors Lighthouse does not score here that may affect your search ranking, including performance on [Core Web Vitals](https://web.dev/explore/vitals). [Learn more about Google Search Essentials](https://support.google.com/webmasters/answer/35769).",
+                  "score": 0.92,
+                  "manualDescription": "Run these additional validators on your site to check additional SEO best practices.",
+                  "auditRefs": [
+                    {
+                      "id": "is-crawlable",
+                      "weight": 4.043478260869565,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "document-title",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "meta-description",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "http-status-code",
+                      "weight": 1,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "link-text",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "crawlable-anchors",
+                      "weight": 1,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "robots-txt",
+                      "weight": 1,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "image-alt",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "hreflang",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "canonical",
+                      "weight": 0,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "structured-data",
+                      "weight": 0
+                    }
+                  ]
+                }
+              },
+              "audits": {
+                "largest-contentful-paint": {
+                  "id": "largest-contentful-paint",
+                  "title": "Largest Contentful Paint",
+                  "description": "Largest Contentful Paint marks the time at which the largest text or image is painted. [Learn more about the Largest Contentful Paint metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/)",
+                  "score": 0.01,
+                  "scoreDisplayMode": "numeric",
+                  "displayValue": "8.6 s",
+                  "numericValue": 8639.0270847567,
+                  "numericUnit": "millisecond"
+                },
+                "cumulative-layout-shift": {
+                  "id": "cumulative-layout-shift",
+                  "title": "Cumulative Layout Shift",
+                  "description": "Cumulative Layout Shift measures the movement of visible elements within the viewport. [Learn more about the Cumulative Layout Shift metric](https://web.dev/articles/cls).",
+                  "score": 1,
+                  "scoreDisplayMode": "numeric",
+                  "displayValue": "0.035",
+                  "details": {
+                    "items": [
+                      {
+                        "newEngineResultDiffered": false,
+                        "cumulativeLayoutShiftMainFrame": 0.03453145106147738
+                      }
+                    ],
+                    "type": "debugdata"
+                  },
+                  "numericValue": 0.03453145106147738,
+                  "numericUnit": "unitless"
+                },
+                "total-blocking-time": {
+                  "id": "total-blocking-time",
+                  "title": "Total Blocking Time",
+                  "description": "Sum of all time periods between FCP and Time to Interactive, when task length exceeded 50ms, expressed in milliseconds. [Learn more about the Total Blocking Time metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/).",
+                  "score": 0.82,
+                  "scoreDisplayMode": "numeric",
+                  "displayValue": "270 ms",
+                  "numericValue": 272.5,
+                  "numericUnit": "millisecond"
+                },
+                "first-contentful-paint": {
+                  "id": "first-contentful-paint",
+                  "title": "First Contentful Paint",
+                  "score": 0.52,
+                  "scoreDisplayMode": "numeric",
+                  "numericValue": 2929.0232731413953
+                },
+                "is-crawlable": {
+                  "id": "is-crawlable",
+                  "title": "Page isn’t blocked from indexing",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "document-title": {
+                  "id": "document-title",
+                  "title": "Document has a `<title>` element",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "meta-description": {
+                  "id": "meta-description",
+                  "title": "Document has a meta description",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "http-status-code": {
+                  "id": "http-status-code",
+                  "title": "Page has successful HTTP status code",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "link-text": {
+                  "id": "link-text",
+                  "title": "Links do not have descriptive text",
+                  "score": 0,
+                  "scoreDisplayMode": "binary"
+                },
+                "crawlable-anchors": {
+                  "id": "crawlable-anchors",
+                  "title": "Links are crawlable",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "robots-txt": {
+                  "id": "robots-txt",
+                  "title": "robots.txt is valid",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "image-alt": {
+                  "id": "image-alt",
+                  "title": "Image elements have `[alt]` attributes",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "hreflang": {
+                  "id": "hreflang",
+                  "title": "Document has a valid `hreflang`",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "canonical": {
+                  "id": "canonical",
+                  "title": "Document has a valid `rel=canonical`",
+                  "score": null,
+                  "scoreDisplayMode": "notApplicable"
+                },
+                "structured-data": {
+                  "id": "structured-data",
+                  "title": "Structured data is valid",
+                  "score": null,
+                  "scoreDisplayMode": "manual"
+                },
+                "metrics": {
+                  "details": {
+                    "items": [
+                      {
+                        "timeToFirstByte": 603
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "error": null,
+          "response": {
+            "id": "https://www.tier2.digital/",
+            "analysisUTCTimestamp": "2026-10-01T04:59:40.935Z",
+            "loadingExperience": {
+              "initial_url": "https://www.tier2.digital/"
+            },
+            "lighthouseResult": {
+              "finalDisplayedUrl": "https://www.tier2.digital/",
+              "lighthouseVersion": "13.5.0",
+              "categories": {
+                "performance": {
+                  "id": "performance",
+                  "title": "Performance",
+                  "score": 0.61,
+                  "auditRefs": [
+                    {
+                      "id": "first-contentful-paint",
+                      "weight": 10,
+                      "group": "metrics",
+                      "acronym": "FCP"
+                    },
+                    {
+                      "id": "largest-contentful-paint",
+                      "weight": 25,
+                      "group": "metrics",
+                      "acronym": "LCP"
+                    },
+                    {
+                      "id": "total-blocking-time",
+                      "weight": 30,
+                      "group": "metrics",
+                      "acronym": "TBT"
+                    },
+                    {
+                      "id": "cumulative-layout-shift",
+                      "weight": 25,
+                      "group": "metrics",
+                      "acronym": "CLS"
+                    },
+                    {
+                      "id": "speed-index",
+                      "weight": 10,
+                      "group": "metrics",
+                      "acronym": "SI"
+                    },
+                    {
+                      "id": "cache-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "cls-culprits-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "document-latency-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "dom-size-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "duplicated-javascript-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "font-display-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "forced-reflow-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "image-delivery-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "inp-breakdown-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "lcp-breakdown-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "lcp-discovery-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "legacy-javascript-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "network-dependency-tree-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "render-blocking-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "third-parties-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "viewport-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "interactive",
+                      "weight": 0,
+                      "group": "hidden",
+                      "acronym": "TTI"
+                    },
+                    {
+                      "id": "max-potential-fid",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "unminified-css",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unminified-javascript",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unused-css-rules",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unused-javascript",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "total-byte-weight",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "user-timings",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "bootup-time",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "mainthread-work-breakdown",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "long-tasks",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "non-composited-animations",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unsized-images",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "network-requests",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "network-rtt",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "network-server-latency",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "main-thread-tasks",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "diagnostics",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "metrics",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "screenshot-thumbnails",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "final-screenshot",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "script-treemap-data",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "resource-summary",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "redirects",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "server-response-time",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "layout-shifts",
+                      "weight": 0,
+                      "group": "hidden"
+                    }
+                  ]
+                },
+                "seo": {
+                  "id": "seo",
+                  "title": "SEO",
+                  "description": "These checks ensure that your page is following basic search engine optimization advice. There are many additional factors Lighthouse does not score here that may affect your search ranking, including performance on [Core Web Vitals](https://web.dev/explore/vitals). [Learn more about Google Search Essentials](https://support.google.com/webmasters/answer/35769).",
+                  "score": 0.92,
+                  "manualDescription": "Run these additional validators on your site to check additional SEO best practices.",
+                  "auditRefs": [
+                    {
+                      "id": "is-crawlable",
+                      "weight": 4.043478260869565,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "document-title",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "meta-description",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "http-status-code",
+                      "weight": 1,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "link-text",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "crawlable-anchors",
+                      "weight": 1,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "robots-txt",
+                      "weight": 1,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "image-alt",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "hreflang",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "canonical",
+                      "weight": 0,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "structured-data",
+                      "weight": 0
+                    }
+                  ]
+                }
+              },
+              "audits": {
+                "largest-contentful-paint": {
+                  "id": "largest-contentful-paint",
+                  "title": "Largest Contentful Paint",
+                  "description": "Largest Contentful Paint marks the time at which the largest text or image is painted. [Learn more about the Largest Contentful Paint metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/)",
+                  "score": 0.01,
+                  "scoreDisplayMode": "numeric",
+                  "displayValue": "8.6 s",
+                  "numericValue": 8639.0270847567,
+                  "numericUnit": "millisecond"
+                },
+                "cumulative-layout-shift": {
+                  "id": "cumulative-layout-shift",
+                  "title": "Cumulative Layout Shift",
+                  "description": "Cumulative Layout Shift measures the movement of visible elements within the viewport. [Learn more about the Cumulative Layout Shift metric](https://web.dev/articles/cls).",
+                  "score": 1,
+                  "scoreDisplayMode": "numeric",
+                  "displayValue": "0.035",
+                  "details": {
+                    "items": [
+                      {
+                        "cumulativeLayoutShiftMainFrame": 0.03453145106147738,
+                        "newEngineResultDiffered": false
+                      }
+                    ],
+                    "type": "debugdata"
+                  },
+                  "numericValue": 0.03453145106147738,
+                  "numericUnit": "unitless"
+                },
+                "total-blocking-time": {
+                  "id": "total-blocking-time",
+                  "title": "Total Blocking Time",
+                  "description": "Sum of all time periods between FCP and Time to Interactive, when task length exceeded 50ms, expressed in milliseconds. [Learn more about the Total Blocking Time metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/).",
+                  "score": 0.82,
+                  "scoreDisplayMode": "numeric",
+                  "displayValue": "270 ms",
+                  "numericValue": 272.5,
+                  "numericUnit": "millisecond"
+                },
+                "first-contentful-paint": {
+                  "id": "first-contentful-paint",
+                  "title": "First Contentful Paint",
+                  "score": 0.52,
+                  "scoreDisplayMode": "numeric",
+                  "numericValue": 2929.0232731413953
+                },
+                "is-crawlable": {
+                  "id": "is-crawlable",
+                  "title": "Page isn’t blocked from indexing",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "document-title": {
+                  "id": "document-title",
+                  "title": "Document has a `<title>` element",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "meta-description": {
+                  "id": "meta-description",
+                  "title": "Document has a meta description",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "http-status-code": {
+                  "id": "http-status-code",
+                  "title": "Page has successful HTTP status code",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "link-text": {
+                  "id": "link-text",
+                  "title": "Links do not have descriptive text",
+                  "score": 0,
+                  "scoreDisplayMode": "binary"
+                },
+                "crawlable-anchors": {
+                  "id": "crawlable-anchors",
+                  "title": "Links are crawlable",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "robots-txt": {
+                  "id": "robots-txt",
+                  "title": "robots.txt is valid",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "image-alt": {
+                  "id": "image-alt",
+                  "title": "Image elements have `[alt]` attributes",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "hreflang": {
+                  "id": "hreflang",
+                  "title": "Document has a valid `hreflang`",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "canonical": {
+                  "id": "canonical",
+                  "title": "Document has a valid `rel=canonical`",
+                  "score": null,
+                  "scoreDisplayMode": "notApplicable"
+                },
+                "structured-data": {
+                  "id": "structured-data",
+                  "title": "Structured data is valid",
+                  "score": null,
+                  "scoreDisplayMode": "manual"
+                },
+                "metrics": {
+                  "details": {
+                    "items": [
+                      {
+                        "timeToFirstByte": 603
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "error": null,
+          "response": {
+            "id": "https://www.tier2.digital/",
+            "analysisUTCTimestamp": "2026-10-01T04:59:40.935Z",
+            "loadingExperience": {
+              "initial_url": "https://www.tier2.digital/"
+            },
+            "lighthouseResult": {
+              "finalDisplayedUrl": "https://www.tier2.digital/",
+              "lighthouseVersion": "13.5.0",
+              "categories": {
+                "performance": {
+                  "id": "performance",
+                  "title": "Performance",
+                  "score": 0.61,
+                  "auditRefs": [
+                    {
+                      "id": "first-contentful-paint",
+                      "weight": 10,
+                      "group": "metrics",
+                      "acronym": "FCP"
+                    },
+                    {
+                      "id": "largest-contentful-paint",
+                      "weight": 25,
+                      "group": "metrics",
+                      "acronym": "LCP"
+                    },
+                    {
+                      "id": "total-blocking-time",
+                      "weight": 30,
+                      "group": "metrics",
+                      "acronym": "TBT"
+                    },
+                    {
+                      "id": "cumulative-layout-shift",
+                      "weight": 25,
+                      "group": "metrics",
+                      "acronym": "CLS"
+                    },
+                    {
+                      "id": "speed-index",
+                      "weight": 10,
+                      "group": "metrics",
+                      "acronym": "SI"
+                    },
+                    {
+                      "id": "cache-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "cls-culprits-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "document-latency-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "dom-size-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "duplicated-javascript-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "font-display-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "forced-reflow-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "image-delivery-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "inp-breakdown-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "lcp-breakdown-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "lcp-discovery-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "legacy-javascript-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "network-dependency-tree-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "render-blocking-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "third-parties-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "viewport-insight",
+                      "weight": 0,
+                      "group": "insights"
+                    },
+                    {
+                      "id": "interactive",
+                      "weight": 0,
+                      "group": "hidden",
+                      "acronym": "TTI"
+                    },
+                    {
+                      "id": "max-potential-fid",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "unminified-css",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unminified-javascript",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unused-css-rules",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unused-javascript",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "total-byte-weight",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "user-timings",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "bootup-time",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "mainthread-work-breakdown",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "long-tasks",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "non-composited-animations",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "unsized-images",
+                      "weight": 0,
+                      "group": "diagnostics"
+                    },
+                    {
+                      "id": "network-requests",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "network-rtt",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "network-server-latency",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "main-thread-tasks",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "diagnostics",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "metrics",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "screenshot-thumbnails",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "final-screenshot",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "script-treemap-data",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "resource-summary",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "redirects",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "server-response-time",
+                      "weight": 0,
+                      "group": "hidden"
+                    },
+                    {
+                      "id": "layout-shifts",
+                      "weight": 0,
+                      "group": "hidden"
+                    }
+                  ]
+                },
+                "seo": {
+                  "id": "seo",
+                  "title": "SEO",
+                  "description": "These checks ensure that your page is following basic search engine optimization advice. There are many additional factors Lighthouse does not score here that may affect your search ranking, including performance on [Core Web Vitals](https://web.dev/explore/vitals). [Learn more about Google Search Essentials](https://support.google.com/webmasters/answer/35769).",
+                  "score": 0.92,
+                  "manualDescription": "Run these additional validators on your site to check additional SEO best practices.",
+                  "auditRefs": [
+                    {
+                      "id": "is-crawlable",
+                      "weight": 4.043478260869565,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "document-title",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "meta-description",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "http-status-code",
+                      "weight": 1,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "link-text",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "crawlable-anchors",
+                      "weight": 1,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "robots-txt",
+                      "weight": 1,
+                      "group": "seo-crawl"
+                    },
+                    {
+                      "id": "image-alt",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "hreflang",
+                      "weight": 1,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "canonical",
+                      "weight": 0,
+                      "group": "seo-content"
+                    },
+                    {
+                      "id": "structured-data",
+                      "weight": 0
+                    }
+                  ]
+                }
+              },
+              "audits": {
+                "largest-contentful-paint": {
+                  "id": "largest-contentful-paint",
+                  "title": "Largest Contentful Paint",
+                  "description": "Largest Contentful Paint marks the time at which the largest text or image is painted. [Learn more about the Largest Contentful Paint metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/)",
+                  "score": 0.01,
+                  "scoreDisplayMode": "numeric",
+                  "displayValue": "8.6 s",
+                  "numericValue": 8639.0270847567,
+                  "numericUnit": "millisecond"
+                },
+                "cumulative-layout-shift": {
+                  "id": "cumulative-layout-shift",
+                  "title": "Cumulative Layout Shift",
+                  "description": "Cumulative Layout Shift measures the movement of visible elements within the viewport. [Learn more about the Cumulative Layout Shift metric](https://web.dev/articles/cls).",
+                  "score": 1,
+                  "scoreDisplayMode": "numeric",
+                  "displayValue": "0.035",
+                  "details": {
+                    "type": "debugdata",
+                    "items": [
+                      {
+                        "newEngineResultDiffered": false,
+                        "cumulativeLayoutShiftMainFrame": 0.03453145106147738
+                      }
+                    ]
+                  },
+                  "numericValue": 0.03453145106147738,
+                  "numericUnit": "unitless"
+                },
+                "total-blocking-time": {
+                  "id": "total-blocking-time",
+                  "title": "Total Blocking Time",
+                  "description": "Sum of all time periods between FCP and Time to Interactive, when task length exceeded 50ms, expressed in milliseconds. [Learn more about the Total Blocking Time metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/).",
+                  "score": 0.82,
+                  "scoreDisplayMode": "numeric",
+                  "displayValue": "270 ms",
+                  "numericValue": 272.5,
+                  "numericUnit": "millisecond"
+                },
+                "first-contentful-paint": {
+                  "id": "first-contentful-paint",
+                  "title": "First Contentful Paint",
+                  "score": 0.52,
+                  "scoreDisplayMode": "numeric",
+                  "numericValue": 2929.0232731413953
+                },
+                "is-crawlable": {
+                  "id": "is-crawlable",
+                  "title": "Page isn’t blocked from indexing",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "document-title": {
+                  "id": "document-title",
+                  "title": "Document has a `<title>` element",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "meta-description": {
+                  "id": "meta-description",
+                  "title": "Document has a meta description",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "http-status-code": {
+                  "id": "http-status-code",
+                  "title": "Page has successful HTTP status code",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "link-text": {
+                  "id": "link-text",
+                  "title": "Links do not have descriptive text",
+                  "score": 0,
+                  "scoreDisplayMode": "binary"
+                },
+                "crawlable-anchors": {
+                  "id": "crawlable-anchors",
+                  "title": "Links are crawlable",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "robots-txt": {
+                  "id": "robots-txt",
+                  "title": "robots.txt is valid",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "image-alt": {
+                  "id": "image-alt",
+                  "title": "Image elements have `[alt]` attributes",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "hreflang": {
+                  "id": "hreflang",
+                  "title": "Document has a valid `hreflang`",
+                  "score": 1,
+                  "scoreDisplayMode": "binary"
+                },
+                "canonical": {
+                  "id": "canonical",
+                  "title": "Document has a valid `rel=canonical`",
+                  "score": null,
+                  "scoreDisplayMode": "notApplicable"
+                },
+                "structured-data": {
+                  "id": "structured-data",
+                  "title": "Structured data is valid",
+                  "score": null,
+                  "scoreDisplayMode": "manual"
+                },
+                "metrics": {
+                  "details": {
+                    "items": [
+                      {
+                        "timeToFirstByte": 603
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "serp": {
+        "error": null,
+        "items": [
+          {
+            "#debug": {
+              "requestId": "slOi89hMbDUCnNo",
+              "url": "http://www.google.co.in/search?q=site%3Atier2.digital&hl=en",
+              "loadedUrl": "http://www.google.co.in/search?q=site%3Atier2.digital&hl=en",
+              "method": "GET",
+              "retryCount": 0,
+              "errorMessages": [],
+              "statusCode": 200
+            },
+            "#error": false,
+            "searchQuery": {
+              "term": "site:tier2.digital",
+              "url": "http://www.google.co.in/search?q=site%3Atier2.digital&hl=en",
+              "device": "DESKTOP",
+              "page": 1,
+              "type": "SEARCH",
+              "domain": "google.co.in",
+              "countryCode": "IN",
+              "languageCode": "en",
+              "locationUule": null,
+              "resultsPerPage": 10
+            },
+            "url": "http://www.google.co.in/search?q=site%3Atier2.digital&hl=en",
+            "hasNextPage": true,
+            "serpProviderCode": "L",
+            "relatedQueries": [],
+            "paidResults": [],
+            "paidProducts": [],
+            "organicResults": [
+              {
+                "title": "Tier2 Digital - Bespoke marketing solutions for ambitious and ...",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/",
+                "displayedUrl": "https://www.tier2.digital",
+                "description": "Fully managed digital marketing solutions. we help you go digital, grow your business, and reduce the time you spend on marketing. -led digital growth across ...",
+                "emphasizedKeywords": [],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 1
+              },
+              {
+                "title": "About Us - Meet the Team at Tier2 Digital",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/about",
+                "displayedUrl": "https://www.tier2.digital › about",
+                "description": "We're a team of marketers, creatives, and strategists who embed into client businesses like we own them. Curious who's behind the work? Meet the Tier2 team.",
+                "emphasizedKeywords": [
+                  "marketers, creatives, and strategists"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 2
+              },
+              {
+                "title": "Healthcare",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/healthcare",
+                "displayedUrl": "https://www.tier2.digital › healthcare",
+                "description": "We've worked with hospitals since the very early days of our existence, and we understand the intricacies that revolve around marketing healthcare providers.Read more",
+                "emphasizedKeywords": [
+                  "marketing healthcare providers"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 3
+              },
+              {
+                "title": "Digital Marketing Blog",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/blog",
+                "displayedUrl": "https://www.tier2.digital › blog",
+                "description": "Our blog to learn about new product features, the latest in tech, and updates. Why original content is the only way to grow a business.Read more",
+                "emphasizedKeywords": [
+                  "new product features, the latest in tech, and updates"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 4
+              },
+              {
+                "title": "Resources",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/resources",
+                "displayedUrl": "https://www.tier2.digital › resources",
+                "description": "Grow faster but not on steroids. Tier2 Digital enables sustainable growth for B2B and E-Commerce businesses. We believe in growth built on strong business ...",
+                "emphasizedKeywords": [
+                  "Tier2 Digital enables sustainable growth for B2B and E-Commerce businesses"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 5
+              },
+              {
+                "title": "Copywriting Portfolio",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/copy-portfolio",
+                "displayedUrl": "https://www.tier2.digital › copy-portfolio",
+                "description": "Website copy, social media, email campaigns, and WhatsApp — see how Tier2 Digital crafts brand voice and copy across formats, industries, and audience ...",
+                "emphasizedKeywords": [
+                  "Website copy, social media, email campaigns, and WhatsApp"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 6
+              },
+              {
+                "title": "Web Design & UI Portfolio - Work by Tier2 Digital",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/web-ui",
+                "displayedUrl": "https://www.tier2.digital › web-ui",
+                "description": "Websites for hospitals, SaaS platforms, e-commerce brands, and more — browse Tier2 Digital's web design and UI portfolio. Clean builds. Real clients.",
+                "emphasizedKeywords": [
+                  "browse Tier2 Digital's web design and UI portfolio"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 7
+              },
+              {
+                "title": "Social Media Portfolio",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/social-media",
+                "displayedUrl": "https://www.tier2.digital › social-media",
+                "description": "Check out our social media work across industries and content formats. Branding Illustrations Awareness Engagement Infographics Memes. A premium range of ...",
+                "emphasizedKeywords": [
+                  "social media work across industries and content formats"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 8
+              },
+              {
+                "title": "Digital Marketing Case Studies",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/case-study",
+                "displayedUrl": "https://www.tier2.digital › case-study",
+                "description": "Purpose-driven growth through data-led SEO, social, and paid media marketing. is a premier institute offering top-notch coaching for IIT. Global healthcare in ...",
+                "emphasizedKeywords": [
+                  "is a premier institute offering top-notch coaching for IIT"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 9
+              },
+              {
+                "title": "Brand Identity Portfolio - Logo & Visual Design",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/brand-portfolio",
+                "displayedUrl": "https://www.tier2.digital › brand-portfolio",
+                "description": "A “brand” is an idea. An intangible emotion that exists only in our minds. Yet, it can do great things. It can build trust, establish identity, evoke energy, ...Read more",
+                "emphasizedKeywords": [
+                  "A “brand” is an idea"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 10
+              }
+            ],
+            "suggestedResults": [],
+            "peopleAlsoAsk": [],
+            "customData": null
+          },
+          {
+            "#debug": {
+              "requestId": "6x94x0rHUWcO9I7",
+              "url": "http://www.google.co.in/search?q=Tier2+Digital&hl=en",
+              "loadedUrl": "http://www.google.co.in/search?q=Tier2+Digital&hl=en",
+              "method": "GET",
+              "retryCount": 0,
+              "errorMessages": [],
+              "statusCode": 200
+            },
+            "#error": false,
+            "searchQuery": {
+              "term": "Tier2 Digital",
+              "url": "http://www.google.co.in/search?q=Tier2+Digital&hl=en",
+              "device": "DESKTOP",
+              "page": 1,
+              "type": "SEARCH",
+              "domain": "google.co.in",
+              "countryCode": "IN",
+              "languageCode": "en",
+              "locationUule": null,
+              "resultsPerPage": 10
+            },
+            "url": "http://www.google.co.in/search?q=Tier2+Digital&hl=en",
+            "hasNextPage": true,
+            "serpProviderCode": "O",
+            "relatedQueries": [],
+            "paidResults": [],
+            "paidProducts": [],
+            "organicResults": [
+              {
+                "title": "Tier2 Digital - Bespoke marketing solutions for ambitious and ...",
+                "websiteTitle": "Tier2 Digital",
+                "url": "https://www.tier2.digital/",
+                "displayedUrl": "https://www.tier2.digital",
+                "description": "We are not experts. But we analyze, experiment, and own the outcomes. Fully managed digital marketing solutions.",
+                "emphasizedKeywords": [
+                  "digital"
+                ],
+                "siteLinks": [
+                  {
+                    "title": "About",
+                    "url": "https://www.google.co.in/goto?url=CAESWgHrOzAVYQC97a-tM2fImsvAX37LNNzBDS7r597MMTynI9-ATSUqmI_6bpFgZggDpD5Vfz1VY5Or53HG-Ocl0aYlVgPcr9NYkK1byU5IKYKQfLKRWp63AsmUDA",
+                    "description": "We're a team of marketers, creatives, and strategists who ..."
+                  },
+                  {
+                    "title": "Contact",
+                    "url": "https://www.google.co.in/goto?url=CAESXwHrOzAVgVbQYsQXmvIlfNWZnXP1p7hsgf_KtWm42me7jUYwwW7Z9Xz3RxJE9-tZms3DveNDzEUuvXtkJCDu7aeKRtmSgCZAm3PCtRn2NDQdUyhbnaC3__68inpOpZ8d",
+                    "description": "Ready to talk digital? Book a meeting with the Tier2 team. We ..."
+                  },
+                  {
+                    "title": "Our Work",
+                    "url": "https://www.google.co.in/goto?url=CAESXQHrOzAVZU9_2VDT9tWQGtX_-dlB-U_NN4SAFEDj73Y7OASra6JO7OZnWQMpCAv5DO5enm24ingRDfQy5Gicw5d_rNrGE45dkdIGid-S0BbpPNOZtgWcvuvUCe3GEQ",
+                    "description": "Social media, web design, branding, copy, animation, and ..."
+                  },
+                  {
+                    "title": "Our Process",
+                    "url": "https://www.google.co.in/goto?url=CAESaAHrOzAVwiiVnpbR_VK9EfwWjx5sPsYVRbv_hM-QlyxdyU8OE9iSxzQlzHtSgYNzFaUgE00Sh-KyCprEOsGrCmVxTA4Ipb14PjAUm2pwjWD_8KVl-hIBZ21-UDB8Mxh0VyGghBiou9De",
+                    "description": "From UI and web development to social media and branding, see ..."
+                  },
+                  {
+                    "title": "Social Media",
+                    "url": "https://www.google.co.in/goto?url=CAESYQHrOzAV5N33tsPwD_1ok4ReLGdqBECU8IAFcOaOHR34oKL-HH86T7xVqouboxOxnK0Pvl6NbYHq4y-CnOzI-Cza1wpqxPrxtsAiM4MZ2cCVvfFW8wmnQgnyKLoY4RTl314",
+                    "description": "Check out our social media work across industries and content ..."
+                  },
+                  {
+                    "title": "More results from tier2.digital »",
+                    "url": "https://www.google.co.in/search?q=Tier2+Digital+site:tier2.digital&sca_esv=bfbbb328790af9c1&hl=en&gl=IN&sxsrf=APpeQntKg02sAUrjrQSJWK5wk_kM1GZ4NA:1790830478007&sa=X&ved=2ahUKEwih_Pmzg5iXAxUgl2oFHYcPHEEQrAN6BAhiEAE",
+                    "description": ""
+                  }
+                ],
+                "productInfo": {},
+                "type": "organic",
+                "position": 1
+              },
+              {
+                "title": "Tier2 Digital",
+                "websiteTitle": "LinkedIn · Tier2 Digital",
+                "url": "https://in.linkedin.com/company/tier2digital",
+                "displayedUrl": "1.8K+ followers",
+                "description": "A digital marketing agency where strategy, creative, and performance fuel growth. SEO, email marketing, and media.",
+                "emphasizedKeywords": [
+                  "A digital marketing agency"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 2
+              },
+              {
+                "title": "Tier2 Digital (@tier2digital)",
+                "websiteTitle": "Instagram · tier2digital",
+                "url": "https://www.instagram.com/tier2digital/",
+                "displayedUrl": "940+ followers",
+                "description": "Your friendly neighbourhood marketing agency. One website. Every screen. Wins, progress, and a little bit of bragging rights 🎉",
+                "emphasizedKeywords": [
+                  "Your friendly neighbourhood marketing agency"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 3
+              },
+              {
+                "title": "TIER2 DIGITAL PRIVATE LIMITED - Company Profile",
+                "websiteTitle": "Tracxn",
+                "url": "https://tracxn.com/d/legal-entities/india/tier2-digital-private-limited/__sGpAIA7Jt7G7YK6aCMTGE8X34HFHWdOQDTKEyqnpbW8",
+                "displayedUrl": "https://tracxn.com › Discover › Legal Entities › India",
+                "description": "TIER2 DIGITAL PRIVATE LIMITED is a Private Limited Company and was incorporated on Apr 19, 2021 in India. It is registered at Registrar of ...",
+                "date": "2026-07-20T12:00:00.000Z",
+                "emphasizedKeywords": [
+                  "is a Private Limited Company"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 4
+              },
+              {
+                "title": "Tier2 Digital - Jobs",
+                "websiteTitle": "BeBee",
+                "url": "https://bebee.com/in/companies/tier2-digital",
+                "displayedUrl": "https://bebee.com › India › Companies",
+                "description": "At Tier2, brand building and lead generation work together like a power suit and a pitch deck. SEO, email marketing, and media. Jobs, services, and freelance ...",
+                "emphasizedKeywords": [
+                  "brand building and lead generation"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 5
+              },
+              {
+                "title": "Tier2 Digital Company Profile Funding & Investors",
+                "websiteTitle": "YourStory.com",
+                "url": "https://yourstory.com/companies/tier2-digital",
+                "displayedUrl": "https://yourstory.com › companies › tier2-digital",
+                "description": "Tier2Digital is a team of experienced consultants with decades of combined experience who device campaigns, optimize marketing strategies, and execute",
+                "emphasizedKeywords": [
+                  "a team of experienced consultants"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 6
+              },
+              {
+                "title": "Tier2 Digital (@Tier2Digital)",
+                "websiteTitle": "Facebook · Tier2 Digital",
+                "url": "https://www.facebook.com/Tier2Digital/",
+                "displayedUrl": "160+ followers",
+                "description": "Tier2 Digital. 167 likes. Global delivery of integrated digital marketing and consulting enabled by the second tier agencies.",
+                "emphasizedKeywords": [
+                  "Global delivery of integrated digital marketing and consulting"
+                ],
+                "siteLinks": [],
+                "productInfo": {},
+                "type": "organic",
+                "position": 7
+              }
+            ],
+            "suggestedResults": [],
+            "peopleAlsoAsk": [
+              {
+                "answer": null,
+                "question": "What is tier 2 in marketing?",
+                "title": null,
+                "url": null,
+                "date": null
+              },
+              {
+                "answer": null,
+                "question": "What are the top 5 digital agencies in India?",
+                "title": null,
+                "url": null,
+                "date": null
+              },
+              {
+                "answer": null,
+                "question": "What are 7 types of digital marketing?",
+                "title": null,
+                "url": null,
+                "date": null
+              },
+              {
+                "answer": null,
+                "question": "What is the average cost of digital marketing in Bangalore?",
+                "title": null,
+                "url": null,
+                "date": null
+              }
+            ],
+            "customData": null
+          }
+        ]
+      },
+      "crawl": {
+        "pages": [
+          "https://www.tier2.digital/",
+          "https://www.tier2.digital/blog"
+        ],
+        "requestCount": 81,
+        "statusCode": 200,
+        "home": {
+          "url": "https://www.tier2.digital/",
+          "title": "Tier2 Digital - Bespoke marketing solutions for ambitious and responsible organizations",
+          "seoExtra": {
+            "canonical": false,
+            "viewport": true,
+            "lang": false,
+            "openGraph": false,
+            "twitterCard": true,
+            "noindex": false,
+            "hreflang": false,
+            "favicon": true,
+            "h2Count": 5,
+            "wordCount": 1233,
+            "internalLinks": 27,
+            "externalLinks": 5,
+            "schemaTypes": []
+          },
+          "description": "We  are not experts. But we analyze, experiment, and own the outcomes. Fully managed digital marketing solutions.",
+          "h1Count": 51,
+          "headings": [
+            "Our Work",
+            "Creative MEETS",
+            "BusinessDiaries",
+            "Our Work",
+            "What We Do",
+            "What We Do",
+            "What We Do",
+            "Our AI",
+            "We choose our clients from all around the world.",
+            "Our Process",
+            "Getting to the heart of the matter",
+            "Case Studies"
+          ],
+          "bodyText": "Creative MEETS BusinessDiaries Fully managed digital marketing solutions Book A Digital Strategy Call",
+          "images": 74,
+          "imagesWithAlt": 74,
+          "schema": false,
+          "form": true,
+          "ctaText": "Book A Digital Strategy Call",
+          "whatsapp": false,
+          "phone": false,
+          "hrefs": [
+            "https://www.tier2.digital/",
+            "https://www.tier2.digital/about",
+            "https://www.tier2.digital/contact-us",
+            "https://www.tier2.digital/process/our-process",
+            "https://www.tier2.digital/our-work",
+            "https://www.tier2.digital/case-study",
+            "https://www.tier2.digital/our-work",
+            "https://www.tier2.digital/web-ui",
+            "https://www.tier2.digital/social-media",
+            "https://www.tier2.digital/brand-portfolio",
+            "https://www.tier2.digital/copy-portfolio",
+            "https://www.tier2.digital/animations",
+            "https://www.tier2.digital/contact-us",
+            "https://www.tier2.digital/",
+            "https://www.tier2.digital/about",
+            "https://www.tier2.digital/contact-us",
+            "https://www.tier2.digital/process/our-process",
+            "https://www.tier2.digital/our-work",
+            "https://www.tier2.digital/case-study",
+            "https://www.tier2.digital/our-work",
+            "https://www.tier2.digital/web-ui",
+            "https://www.tier2.digital/social-media",
+            "https://www.tier2.digital/brand-portfolio",
+            "https://www.tier2.digital/copy-portfolio",
+            "https://www.tier2.digital/animations",
+            "https://www.tier2.digital/about",
+            "https://www.tier2.digital/process/our-process",
+            "https://www.tier2.digital/case-study",
+            "https://www.tier2.digital/case-study/red-road",
+            "https://www.tier2.digital/case-study/velan-hospital",
+            "https://www.tier2.digital/case-study/aruha-social-media",
+            "https://www.tier2.digital/case-study/nano-lead-generation",
+            "https://www.tier2.digital/case-study/prophunt-seo",
+            "https://www.tier2.digital/case-study/prepmedico-seo-geo",
+            "https://www.tier2.digital/case-study/b2b-it-sevices-seo",
+            "https://www.tier2.digital/case-study/nonprofit-casestudy",
+            "https://www.tier2.digital/case-study/velan-hospital",
+            "https://www.tier2.digital/case-study/aruha-social-media",
+            "https://www.tier2.digital/case-study/dunya",
+            "https://www.tier2.digital/case-study/red-road",
+            "https://www.tier2.digital/case-study/nano-lead-generation",
+            "https://clutch.co/profile/tier2-digital#review-2179460",
+            "https://www.tier2.digital/web-ui",
+            "https://www.tier2.digital/prepmedico-social-media",
+            "https://www.tier2.digital/case-study/aruha-social-media",
+            "https://www.tier2.digital/#",
+            "https://www.tier2.digital/#",
+            "https://www.tier2.digital/#",
+            "https://www.tier2.digital/web-ui",
+            "https://www.tier2.digital/prepmedico-social-media",
+            "https://www.tier2.digital/case-study/aruha-social-media",
+            "https://www.tier2.digital/web-ui",
+            "https://www.tier2.digital/social-media",
+            "https://www.tier2.digital/copy-portfolio",
+            "https://www.tier2.digital/web-ui",
+            "https://www.tier2.digital/social-media",
+            "https://www.tier2.digital/brand-portfolio",
+            "https://www.tier2.digital/videos-showcase",
+            "https://www.tier2.digital/copy-portfolio",
+            "https://www.tier2.digital/animations",
+            "https://www.tier2.digital/contact-us",
+            "https://www.tier2.digital/contact-us",
+            "https://www.instagram.com/tier2digital/",
+            "https://www.facebook.com/Tier2Digital/",
+            "https://www.linkedin.com/company/tier2digital",
+            "https://twitter.com/Tier2Digital",
+            "https://www.tier2.digital/",
+            "https://www.tier2.digital/web-ui",
+            "https://www.tier2.digital/social-media",
+            "https://www.tier2.digital/case-study",
+            "https://www.tier2.digital/contact-us",
+            "https://www.tier2.digital/about",
+            "https://www.tier2.digital/old-home-3",
+            "https://www.tier2.digital/contact-us",
+            "https://www.tier2.digital/about",
+            "https://www.tier2.digital/blog",
+            "https://www.tier2.digital/case-study",
+            "https://www.tier2.digital/process/our-process",
+            "https://www.tier2.digital/our-work",
+            "https://www.tier2.digital/web-ui",
+            "https://www.tier2.digital/social-media",
+            "https://www.tier2.digital/copy-portfolio",
+            "https://www.tier2.digital/terms-conditions",
+            "https://www.tier2.digital/cancellation-and-refund-policy",
+            "https://www.tier2.digital/privacy-policy"
+          ],
+          "footerText": "hair care, natural, vegan, and everything good.\nLead Generation & Ads\nNANO is a premier institute offering top-notch coaching for IIT JEE and NEET in Telangana and Andhra Pradesh.\nReal Estate\nPropHunt.ai\n\nRecovered from a Google penalty. Organic traffic grew 978% in 90 days.\n\nSEO\n\nHealthcare Education\nPrepMedico\n\nFrom no visibility to Page 1 rankings and AI coverage in just 45 days.\n\nSEO\n\nAEO\n\nGEO\n\nIT Services\nB2B IT Services\n\nA B2B IT Services giant grew its organic traffic by 90% within a year.\n\nSEO\n\nNon-Profit\nA US-Based Non-Profit\n\nData-led digital growth across SEO, social, and paid.\n\nDigital Growth\n\nHospital\nVelan Hospitals\n\nOne of our most passionate clients with a great vision to serve all.\n\nBranding\n\nPerformance Marketing\n\nPremium D2C Skin & Hair\nAruha\n\nPremium range of skin and hair care, natural, vegan, and everything good.\n\nPerformance Marketing\n\n CRO\n\nSaas Platform\nDunya\n\nPowering nature-positive decisions through risk analytics.\n\nBranding\n\n Brand Transformation\n\nClinical Support Services\nRed Road\n\nDriving visibility for US home healthcare providers and insurers.\n\nContent\n\nSocial Media\n\nEducation\nNANO\n\nPerformance marketing for a leading IIT JEE & NEET coaching institute.\n\nPerformance Marketing\n\nThose rare moments when clients don't leave out anything\n\"A wonderful team of multitaskers who think from the customers shoes and give specific advice knowing the limitations. Importantly, they don’t over do or exaggerate things.We love their scientific and elobrate approach!\"\nDr. Rajavel Kannaiyan\nManaging Director, Velan Speciality Hospitals\n\"The team's content was top-notch. They responded quickly and were easily reachable.\"\nRead the full review on Clutch\nBetty Zoller\nCEO, Aviva Alternative\nWe aren’t known for our humility. Here’s some of our beautiful work\nRedRoad\n\nDigital Strategy, Website, LinkedIn\n\n2023\nPrepMedico\n\nBranding, Digital Strategy, Website, Social Media\n\n2023\nAruha\n\nBrand Building, Performance Marketing\n\n2023\nRedRoad\n\nDigital Strategy, Website, LinkedIn\n\n2023\nPrepMedico\n\nBranding, Digital Strategy, Website, Social Media\n\n2023\nAruha\n\nBrand Building, Performance Marketing\n\n2023\nRedRoad\n\nDigital Strategy, Website, LinkedIn\n\n2023\nPrepMedico\n\nBranding, Digital Strategy, Website, Social Media\n\n2023\nAruha\n\nBrand Building, Performance Marketing\n\n2023\nOur Work\n\nMaking believers of the stories we tell.\n\nWeb & UI\nYour home. But in the digital world\nRead more\nSocial Media\nMoney buys ad spaces. Ideas win hearts\nRead more\nCopy\nWe take 'Show, Don’t Tell' very seriously\nRead more\nWeb & UI\nYour home. But in the digital world\nRead more\nSocial Media\nMoney buys ad spaces. Ideas win hearts\nRead more\nBranding\nYour identity. In very careful hands.\nRead more\nVideos\nTapestry in Motion: The Alchemy of Visual Expression\nRead more\nCopy\nWe take 'Show, Don’t Tell' very seriously\nRead more\nAnimations\nThe fastest way to your human audience - videos!\nRead more\nAre you a non-profit organization?\n\nReach out to us to find if you are eligible for our Care Program, where we work with qualifying non-profits  who are big on impact and can take a friend’s help towards their digital efforts.\n\nNominate a Non-Profit\nWe are tech brats with hearts.\nAt least most of the time.\nKarthik\nPrakash\nAarthi\nNaveen\nSanjay\nShoaib\nRamya\nManjunath\nVishwas\nAnanya\nRohini\nLuke\nOhm\nStriking a chord?\nLet’s work together\nThat's a win!\nYour query was submitted successfully. Expect to hear back from us in the next 24 hours.\nOops! Something went wrong please try again.\n\nLike what you see?\n\nLet's Work Together\nGet in touch\nYou're all signed up.\nOops! Something went wrong while submitting the form.\nDoes digital growth pique your interest?\nFollow us for some enlightenment amidst memes. Mostly memes :)\n\nWeb & UI\n\nSocial Media\n\nCase Studies\n\nContact\n\nAbout\n\nBlog\n\nContact\n\nAbout\n\nBlog\n\nCase Studies\n\nOur Process\n\nOur Work\n\nOur Work: Web & UI\n\nOur Work: Social Media\n\nOur Work: Copy\n\nCopyright © 2021, Tier2 Digital - All rights reserved\nTerms & ConditionsRefund PolicyPrivacy Policy",
+          "dates": [],
+          "textDates": []
+        },
+        "contact": null,
+        "blogUrl": "https://www.tier2.digital/blog",
+        "blogDates": [],
+        "robots": true,
+        "sitemap": true,
+        "tags": {
+          "analytics": true,
+          "meta": true,
+          "ads": false,
+          "linkedin": false
+        }
+      }
+    },
+    "costUsd": 0.001,
+    "warnings": [
+      "No Chrome field data for this site; Core Web Vitals use lab values and INP is not measured.",
+      "No post dates were found on the blog page; freshness uses the copyright year.",
+      "Tags were detected before any cookie-consent interaction; tags that load only after consent may be missed."
+    ],
+    "fetchedAt": "2026-10-01T04:59:36.634Z",
+    "detail": {
+      "url": "https://www.tier2.digital/",
+      "pagespeed": {
+        "runs": [
+          {
+            "performance": 61,
+            "seo": 92
+          },
+          {
+            "performance": 61,
+            "seo": 92
+          },
+          {
+            "performance": 61,
+            "seo": 92
+          }
+        ],
+        "lcpMs": 8639.0270847567,
+        "inpMs": null,
+        "cls": 0.03453145106147738,
+        "vitalsSource": "lab"
+      },
+      "seo": {
+        "title": true,
+        "metaDescription": true,
+        "singleH1": false,
+        "h1Count": 51,
+        "imageAltRatio": 1,
+        "imageCount": 74,
+        "schema": false,
+        "sitemap": true,
+        "robots": true,
+        "https": true
+      },
+      "tracking": {
+        "analytics": true,
+        "meta": true,
+        "ads": false,
+        "linkedin": false
+      },
+      "conversion": {
+        "form": true,
+        "cta": true,
+        "whatsapp": false,
+        "phone": false
+      },
+      "ctaText": "Book A Digital Strategy Call",
+      "messaging": {
+        "title": "Tier2 Digital - Bespoke marketing solutions for ambitious and responsible organizations",
+        "description": "We  are not experts. But we analyze, experiment, and own the outcomes. Fully managed digital marketing solutions.",
+        "headings": [
+          "Our Work",
+          "Creative MEETS",
+          "BusinessDiaries",
+          "Our Work",
+          "What We Do",
+          "What We Do",
+          "What We Do",
+          "Our AI",
+          "We choose our clients from all around the world.",
+          "Our Process",
+          "Getting to the heart of the matter",
+          "Case Studies"
+        ],
+        "text": "Creative MEETS BusinessDiaries Fully managed digital marketing solutions Book A Digital Strategy Call"
+      },
+      "freshness": {
+        "latestPost": null,
+        "blogUrl": "https://www.tier2.digital/blog",
+        "copyrightYear": 2021
+      },
+      "seoAudit": {
+        "statusCode": 200,
+        "titleLength": 87,
+        "descriptionLength": 113,
+        "canonical": false,
+        "viewport": true,
+        "lang": false,
+        "openGraph": false,
+        "twitterCard": true,
+        "noindex": false,
+        "hreflang": false,
+        "favicon": true,
+        "h2Count": 5,
+        "wordCount": 1233,
+        "internalLinks": 27,
+        "externalLinks": 5,
+        "schemaTypes": [],
+        "ttfbMs": 603,
+        "fcpMs": 2929.0232731413953,
+        "lighthouse": [
+          {
+            "id": "is-crawlable",
+            "title": "Page isn’t blocked from indexing",
+            "passed": true
+          },
+          {
+            "id": "document-title",
+            "title": "Document has a `<title>` element",
+            "passed": true
+          },
+          {
+            "id": "meta-description",
+            "title": "Document has a meta description",
+            "passed": true
+          },
+          {
+            "id": "http-status-code",
+            "title": "Page has successful HTTP status code",
+            "passed": true
+          },
+          {
+            "id": "link-text",
+            "title": "Links do not have descriptive text",
+            "passed": false
+          },
+          {
+            "id": "crawlable-anchors",
+            "title": "Links are crawlable",
+            "passed": true
+          },
+          {
+            "id": "robots-txt",
+            "title": "robots.txt is valid",
+            "passed": true
+          },
+          {
+            "id": "image-alt",
+            "title": "Image elements have `[alt]` attributes",
+            "passed": true
+          },
+          {
+            "id": "hreflang",
+            "title": "Document has a valid `hreflang`",
+            "passed": true
+          }
+        ],
+        "search": {
+          "indexedPages": 10,
+          "indexedLowerBound": true,
+          "brandQuery": "Tier2 Digital",
+          "brandPosition": 1,
+          "brandSitelinks": true,
+          "topResults": [
+            {
+              "position": 1,
+              "title": "Tier2 Digital - Bespoke marketing solutions for ambitious and ...",
+              "url": "https://www.tier2.digital/",
+              "own": true
+            },
+            {
+              "position": 2,
+              "title": "Tier2 Digital",
+              "url": "https://in.linkedin.com/company/tier2digital",
+              "own": false
+            },
+            {
+              "position": 3,
+              "title": "Tier2 Digital (@tier2digital)",
+              "url": "https://www.instagram.com/tier2digital/",
+              "own": false
+            },
+            {
+              "position": 4,
+              "title": "TIER2 DIGITAL PRIVATE LIMITED - Company Profile",
+              "url": "https://tracxn.com/d/legal-entities/india/tier2-digital-private-limited/__sGpAIA7Jt7G7YK6aCMTGE8X34HFHWdOQDTKEyqnpbW8",
+              "own": false
+            },
+            {
+              "position": 5,
+              "title": "Tier2 Digital - Jobs",
+              "url": "https://bebee.com/in/companies/tier2-digital",
+              "own": false
+            },
+            {
+              "position": 6,
+              "title": "Tier2 Digital Company Profile Funding & Investors",
+              "url": "https://yourstory.com/companies/tier2-digital",
+              "own": false
+            },
+            {
+              "position": 7,
+              "title": "Tier2 Digital (@Tier2Digital)",
+              "url": "https://www.facebook.com/Tier2Digital/",
+              "own": false
+            }
+          ],
+          "peopleAlsoAsk": [
+            "What is tier 2 in marketing?",
+            "What are the top 5 digital agencies in India?",
+            "What are 7 types of digital marketing?",
+            "What is the average cost of digital marketing in Bangalore?"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -42,6 +42,11 @@ export class FieldPicker {
     return n;
   }
 
+  /** Structured values (arrays, objects) that the caller interprets itself. */
+  raw(label: string, candidates: Candidate[]): unknown {
+    return this.find(label, candidates);
+  }
+
   text(label: string, candidates: Candidate[]): string | null {
     const value = this.find(label, candidates);
     return typeof value === 'string' ? value : value == null ? null : String(value);

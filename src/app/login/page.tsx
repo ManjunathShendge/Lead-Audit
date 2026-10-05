@@ -3,12 +3,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ArrowRight, LockKeyhole } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-toggle';
 export default function Login() {
   const router = useRouter();
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   return (
     <main className="login-page">
+      <ThemeToggle className="theme-corner" />
       <div className="login-story">
         <Link className="wordmark" href="/">
           tier2<span>®</span>

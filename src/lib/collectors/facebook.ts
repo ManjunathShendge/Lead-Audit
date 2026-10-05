@@ -1,3 +1,4 @@
+import { fetchBounds } from '../period';
 import { addCost, runActor } from './apify';
 import { FieldPicker } from './fields';
 import { profileUrl, resultSchema, type Collector, type CollectorResult, type NormalizedPost } from './types';
@@ -88,6 +89,7 @@ export function normalizeFacebook(
       views: f.number('views', [...FB_POST_FIELDS.views]),
       isPinned: f.bool('pinned', [...FB_POST_FIELDS.pinned]) === true,
       captionPreview: f.text('text', [...FB_POST_FIELDS.text])?.slice(0, 180) ?? null,
+      caption: f.text('text', [...FB_POST_FIELDS.text])?.slice(0, 1000) ?? null,
     };
     f.missing.forEach((m) => misses.add(m));
     return post;
@@ -151,7 +153,7 @@ export function normalizeFacebook(
 export function facebookCollector(asOf = new Date()): Collector {
   return {
     platform: 'facebook',
-    async collect(handle, { postsLimit, signal }) {
+    async collect(handle, { postsLimit, signal, window }) {
       signal?.throwIfAborted();
       const url = profileUrl('facebook', handle);
       const page = await runActor(
@@ -161,7 +163,14 @@ export function facebookCollector(asOf = new Date()): Collector {
       );
       const posts = await runActor(
         process.env.APIFY_ACTOR_FACEBOOK_POSTS ?? '',
-        { startUrls: [{ url }], resultsLimit: postsLimit },
+        {
+          startUrls: [{ url }],
+          resultsLimit: postsLimit,
+          ...(window && {
+            onlyPostsNewerThan: fetchBounds(window).from,
+            onlyPostsOlderThan: fetchBounds(window).to,
+          }),
+        },
         { signal },
       );
       return normalizeFacebook(

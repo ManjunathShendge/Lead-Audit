@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
+    "postinstall": "prisma generate",
     "lint": "eslint",
     "worker": "tsx src/lib/jobs/worker.ts",
     "dev:all": "concurrently -k npm:dev npm:worker",
@@ -17,6 +18,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.129.0",
+    "@google/genai": "^2.24.0",
     "@prisma/client": "^6.19.3",
     "apify-client": "^2.25.0",
     "dotenv": "^18.0.4",

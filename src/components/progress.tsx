@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { platformSchema, platformNames } from '@/lib/collectors/types';
+import { channelSchema, channelNames } from '@/lib/collectors/channel-types';
+import { ChannelIcon } from './report/channels';
 import { PlatformIcon } from './report/report';
 const progressSchema = z.object({
   id: z.string(),
@@ -10,7 +12,7 @@ const progressSchema = z.object({
   createdAt: z.string(),
   runs: z.array(
     z.object({
-      platform: platformSchema,
+      platform: z.union([platformSchema, channelSchema]),
       state: z.enum(['queued', 'running', 'done', 'failed']),
       error: z.string().nullable(),
       attempts: z.number(),
@@ -83,8 +85,16 @@ export function Progress({ id, brand }: { id: string; brand: string }) {
         {data?.runs.map((run) => (
           <div className="progress-row" key={run.platform}>
             <div className="actions">
-              <PlatformIcon platform={run.platform} />
-              <strong>{platformNames[run.platform]}</strong>
+              {run.platform === 'website' || run.platform === 'gbp' ? (
+                <ChannelIcon channel={run.platform} />
+              ) : (
+                <PlatformIcon platform={run.platform} />
+              )}
+              <strong>
+                {run.platform === 'website' || run.platform === 'gbp'
+                  ? channelNames[run.platform]
+                  : platformNames[run.platform]}
+              </strong>
             </div>
             <div>
               <span className={`tag ${run.state === 'done' ? 'good' : ''}`}>{run.state}</span>
@@ -94,7 +104,7 @@ export function Progress({ id, brand }: { id: string; brand: string }) {
           </div>
         ))}
         <p className="field-help">
-          {done} of {total} platforms finished · Mock collection costs $0.00
+          {done} of {total} checks finished
         </p>
         {elapsed > 15 && done === 0 && (
           <div className="notice">

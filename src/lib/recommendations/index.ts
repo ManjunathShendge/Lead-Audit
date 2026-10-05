@@ -58,6 +58,9 @@ export interface Gap {
   service: string;
   explanation: string;
 }
+export function sortGaps(gaps: Gap[]) {
+  return [...gaps].sort((a, b) => a.score - b.score || a.platform.localeCompare(b.platform));
+}
 export function lowestGaps(gaps: Gap[]) {
-  return [...gaps].sort((a, b) => a.score - b.score || a.platform.localeCompare(b.platform)).slice(0, 6);
+  return sortGaps(gaps).slice(0, 6);
 }

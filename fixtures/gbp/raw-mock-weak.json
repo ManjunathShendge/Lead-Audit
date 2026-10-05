@@ -1,0 +1,61 @@
+{
+  "synthetic": true,
+  "fixtureVersion": 1,
+  "channel": "gbp",
+  "tier": "weak",
+  "status": "ok",
+  "place": {
+    "category": "Business management consultant",
+    "rating": 3.4,
+    "reviewCount": 7,
+    "distribution": {
+      "one": 2,
+      "two": 1,
+      "three": 0,
+      "four": 2,
+      "five": 2
+    },
+    "hasHours": false,
+    "hasPhone": true,
+    "hasWebsite": false,
+    "photoCount": 0,
+    "closed": false
+  },
+  "reviews": [
+    {
+      "stars": 1,
+      "daysAgo": 3,
+      "ownerReplied": false
+    },
+    {
+      "stars": 5,
+      "daysAgo": 63,
+      "ownerReplied": false
+    },
+    {
+      "stars": 4,
+      "daysAgo": 123,
+      "ownerReplied": false
+    },
+    {
+      "stars": 2,
+      "daysAgo": 183,
+      "ownerReplied": false
+    },
+    {
+      "stars": 5,
+      "daysAgo": 243,
+      "ownerReplied": false
+    },
+    {
+      "stars": 1,
+      "daysAgo": 303,
+      "ownerReplied": false
+    },
+    {
+      "stars": 4,
+      "daysAgo": 363,
+      "ownerReplied": false
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "synthetic": true,
+  "fixtureVersion": 1,
+  "channel": "gbp",
+  "tier": "average",
+  "status": "ok",
+  "place": {
+    "category": "Store",
+    "rating": 4.1,
+    "reviewCount": 64,
+    "distribution": {
+      "one": 6,
+      "two": 3,
+      "three": 6,
+      "four": 17,
+      "five": 32
+    },
+    "hasHours": true,
+    "hasPhone": true,
+    "hasWebsite": true,
+    "photoCount": 12,
+    "closed": false
+  },
+  "reviews": [
+    {
+      "stars": 5,
+      "daysAgo": 3,
+      "ownerReplied": true
+    },
+    {
+      "stars": 4,
+      "daysAgo": 14,
+      "ownerReplied": true
+    },
+    {
+      "stars": 2,
+      "daysAgo": 25,
+      "ownerReplied": true
+    },
+    {
+      "stars": 5,
+      "daysAgo": 36,
+      "ownerReplied": true
+    },
+    {
+      "stars": 4,
+      "daysAgo": 47,
+      "ownerReplied": false
+    },
+    {
+      "stars": 5,
+      "daysAgo": 58,
+      "ownerReplied": false
+    },
+    {
+      "stars": 1,
+      "daysAgo": 69,
+      "ownerReplied": false
+    },
+    {
+      "stars": 4,
+      "daysAgo": 80,
+      "ownerReplied": false
+    },
+    {
+      "stars": 5,
+      "daysAgo": 91,
+      "ownerReplied": false
+    },
+    {
+      "stars": 4,
+      "daysAgo": 102,
+      "ownerReplied": false
+    }
+  ]
+}

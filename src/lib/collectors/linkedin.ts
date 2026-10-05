@@ -1,3 +1,4 @@
+import { fetchBounds } from '../period';
 import { addCost, runActor } from './apify';
 import { FieldPicker } from './fields';
 import { profileUrl, resultSchema, type Collector, type CollectorResult, type NormalizedPost } from './types';
@@ -109,6 +110,7 @@ export function normalizeLinkedIn(
       views: null,
       isPinned: false,
       captionPreview: f.text('text', [...LI_POST_FIELDS.text])?.slice(0, 180) ?? null,
+      caption: f.text('text', [...LI_POST_FIELDS.text])?.slice(0, 1000) ?? null,
     };
     f.missing.forEach((m) => misses.add(m));
     return post;
@@ -159,7 +161,7 @@ export function normalizeLinkedIn(
 export function linkedinCollector(asOf = new Date()): Collector {
   return {
     platform: 'linkedin',
-    async collect(handle, { postsLimit, signal }) {
+    async collect(handle, { postsLimit, signal, window }) {
       signal?.throwIfAborted();
       const url = profileUrl('linkedin', handle);
       const company = await runActor(
@@ -171,7 +173,14 @@ export function linkedinCollector(asOf = new Date()): Collector {
       // Confirmed against the actor's input schema on 28 September 2026.
       const posts = await runActor(
         process.env.APIFY_ACTOR_LINKEDIN_POSTS ?? '',
-        { targetUrls: [url], maxPosts: postsLimit, includeReposts: false, includeQuotePosts: true },
+        {
+          targetUrls: [url],
+          maxPosts: postsLimit,
+          includeReposts: false,
+          includeQuotePosts: true,
+          // Only a lower bound exists; newer posts are fetched too and trimmed by the metrics.
+          ...(window && { postedLimitDate: fetchBounds(window).from }),
+        },
         { signal },
       );
       return normalizeLinkedIn(

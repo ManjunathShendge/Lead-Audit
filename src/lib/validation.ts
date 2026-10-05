@@ -1,6 +1,25 @@
 import { z } from 'zod';
 import { platforms, type Platform } from './collectors/types';
 import type { Handles } from './report';
+import { channelTargetsSchema, emptyChannelTargets, normalizeGbpQuery } from './collectors/channel-types';
+import { targetAudienceSchema } from './ai/alignment-types';
+import { periodSchema } from './period';
+export const channelInputSchema = channelTargetsSchema.superRefine((value, ctx) => {
+  const { query, presence } = value.gbp;
+  if (presence === 'present' && !query.trim())
+    ctx.addIssue({
+      code: 'custom',
+      message: 'A confirmed Google Business Profile needs a search or Maps link.',
+    });
+  if (presence !== 'present' && query.trim())
+    ctx.addIssue({ code: 'custom', message: 'Remove the search or mark the profile present.' });
+  if (query.trim())
+    try {
+      normalizeGbpQuery(query);
+    } catch (e) {
+      ctx.addIssue({ code: 'custom', message: e instanceof Error ? e.message : 'Invalid search.' });
+    }
+});
 export const handleSchema = z
   .object({
     handle: z
@@ -37,6 +56,9 @@ export const auditInputSchema = z
     industry: z.enum(['General', 'B2B', 'D2C']),
     tier: z.enum(['strong', 'average', 'weak']),
     handles: handlesSchema,
+    channels: channelInputSchema.default(emptyChannelTargets()),
+    targetAudience: targetAudienceSchema.nullable().default(null),
+    period: periodSchema.nullable().default(null),
     force: z.boolean().default(false),
   })
   .strict();

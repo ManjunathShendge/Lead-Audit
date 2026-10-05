@@ -25,7 +25,9 @@ export function mockCollector(
 ): Collector {
   return {
     platform,
-    async collect(handle, { postsLimit, signal }) {
+    async collect(handle, { postsLimit, signal, window }) {
+      // Synthetic posts count back from the end of a chosen period so they land inside it.
+      const anchor = window?.end ?? asOf;
       signal?.throwIfAborted();
       const fixture = fixtureSchema.parse(
         JSON.parse(
@@ -43,7 +45,7 @@ export function mockCollector(
             ? []
             : fixture.posts.slice(0, postsLimit).map(({ daysAgo, ...post }) => ({
                 ...post,
-                publishedAt: new Date(asOf.getTime() - daysAgo * 86400000).toISOString(),
+                publishedAt: new Date(anchor.getTime() - daysAgo * 86400000).toISOString(),
                 url: null,
               })),
         costUsd: 0,

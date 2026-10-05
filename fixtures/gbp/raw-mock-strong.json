@@ -1,0 +1,76 @@
+{
+  "synthetic": true,
+  "fixtureVersion": 1,
+  "channel": "gbp",
+  "tier": "strong",
+  "status": "ok",
+  "place": {
+    "category": "Home goods store",
+    "rating": 4.7,
+    "reviewCount": 486,
+    "distribution": {
+      "one": 9,
+      "two": 6,
+      "three": 17,
+      "four": 72,
+      "five": 382
+    },
+    "hasHours": true,
+    "hasPhone": true,
+    "hasWebsite": true,
+    "photoCount": 214,
+    "closed": false
+  },
+  "reviews": [
+    {
+      "stars": 5,
+      "daysAgo": 3,
+      "ownerReplied": true
+    },
+    {
+      "stars": 5,
+      "daysAgo": 7,
+      "ownerReplied": true
+    },
+    {
+      "stars": 4,
+      "daysAgo": 11,
+      "ownerReplied": true
+    },
+    {
+      "stars": 5,
+      "daysAgo": 15,
+      "ownerReplied": true
+    },
+    {
+      "stars": 5,
+      "daysAgo": 19,
+      "ownerReplied": true
+    },
+    {
+      "stars": 5,
+      "daysAgo": 23,
+      "ownerReplied": true
+    },
+    {
+      "stars": 3,
+      "daysAgo": 27,
+      "ownerReplied": true
+    },
+    {
+      "stars": 5,
+      "daysAgo": 31,
+      "ownerReplied": true
+    },
+    {
+      "stars": 4,
+      "daysAgo": 35,
+      "ownerReplied": true
+    },
+    {
+      "stars": 5,
+      "daysAgo": 39,
+      "ownerReplied": false
+    }
+  ]
+}

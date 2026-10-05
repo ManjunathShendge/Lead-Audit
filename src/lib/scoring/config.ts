@@ -33,6 +33,8 @@ export const configSchema = z.object({
     D2C: z.object({ weights: platformWeights, relevant: z.array(platformSchema) }),
   }),
   enabled: z.array(platformSchema),
+  /** Industries where a confirmed missing Google Business Profile scores 0 instead of being excluded. */
+  gbpRelevant: z.array(z.enum(['General', 'B2B', 'D2C'])).default(['General', 'D2C']),
   thresholds: z.object({
     gapDays: z.number().positive(),
     gapPenalty: weight,
@@ -70,6 +72,7 @@ export const defaults: ScoreConfig = {
     },
   },
   enabled: ['instagram', 'facebook', 'linkedin', 'youtube'],
+  gbpRelevant: ['General', 'D2C'],
   thresholds: {
     gapDays: 21,
     gapPenalty: 20,
@@ -106,4 +109,45 @@ export const placeholderBenchmark: Benchmark = {
   followerHigh: 50000,
   reviewLow: 10,
   reviewHigh: 500,
+};
+type Industry = keyof ScoreConfig['industries'];
+type BenchmarkPlatform = z.infer<typeof platformSchema> | 'gbp';
+/** Review band for Google Business Profile: 47% of consumers avoid businesses under 20 reviews (BrightLocal 2026). */
+const reviews = { reviewLow: 5, reviewHigh: 200 };
+const social = (postsTarget: number, engagementTarget: number, followerLow: number, followerHigh: number) => ({
+  postsTarget,
+  engagementTarget,
+  followerLow,
+  followerHigh,
+  ...reviews,
+});
+/**
+ * Researched benchmarks (Sep 2026), set near top-quartile performance for an SMB account, not the median.
+ * Engagement is (likes + comments) / followers per post; sources that divide by reach or views were excluded.
+ * Sources: Quid (Rival IQ) 2026 industry report, Socialinsider 2026, Social Status monthly benchmarks,
+ * Metricool LinkedIn 2026 (derived), BrightLocal Local Consumer Review Survey 2026.
+ * GBP rows only use the review band; social rows only use the post, engagement and follower fields.
+ */
+export const researchedBenchmarks: Record<Industry, Record<BenchmarkPlatform, Benchmark>> = {
+  General: {
+    instagram: social(18, 1.0, 1000, 25000),
+    facebook: social(15, 0.2, 1000, 25000),
+    linkedin: social(9, 0.5, 300, 5000),
+    youtube: social(4, 0.5, 250, 10000),
+    gbp: { ...placeholderBenchmark, ...reviews },
+  },
+  B2B: {
+    instagram: social(13, 0.8, 500, 10000),
+    facebook: social(12, 0.15, 500, 10000),
+    linkedin: social(13, 0.6, 500, 10000),
+    youtube: social(4, 0.2, 100, 5000),
+    gbp: { ...placeholderBenchmark, ...reviews },
+  },
+  D2C: {
+    instagram: social(22, 0.7, 2000, 50000),
+    facebook: social(17, 0.15, 1000, 50000),
+    linkedin: social(6, 0.4, 200, 3000),
+    youtube: social(6, 0.6, 250, 20000),
+    gbp: { ...placeholderBenchmark, ...reviews },
+  },
 };

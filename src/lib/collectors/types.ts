@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { Window } from '../period';
 export const platforms = ['instagram', 'facebook', 'linkedin', 'youtube'] as const;
 export const platformSchema = z.enum(platforms);
 export type Platform = z.infer<typeof platformSchema>;
@@ -29,6 +30,8 @@ export const postSchema = z.object({
   views: countSchema,
   isPinned: z.boolean(),
   captionPreview: nullableText,
+  /** Fuller post text (up to 1,000 characters) for audience-alignment analysis. Absent on older audits. */
+  caption: nullableText.optional(),
 });
 export const resultSchema = z.object({
   status: z.enum(['ok', 'partial', 'not_found', 'private', 'failed']),
@@ -46,7 +49,11 @@ export type NormalizedPost = z.infer<typeof postSchema>;
 export type CollectorResult = z.infer<typeof resultSchema>;
 export interface Collector {
   platform: Platform | 'x';
-  collect(handle: string, opts: { postsLimit: number; signal?: AbortSignal }): Promise<CollectorResult>;
+  /** `window` asks for posts published in a chosen period instead of the most recent ones. */
+  collect(
+    handle: string,
+    opts: { postsLimit: number; signal?: AbortSignal; window?: Window },
+  ): Promise<CollectorResult>;
 }
 export const platformNames: Record<Platform, string> = {
   instagram: 'Instagram',

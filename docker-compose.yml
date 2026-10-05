@@ -1,0 +1,90 @@
+# Three processes: Postgres, the Next.js web app, and the durable worker.
+# The worker must stay running; audits sit at "queued" without it.
+#
+#   docker compose up -d --build
+#
+# To use Supabase or any external Postgres instead, point DATABASE_URL and DIRECT_URL at it in .env
+# and remove the "postgres" service together with the depends_on entries that reference it.
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-leadaudit}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-leadaudit}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-leadaudit} -d ${POSTGRES_DB:-leadaudit}']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    # Bound to loopback only, so local development can connect while the database stays
+    # unreachable from the internet. The app containers reach it over the compose network.
+    ports:
+      - '127.0.0.1:${POSTGRES_PORT:-5432}:5432'
+
+  # Runs once per `up`, applies migrations and seeds configuration, then exits.
+  # Web and worker wait for it so neither races the other into a half-migrated schema.
+  migrate:
+    build: .
+    env_file: .env
+    environment:
+      # Built from POSTGRES_* so the containers always reach the database by its service name,
+      # while .env's DATABASE_URL can point at 127.0.0.1 for development outside Docker.
+      # To use Supabase or another external database, set EXTERNAL_DATABASE_URL in .env.
+      DATABASE_URL: ${EXTERNAL_DATABASE_URL:-postgresql://${POSTGRES_USER:-leadaudit}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-leadaudit}?schema=public}
+      DIRECT_URL: ${EXTERNAL_DIRECT_URL:-${EXTERNAL_DATABASE_URL:-postgresql://${POSTGRES_USER:-leadaudit}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-leadaudit}?schema=public}}
+    command: sh -c "npx prisma migrate deploy && npx tsx prisma/seed.ts"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: 'no'
+
+  web:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Built from POSTGRES_* so the containers always reach the database by its service name,
+      # while .env's DATABASE_URL can point at 127.0.0.1 for development outside Docker.
+      # To use Supabase or another external database, set EXTERNAL_DATABASE_URL in .env.
+      DATABASE_URL: ${EXTERNAL_DATABASE_URL:-postgresql://${POSTGRES_USER:-leadaudit}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-leadaudit}?schema=public}
+      DIRECT_URL: ${EXTERNAL_DIRECT_URL:-${EXTERNAL_DATABASE_URL:-postgresql://${POSTGRES_USER:-leadaudit}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-leadaudit}?schema=public}}
+      PORT: '3000'
+      HOSTNAME: '0.0.0.0'
+    ports:
+      - '${WEB_PORT:-3000}:3000'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'node -e "fetch(\"http://127.0.0.1:3000/login\").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"',
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  worker:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Built from POSTGRES_* so the containers always reach the database by its service name,
+      # while .env's DATABASE_URL can point at 127.0.0.1 for development outside Docker.
+      # To use Supabase or another external database, set EXTERNAL_DATABASE_URL in .env.
+      DATABASE_URL: ${EXTERNAL_DATABASE_URL:-postgresql://${POSTGRES_USER:-leadaudit}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-leadaudit}?schema=public}
+      DIRECT_URL: ${EXTERNAL_DIRECT_URL:-${EXTERNAL_DATABASE_URL:-postgresql://${POSTGRES_USER:-leadaudit}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-leadaudit}?schema=public}}
+    command: npm run worker
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  pgdata:

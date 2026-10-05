@@ -54,6 +54,7 @@ export async function POST(request: Request) {
       crawled: true,
       warnings: found.warnings,
       pagesVisited: found.pagesVisited,
+      siteText: found.siteText,
       notice: `Crawled ${found.pagesVisited.length} page(s) on ${new URL(found.website).hostname}. Links found on the site are not proof the account is active. Edit and confirm each account.`,
     });
   } catch (error) {

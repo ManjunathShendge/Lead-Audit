@@ -89,3 +89,24 @@ Live collection is gated per platform by `liveAvailability()` in `src/lib/collec
 in live mode against an unconfigured platform produces a failed collector run with a stated reason rather
 than a wrong number, and the rest of the audit still completes. Discovery is now always a real crawl; it
 costs nothing and is independent of `USE_MOCK_DATA`, which governs collectors only.
+
+## Website and Google Business Profile channels (29 September 2026)
+
+The section 7.2 / 7.3 scoring now has collectors, and the report scores and charts all three channels.
+
+- Google Business Profile: `compass/crawler-google-places` (chosen by the user over the official Places API,
+  which does not return owner replies). Verified against a real response for Tier2 Digital
+  (`fixtures/gbp/raw-live-tier2-digital.json`, $0.0092).
+- Website: PageSpeed Insights v5 plus a Playwright crawl reusing discovery's SSRF guard (`discovery/browser.ts`).
+  The crawl was verified live on tier2.digital, mamaearth.in and freshworks.com (`fixtures/website/raw-live-*`).
+  **PageSpeed is not yet verified live**: the keyless quota returned 429 and the existing Google key does not have
+  the PageSpeed API enabled. The normalizer follows the documented v5 response and is unit-tested against that
+  shape; capture a real response once `PAGESPEED_API_KEY` is set.
+- New `Audit.channels` column (migration `1_audit_channels`) stores the website switch and GBP search.
+- Report: a "score, unpacked" page (channel contributions to the headline score and a platform × component
+  matrix), a Website page (criteria bars against the gap line, PageSpeed rings, Core Web Vitals meters,
+  checklists) and a GBP page (rating and distribution, review volume on the log band, owner-reply waffle,
+  completeness). Channel colours are the validated first three categorical slots. Print keeps each on one A4 page.
+- Not yet run end to end through the worker against the database: the local Postgres role in `.env` was denied
+  access during this change, so verification was unit tests, typecheck, lint, production build, and screenshots
+  of a fixture-built report.

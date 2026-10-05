@@ -1,6 +1,7 @@
 import type { Metrics } from '../metrics';
 import { checklist } from '../metrics';
 import { defaults, type Benchmark, type ScoreConfig } from './config';
+import type { GbpDetail, WebsiteDetail } from '../collectors/channel-types';
 export const clamp = (v: number) => Math.max(0, Math.min(100, v));
 export function weighted(values: Record<string, number | null>, weights: Record<string, number>) {
   let sum = 0,
@@ -112,23 +113,73 @@ export function scoreWebsite(input: WebsiteInput, config = defaults) {
     input.inp === null ? null : input.inp <= t.inp,
     input.cls === null ? null : input.cls <= t.cls,
   ]);
+  const parts = {
+    performance: { pagespeed: median(input.performanceRuns.slice(0, 3)), cwv },
+    seo: { pagespeed: input.seoScore, checklist: checklist(input.seoChecklist) },
+  };
   const criteria = {
-    performance: weighted(
-      { pagespeed: median(input.performanceRuns.slice(0, 3)), cwv },
-      config.websiteParts.performance,
-    ),
-    seo: weighted(
-      { pagespeed: input.seoScore, checklist: checklist(input.seoChecklist) },
-      config.websiteParts.seo,
-    ),
+    performance: weighted(parts.performance, config.websiteParts.performance),
+    seo: weighted(parts.seo, config.websiteParts.seo),
     tracking: weighted(booleans(input.tracking), config.websiteParts.tracking),
     conversion: weighted(booleans(input.conversion), config.websiteParts.conversion),
     freshness: input.freshness,
   };
   return {
     criteria,
+    parts,
     weights: effectiveWeights(criteria, config.website),
     score: weighted(criteria, config.website),
+  };
+}
+/**
+ * Freshness (weight 0 by default): blog recency is 100 up to 30 days, falling linearly to 0 at a year;
+ * the footer copyright year is 100 when current, 50 when last year, else 0. Known parts are averaged.
+ */
+export function freshnessScore(latestPost: string | null, copyrightYear: number | null, asOf: Date) {
+  const days = latestPost === null ? null : (asOf.getTime() - Date.parse(latestPost)) / 86400000;
+  const blog =
+    days === null || !Number.isFinite(days) ? null : clamp(100 - ((Math.max(0, days) - 30) / 335) * 100);
+  const year = asOf.getUTCFullYear();
+  const copyright =
+    copyrightYear === null ? null : copyrightYear >= year ? 100 : copyrightYear === year - 1 ? 50 : 0;
+  const known = [blog, copyright].filter((v): v is number => v !== null);
+  return known.length ? known.reduce((a, b) => a + b, 0) / known.length : null;
+}
+export function websiteInput(d: WebsiteDetail, asOf: Date, config = defaults): WebsiteInput {
+  return {
+    performanceRuns: d.pagespeed.runs.map((r) => r.performance),
+    lcp: d.pagespeed.lcpMs === null ? null : d.pagespeed.lcpMs / 1000,
+    inp: d.pagespeed.inpMs,
+    cls: d.pagespeed.cls,
+    seoScore: median(d.pagespeed.runs.map((r) => r.seo)),
+    seoChecklist: [
+      d.seo.title,
+      d.seo.metaDescription,
+      d.seo.singleH1,
+      d.seo.imageAltRatio === null ? null : d.seo.imageAltRatio >= config.thresholds.altRatio,
+      d.seo.schema,
+      d.seo.sitemap,
+      d.seo.robots,
+      d.seo.https,
+    ],
+    tracking: d.tracking,
+    conversion: d.conversion,
+    freshness: freshnessScore(d.freshness.latestPost, d.freshness.copyrightYear, asOf),
+  };
+}
+export function gbpInput(d: GbpDetail) {
+  return {
+    rating: d.rating,
+    reviews: d.reviewCount,
+    // With no reviews there is nothing to reply to, which is not the same as ignoring reviews.
+    ownerReplies: d.reviewCount === 0 ? [] : d.latestReviews.map((r) => r.ownerReplied),
+    completeness: [
+      d.category === null ? null : !!d.category.trim(),
+      d.hasHours,
+      d.hasPhone,
+      d.hasWebsite,
+      d.photoCount === null ? null : d.photoCount > 0,
+    ],
   };
 }
 export function scoreGbp(

@@ -1,0 +1,321 @@
+{
+  "kind": "website",
+  "status": "partial",
+  "raw": {
+    "pagespeed": [
+      {
+        "error": "PageSpeed quota exhausted; set PAGESPEED_API_KEY.",
+        "response": {
+          "error": {
+            "code": 429,
+            "message": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+            "errors": [
+              {
+                "message": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+                "domain": "global",
+                "reason": "rateLimitExceeded"
+              }
+            ],
+            "status": "RESOURCE_EXHAUSTED",
+            "details": [
+              {
+                "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+                "reason": "RATE_LIMIT_EXCEEDED",
+                "domain": "googleapis.com",
+                "metadata": {
+                  "quota_unit": "1/d/{project}",
+                  "service": "pagespeedonline.googleapis.com",
+                  "quota_limit": "defaultPerDayPerProject",
+                  "quota_location": "global",
+                  "quota_limit_value": "0",
+                  "consumer": "projects/583797351490",
+                  "quota_metric": "pagespeedonline.googleapis.com/default"
+                }
+              },
+              {
+                "@type": "type.googleapis.com/google.rpc.Help",
+                "links": [
+                  {
+                    "description": "Request a higher quota limit.",
+                    "url": "https://cloud.google.com/docs/quotas/help/request_increase"
+                  }
+                ]
+              }
+            ]
+          },
+          "lighthouseResult": {
+            "audits": {}
+          }
+        }
+      },
+      {
+        "error": "PageSpeed quota exhausted; set PAGESPEED_API_KEY.",
+        "response": {
+          "error": {
+            "code": 429,
+            "message": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+            "errors": [
+              {
+                "message": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+                "domain": "global",
+                "reason": "rateLimitExceeded"
+              }
+            ],
+            "status": "RESOURCE_EXHAUSTED",
+            "details": [
+              {
+                "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+                "reason": "RATE_LIMIT_EXCEEDED",
+                "domain": "googleapis.com",
+                "metadata": {
+                  "quota_unit": "1/d/{project}",
+                  "consumer": "projects/583797351490",
+                  "quota_limit": "defaultPerDayPerProject",
+                  "quota_metric": "pagespeedonline.googleapis.com/default",
+                  "quota_location": "global",
+                  "quota_limit_value": "0",
+                  "service": "pagespeedonline.googleapis.com"
+                }
+              },
+              {
+                "@type": "type.googleapis.com/google.rpc.Help",
+                "links": [
+                  {
+                    "description": "Request a higher quota limit.",
+                    "url": "https://cloud.google.com/docs/quotas/help/request_increase"
+                  }
+                ]
+              }
+            ]
+          },
+          "lighthouseResult": {
+            "audits": {}
+          }
+        }
+      },
+      {
+        "error": "PageSpeed quota exhausted; set PAGESPEED_API_KEY.",
+        "response": {
+          "error": {
+            "code": 429,
+            "message": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+            "errors": [
+              {
+                "message": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
+                "domain": "global",
+                "reason": "rateLimitExceeded"
+              }
+            ],
+            "status": "RESOURCE_EXHAUSTED",
+            "details": [
+              {
+                "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+                "reason": "RATE_LIMIT_EXCEEDED",
+                "domain": "googleapis.com",
+                "metadata": {
+                  "quota_location": "global",
+                  "consumer": "projects/583797351490",
+                  "service": "pagespeedonline.googleapis.com",
+                  "quota_metric": "pagespeedonline.googleapis.com/default",
+                  "quota_limit": "defaultPerDayPerProject",
+                  "quota_limit_value": "0",
+                  "quota_unit": "1/d/{project}"
+                }
+              },
+              {
+                "@type": "type.googleapis.com/google.rpc.Help",
+                "links": [
+                  {
+                    "description": "Request a higher quota limit.",
+                    "url": "https://cloud.google.com/docs/quotas/help/request_increase"
+                  }
+                ]
+              }
+            ]
+          },
+          "lighthouseResult": {
+            "audits": {}
+          }
+        }
+      }
+    ],
+    "crawl": {
+      "pages": [
+        "https://www.freshworks.com/",
+        "https://www.freshworks.com/contact/"
+      ],
+      "requestCount": 157,
+      "home": {
+        "url": "https://www.freshworks.com/",
+        "title": "AI-Powered Customer & Employee Service Software | Freshworks",
+        "description": "Freshworks provides AI-powered ITSM and customer service software to deliver scalable employee and customer experiences designed to boost productivity, streamline operations, and drive growth.",
+        "h1Count": 1,
+        "images": 90,
+        "imagesWithAlt": 90,
+        "schema": true,
+        "form": false,
+        "ctaText": "Get a demo",
+        "whatsapp": false,
+        "phone": false,
+        "hrefs": [
+          "https://www.freshworks.com/#main-content",
+          "https://www.freshworks.com/gartner-magic-quadrant-for-it-service-management-platforms-report-2026/",
+          "https://www.freshworks.com/contact/",
+          "https://login.freshworks.com/email-login/",
+          "https://www.freshworks.com/#main-content",
+          "https://www.freshworks.com/",
+          "https://www.freshworks.com/freshservice/pricing/",
+          "https://www.freshworks.com/products/",
+          "https://www.freshworks.com/demo/",
+          "https://www.freshworks.com/demo/",
+          "https://www.freshworks.com/products/",
+          "https://www.freshworks.com/freshservice/benchmark-report-2025/",
+          "https://www.freshworks.com/freshservice/benchmark-report-2025/",
+          "https://www.freshworks.com/freshservice/benchmark-report-2025/",
+          "https://www.freshworks.com/customers/stories/amerisure/",
+          "https://www.freshworks.com/customers/stories/mclaren-formula-1-team/",
+          "https://www.freshworks.com/customers/stories/new-balance/",
+          "https://www.freshworks.com/customers/stories/databricks/",
+          "https://www.freshworks.com/customers/stories/seagate/",
+          "https://www.freshworks.com/apps/",
+          "https://www.freshworks.com/gartner-magic-quadrant-for-it-service-management-platforms-report-2026/",
+          "https://www.freshworks.com/freshservice/resources/ebooks/forrester-esm-wave-2025/",
+          "https://pinkelephant.co.uk/technology/products/freshservice-implementation-support/",
+          "https://atv.peoplecert.org/tool/freshservice/",
+          "https://www.freshworks.com/freshservice/demo-request/",
+          "https://www.freshworks.com/freshservice/signup/",
+          "https://www.freshworks.com/customers/stories/ipostal1/",
+          "https://www.freshworks.com/customers/stories/ryan-specialty/",
+          "https://www.freshworks.com/customers/stories/hobbycraft/",
+          "https://www.freshworks.com/customers/stories/woolacombe/",
+          "https://www.freshworks.com/apps/",
+          "https://www.freshworks.com/freshdesk/demo-request/",
+          "https://www.freshworks.com/freshdesk/signup/",
+          "https://www.freshworks.com/",
+          "https://play.google.com/store/apps/developer?id=Freshworks+Inc",
+          "https://apps.apple.com/us/developer/freshworks-technologies-private-limited/id849713309",
+          "https://www.freshworks.com/contact/",
+          "mailto:mailto:sales@freshworks.com",
+          "https://linkedin.com/company/freshworks-inc",
+          "https://twitter.com/FreshworksInc",
+          "https://www.facebook.com/FreshworksInc",
+          "https://www.youtube.com/c/FreshworksInc",
+          "https://www.freshworks.com/company/about/",
+          "https://www.freshworks.com/company/leadership/",
+          "https://ir.freshworks.com/",
+          "https://www.freshworks.com/company/careers/",
+          "https://www.freshworks.com/customers/",
+          "https://www.freshworks.com/partners/",
+          "https://www.freshworks.com/events/",
+          "https://www.freshworks.com/theworks/",
+          "https://www.freshworks.com/newsroom/press-releases/",
+          "https://www.freshworks.com/contact/",
+          "https://www.freshworks.com/support/",
+          "https://www.freshworks.com/academy/",
+          "https://www.freshworks.com/services/",
+          "https://www.freshworks.com/company/philanthropy/software-academy/",
+          "https://community.freshworks.com/",
+          "https://www.freshworks.com/freshservice/product-updates/",
+          "https://www.freshworks.com/freshservice/",
+          "https://www.freshworks.com/freshservice/msp/",
+          "https://www.freshworks.com/freshservice/business-teams/",
+          "https://www.freshworks.com/freshdesk/omni/",
+          "https://www.freshworks.com/freshdesk/",
+          "https://www.freshworks.com/live-chat-software/",
+          "https://www.freshworks.com/crm/sales/",
+          "https://www.freshworks.com/crm/suite/",
+          "https://www.freshworks.com/crm/marketing/",
+          "https://www.freshworks.com/platform/",
+          "https://www.freshworks.com/freddy-ai/",
+          "https://www.freshworks.com/legal/",
+          "https://www.freshworks.com/privacy/",
+          "https://www.freshworks.com/site-terms/",
+          "https://www.freshworks.com/list-of-cookies/",
+          "https://www.freshworks.com/privacy/ccpa-requests/",
+          "https://www.freshworks.com/security/",
+          "https://www.freshworks.com/accessibility/",
+          "https://www.freshworks.com/privacy/gdpr/unsubscribe/",
+          "https://www.freshworks.com/sitemap/"
+        ],
+        "footerText": "Contact Freshworks\nContact us\nsales@freshworks.com\nCompany\nAbout\nLeadership\nInvestors\nCareers\nCustomers\nPartners\nEvents\nInsights & Trends\nNewsroom\nContact\nSupport & Success\nSupport\nTraining & Certification\nServices\nStudent Academy\nCommunity\nProducts\nWhat’s New\nFreshservice\nFreshservice for MSPs\nFreshservice for Business Teams\nFreshdesk Omni\nFreshdesk\nFreshchat\nFreshsales\nFreshsales Suite\nFreshmarketer\nFreshworks Platform\nFreddy AI\nLegal\nPrivacy Notice\nSite Terms\nCookie Policy\nDo Not Share My Personal Information\nSecurity\nAccessibility\nUnsubscribe\nSitemap\n© 2026 Freshworks Inc. All Rights Reserved",
+        "dates": [],
+        "textDates": [
+          "2024-11-19"
+        ]
+      },
+      "contact": {
+        "url": "https://www.freshworks.com/contact/",
+        "title": "Contact Freshworks",
+        "description": "Questions about Freshworks products, features, or pricing? Need a demo? Our sales experts are ready to help. Here you can also find Freshworks office location addresses and phone numbers.",
+        "h1Count": 1,
+        "images": 9,
+        "imagesWithAlt": 9,
+        "schema": true,
+        "form": false,
+        "ctaText": "Get a demo",
+        "whatsapp": false,
+        "phone": false,
+        "footerText": "Contact Freshworks\nContact us\nsales@freshworks.com\nCompany\nAbout\nLeadership\nInvestors\nCareers\nCustomers\nPartners\nEvents\nInsights & Trends\nNewsroom\nContact\nSupport & Success\nSupport\nTraining & Certification\nServices\nStudent Academy\nCommunity\nProducts\nWhat’s New\nFreshservice\nFreshservice for MSPs\nFreshservice for Business Teams\nFreshdesk Omni\nFreshdesk\nFreshchat\nFreshsales\nFreshsales Suite\nFreshmarketer\nFreshworks Platform\nFreddy AI\nLegal\nPrivacy Notice\nSite Terms\nCookie Policy\nDo Not Share My Personal Information\nSecurity\nAccessibility\nUnsubscribe\nSitemap\n© 2026 Freshworks Inc. All Rights Reserved",
+        "dates": [],
+        "textDates": []
+      },
+      "blogUrl": null,
+      "blogDates": [],
+      "robots": true,
+      "sitemap": true,
+      "tags": {
+        "analytics": true,
+        "meta": false,
+        "ads": false,
+        "linkedin": true
+      }
+    }
+  },
+  "costUsd": 0,
+  "warnings": [
+    "3 of 3 PageSpeed runs failed: PageSpeed quota exhausted; set PAGESPEED_API_KEY.",
+    "Tags were detected before any cookie-consent interaction; tags that load only after consent may be missed.",
+    "No blog or news section was linked from the homepage."
+  ],
+  "fetchedAt": "2026-09-28T21:22:51.938Z",
+  "detail": {
+    "url": "https://www.freshworks.com/",
+    "pagespeed": {
+      "runs": [],
+      "lcpMs": null,
+      "inpMs": null,
+      "cls": null,
+      "vitalsSource": null
+    },
+    "seo": {
+      "title": true,
+      "metaDescription": true,
+      "singleH1": true,
+      "h1Count": 1,
+      "imageAltRatio": 1,
+      "imageCount": 90,
+      "schema": true,
+      "sitemap": true,
+      "robots": true,
+      "https": true
+    },
+    "tracking": {
+      "analytics": true,
+      "meta": false,
+      "ads": false,
+      "linkedin": true
+    },
+    "conversion": {
+      "form": false,
+      "cta": true,
+      "whatsapp": false,
+      "phone": false
+    },
+    "ctaText": "Get a demo",
+    "freshness": {
+      "latestPost": null,
+      "blogUrl": null,
+      "copyrightYear": 2026
+    }
+  }
+}

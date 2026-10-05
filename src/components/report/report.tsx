@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
@@ -15,7 +15,20 @@ import {
   ArrowRight,
   Globe,
   CalendarDays,
+  CalendarRange,
   ChevronDown,
+  Clapperboard,
+  Search,
+  MonitorSmartphone,
+  Megaphone,
+  TrendingUp,
+  PenLine,
+  Briefcase,
+  MapPin,
+  Compass,
+  Palette,
+  Sparkles,
+  Handshake,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -38,16 +51,32 @@ import type { Report } from '@/lib/report';
 import { platformNames, type Platform } from '@/lib/collectors/types';
 import { band } from '@/lib/scoring';
 import './report.css';
+import { Ring } from './ring';
+import { ScoreComposition, SocialScoreMatrix, WebsiteSection, GbpSection, ChannelIcon } from './channels';
+import { channelNames } from '@/lib/collectors/channel-types';
+import { SummaryCard } from './summary';
+import { ChartInsight } from './insight';
+import { SectionDownload } from './section-download';
+import { SectionNav, type NavSection } from './section-nav';
+import { Reveal, Stagger, StaggerItem } from './reveal';
+import { SeoSection } from './seo';
+import * as insight from '@/lib/insights';
+import type { StoredSummary } from '@/lib/ai/summary-types';
+import type { StoredAlignment, TargetAudience } from '@/lib/ai/alignment-types';
+import { AlignmentSection } from './alignment';
 import { PrintMethodology } from './methodology';
+// Theme variables (globals.css) so charts follow the light and dark palettes.
 const colors: Record<Platform, string> = {
-  instagram: '#c3ed83',
-  facebook: '#8baee5',
-  linkedin: '#b3a0e3',
-  youtube: '#e4ad8b',
+  instagram: 'var(--c-instagram)',
+  facebook: 'var(--c-facebook)',
+  linkedin: 'var(--c-linkedin)',
+  youtube: 'var(--c-youtube)',
 };
 const icons = { instagram: Instagram, facebook: Facebook, linkedin: Linkedin, youtube: Youtube };
 const display = (n: number | null, digits = 0) =>
   n === null ? 'Not measured' : new Intl.NumberFormat('en-IN', { maximumFractionDigits: digits }).format(n);
+/** "How Tier2 can help" section and its jump button. Hidden for now; set to true to bring both back. */
+const SHOW_TIER2_SERVICES = false;
 const date = (s: string | null) =>
   s === null
     ? 'Not measured'
@@ -71,49 +100,19 @@ export function PlatformIcon({ platform, size = 17 }: { platform: Platform; size
     </span>
   );
 }
-function Ring({
-  score,
-  size = 132,
-  color = 'var(--brand-primary)',
-  print = false,
-}: {
-  score: number | null;
-  size?: number;
-  color?: string;
-  print?: boolean;
-}) {
-  const reduced = useReducedMotion();
-  const radius = 44,
-    circ = 2 * Math.PI * radius;
-  return (
-    <div
-      className="score-ring"
-      style={{ width: size, height: size }}
-      aria-label={`Score: ${score === null ? 'Not measured' : Math.round(score) + ' out of 100'}`}
-    >
-      <svg viewBox="0 0 100 100">
-        <circle className="ring-track" cx="50" cy="50" r={radius} />
-        <motion.circle
-          cx="50"
-          cy="50"
-          r={radius}
-          fill="none"
-          stroke={color}
-          strokeWidth="5"
-          strokeLinecap="round"
-          strokeDasharray={circ}
-          initial={print || reduced ? false : { strokeDashoffset: circ }}
-          animate={{ strokeDashoffset: circ * (1 - (score ?? 0) / 100) }}
-          transition={{ duration: 1.1, ease: 'easeOut' }}
-          transform="rotate(-90 50 50)"
-        />
-      </svg>
-      <div className="ring-label">
-        <strong>{score === null ? '—' : Math.round(score)}</strong>
-        {size > 90 && <span>OUT OF 100</span>}
-      </div>
-    </div>
-  );
+/** Calendar geometry: 90 days by default, or every day of the audit's chosen period. */
+function calendarLayout(report: Report) {
+  const end = Date.parse(report.period?.end ?? report.asOf);
+  const days = report.period ? Math.ceil((end - Date.parse(report.period.start)) / 86400000) : 90;
+  const long = days > 120;
+  return {
+    end,
+    days,
+    ticks: [0, Math.round((days - 1) / 3), Math.round(((days - 1) * 2) / 3), days - 1],
+    // Long periods keep cells legible by widening the scroll area instead of shrinking cells to nothing.
+    width: long ? { minWidth: days * 4 + 110 } : undefined,
+    grid: { gridTemplateColumns: `repeat(${days}, minmax(3px, 1fr))`, gap: long ? 1 : 3 },
+  };
 }
 export interface ReportProps {
   id: string;
@@ -121,8 +120,32 @@ export interface ReportProps {
   website: string | null;
   report: Report;
   print?: boolean;
+  /** AI plain-language summary, if one has been written. */
+  summary?: StoredSummary | null;
+  aiEnabled?: boolean;
+  completedAt?: string | null;
+  /** How the data was collected. Only mock audits may be labelled as synthetic. */
+  mode: 'live' | 'mock';
+  alignment?: StoredAlignment | null;
+  targetAudience?: TargetAudience | null;
 }
-export function SocialReport({ id, brand, website, report, print = false }: ReportProps) {
+export function SocialReport({
+  id,
+  brand,
+  website,
+  report,
+  print = false,
+  summary: initialSummary = null,
+  aiEnabled = false,
+  completedAt = null,
+  mode,
+  alignment = null,
+  targetAudience = null,
+}: ReportProps) {
+  const live = mode === 'live';
+  const calendar = calendarLayout(report);
+  const [summary, setSummary] = useState<StoredSummary | null>(initialSummary);
+  const onSummary = useCallback((s: StoredSummary) => setSummary(s), []);
   const [ready, setReady] = useState(false);
   const [pdfBusy, setPdfBusy] = useState(false);
   const [error, setError] = useState('');
@@ -133,12 +156,19 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
   }, []);
   const measured = report.cards.filter((c) => c.score !== null);
   const best = [...measured].sort((a, b) => (b.score ?? 0) - (a.score ?? 0))[0];
+  // Reports stored before website and GBP scoring existed have no channel sections.
+  const siteChannel = report.website ?? null;
+  const gbpChannel = report.gbp ?? null;
+  const headline = report.overall.score;
+  const measuredChannels = [siteChannel?.score, report.social, gbpChannel?.score].filter(
+    (v) => v !== null && v !== undefined,
+  ).length;
   const verdict =
-    report.social === null
+    headline === null
       ? 'There is not enough measured data to assess this brand yet.'
-      : report.social >= 80
+      : headline >= 80
         ? 'A strong foundation. Keep turning attention into connection.'
-        : report.social >= 60
+        : headline >= 60
           ? 'A promising presence, with room to make a bigger impression.'
           : 'The next chapter starts with showing up consistently.';
   const radarData = Object.keys(componentNames).map((key) => ({
@@ -169,12 +199,23 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
       setPdfBusy(false);
     }
   };
+  const navSections: NavSection[] = [
+    { id: 'sec-overview', label: 'Overview' },
+    ...(alignment?.status === 'ok' || aiEnabled ? [{ id: 'sec-audience', label: 'Target audience' }] : []),
+    { id: 'sec-score', label: 'Score' },
+    { id: 'sec-social', label: 'Social media' },
+    ...(siteChannel ? [{ id: 'sec-website', label: 'Website' }] : []),
+    ...(report.seo?.groups ? [{ id: 'sec-seo', label: 'SEO audit' }] : []),
+    ...(gbpChannel ? [{ id: 'sec-gbp', label: 'Google Business' }] : []),
+    { id: 'sec-actions', label: 'Opportunities' },
+  ];
   return (
     <article
       className={`social-report ${print ? 'print-report' : ''} ${report.gaps.length ? '' : 'no-gaps'}`}
       data-report-ready={ready ? 'true' : 'false'}
     >
-      <div className="report-page report-page-one">
+      {!print && <SectionNav sections={navSections} />}
+      <Reveal className="report-page report-page-one" id="sec-overview">
         {!print && (
           <Link className="back-link" href="/history">
             <ArrowLeft size={13} />
@@ -183,7 +224,7 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
         )}
         <div className="page-heading">
           <div>
-            <span className="eyebrow">SOCIAL PRESENCE REPORT</span>
+            <span className="eyebrow">{report.overall.label.replace(' Score', '').toUpperCase()} REPORT</span>
             <h1>
               {brand}
               <span className="brand-dot">.</span>
@@ -197,6 +238,12 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
                 <CalendarDays size={12} />
                 {date(report.asOf)}
               </span>
+              {report.period && (
+                <span title="Social posting and engagement cover this period">
+                  <CalendarRange size={12} />
+                  {report.period.label}
+                </span>
+              )}
               <span>#{id.slice(-8).toUpperCase()}</span>
             </div>
           </div>
@@ -218,13 +265,24 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
             {error}
           </p>
         )}
-        <div className="report-disclaimer">
+        <div className={`report-disclaimer ${live ? 'live' : 'demo'}`}>
           <span>
             <Info size={13} />
-            Illustrative report · synthetic data
+            {live
+              ? `Live data · collected from public sources on ${date(report.asOf)}`
+              : 'Demo report · synthetic sample data, not a real brand'}
           </span>
-          <span>4 platforms · placeholder benchmarks · {report.industry}</span>
+          <span>4 platforms · researched benchmarks · {report.industry}</span>
         </div>
+        {!print && (
+          <SummaryCard
+            auditId={id}
+            summary={summary}
+            onChange={onSummary}
+            aiEnabled={aiEnabled}
+            print={false}
+          />
+        )}
         <section className="hero-panel">
           <div className="hero-score">
             <Ring score={report.overall.score} size={170} print={print} />
@@ -232,9 +290,9 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
           </div>
           <div className="hero-copy">
             <div
-              className={`score-band band-${band(report.social, report.config).toLowerCase().replace(' ', '-')}`}
+              className={`score-band band-${band(headline, report.config).toLowerCase().replace(' ', '-')}`}
             >
-              <span /> {band(report.social, report.config)} presence
+              <span /> {band(headline, report.config)} presence
             </div>
             <h2>{verdict}</h2>
             <p>
@@ -242,6 +300,12 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
                 ? `${platformNames[best.platform]} leads the way. ${report.gaps.length ? `${report.gaps.length} opportunities below point to where your next effort could count most.` : 'Keep the momentum with a consistent, thoughtful content strategy.'}`
                 : 'Confirm accounts and collect public data to reveal opportunities.'}
             </p>
+            {SHOW_TIER2_SERVICES && !print && report.gaps.length > 0 && (
+              <a className="button primary hero-help-link" href="#tier2-services">
+                <Handshake size={15} />
+                See how Tier2 can help
+              </a>
+            )}
             <div className="hero-facts">
               <div>
                 <strong>
@@ -271,10 +335,17 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
             <ChevronDown size={13} />
           </summary>
           <p>
-            Only Social is measured in this version, so its overall weight is 100%. Website (configured{' '}
-            {report.config.channels.website}%) and Google Business Profile ({report.config.channels.gbp}%) are
-            excluded. Unavailable components and platforms are excluded; confirmed absent relevant accounts
-            score 0. Platform scores use unrounded values.
+            Overall = Website {report.config.channels.website}% + Social {report.config.channels.social}% +
+            Google Business Profile {report.config.channels.gbp}% (configured). {measuredChannels} of 3
+            channels were measured; unmeasured channels are left out and the rest re-weighted to{' '}
+            {(['website', 'social', 'gbp'] as const)
+              .map(
+                (c) =>
+                  `${c === 'gbp' ? 'GBP' : c[0].toUpperCase() + c.slice(1)} ${display((report.overall.weights as Record<string, number>)[c], 1)}%`,
+              )
+              .join(', ')}
+            . Unavailable components and platforms are excluded; confirmed absent relevant accounts score 0.
+            Scores use unrounded values.
           </p>
           <div className="explain-grid">
             {report.cards.map((c) => (
@@ -302,6 +373,7 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
               initial={print || reduced ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}
+              whileHover={print || reduced ? undefined : { y: -4, transition: { duration: 0.2 } }}
             >
               <div className="platform-card-title">
                 <PlatformIcon platform={card.platform} />
@@ -327,10 +399,13 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
                   <dd>{card.subscriberHidden ? 'Hidden' : display(card.profile?.followers ?? null)}</dd>
                 </div>
                 <div>
-                  <dt>Posts / 30 days</dt>
+                  <dt>{report.period ? 'Avg posts / 30 days' : 'Posts / 30 days'}</dt>
                   <dd>
                     {card.metrics.lowerBound ? '≥ ' : ''}
                     {display(card.metrics.count)}
+                    {report.period && card.metrics.postsInPeriod != null && (
+                      <small className="period-total"> · {card.metrics.postsInPeriod} in period</small>
+                    )}
                   </dd>
                 </div>
                 <div>
@@ -371,8 +446,61 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
             </motion.div>
           ))}
         </section>
-      </div>
-      <div className="report-page report-page-two">
+      </Reveal>
+      {/* In the PDF the summary gets its own page so the cover page keeps its one-page layout. */}
+      {print && summary?.status === 'ok' && (
+        <div className="report-page report-page-summary">
+          <SummaryCard auditId={id} summary={summary} onChange={onSummary} aiEnabled={aiEnabled} print />
+        </div>
+      )}
+      {(!print || alignment?.status === 'ok') && (
+        <Reveal className="report-page report-page-alignment" id="sec-audience">
+          {alignment?.status === 'ok' && !print && (
+            <SectionDownload auditId={id} brand={brand} section="audience" />
+          )}
+          <AlignmentSection
+            auditId={id}
+            initial={alignment}
+            targetAudience={targetAudience}
+            aiEnabled={aiEnabled}
+            completedAt={completedAt}
+            print={print}
+            industry={report.industry}
+          />
+        </Reveal>
+      )}
+      {SHOW_TIER2_SERVICES && report.gaps.length > 0 && (
+        <div className="report-page report-page-services">
+          <Tier2Services gaps={report.gaps} brand={brand} print={print} />
+        </div>
+      )}
+      <Reveal className="report-page report-page-scoring" id="sec-score">
+        {!print && <SectionDownload auditId={id} brand={brand} section="overview" />}
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">THE SCORE, UNPACKED</span>
+            <h2>Where every point comes from</h2>
+            <p>
+              {print
+                ? 'Every score is 0–100; weights sit beside each label.'
+                : 'Hover any bar for its exact value and weight.'}
+            </p>
+          </div>
+        </div>
+        <ScoreComposition report={report} print={print} />
+        <ChartInsight items={insight.compositionInsights(report)} />
+        <section className="panel matrix-panel">
+          <SectionTitle
+            title="Inside the social score"
+            subtitle="Each platform’s four components, 0–100, and the share of the social score it carries"
+            number=""
+          />
+          <SocialScoreMatrix report={report} colors={colors} />
+          <ChartInsight items={insight.socialMatrixInsights(report)} />
+        </section>
+      </Reveal>
+      <Reveal className="report-page report-page-two" id="sec-social">
+        {!print && <SectionDownload auditId={id} brand={brand} section="social" />}
         <section className="chart-grid radar-section">
           <div className="panel">
             <SectionTitle
@@ -388,7 +516,7 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={radarData} outerRadius="72%">
                   <PolarGrid stroke="var(--line)" />
-                  <PolarAngleAxis dataKey="component" tick={{ fill: 'var(--muted)', fontSize: 11 }} />
+                  <PolarAngleAxis dataKey="component" tick={{ fill: 'var(--muted)', fontSize: 16 }} />
                   <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
                   {report.cards
                     .filter((c) => Object.values(c.components).every((v) => v !== null))
@@ -425,20 +553,21 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
               Incomplete component sets are omitted from the radar; values remain available in each score
               breakdown.
             </p>
+            <ChartInsight items={insight.radarInsights(report)} />
           </div>
         </section>
         <section className="panel calendar-panel">
           <SectionTitle
             title="Consistency leaves a pattern"
-            subtitle="Observed posting activity · last 90 days · Asia/Kolkata · pinned posts excluded"
+            subtitle={`Observed posting activity · ${report.period?.label ?? 'last 90 days'} · Asia/Kolkata · pinned posts excluded`}
             number="02"
           />
           <div className="calendar-scroll">
-            <div className="calendar-months">
+            <div className="calendar-months" style={calendar.width}>
               <span />
-              {[0, 30, 60, 89].map((i) => (
+              {calendar.ticks.map((i) => (
                 <span key={i}>
-                  {date(new Date(new Date(report.asOf).getTime() - (89 - i) * 86400000).toISOString())
+                  {date(new Date(calendar.end - (calendar.days - 1 - i) * 86400000).toISOString())
                     .split(' ')
                     .slice(0, 2)
                     .join(' ')}
@@ -446,13 +575,13 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
               ))}
             </div>
             {report.cards.map((card) => (
-              <div className="calendar-row" key={card.platform}>
+              <div className="calendar-row" key={card.platform} style={calendar.width}>
                 <span>
                   <PlatformIcon platform={card.platform} size={13} />
                   {platformNames[card.platform]}
                 </span>
                 {card.metrics.calendar ? (
-                  <div className="calendar-cells">
+                  <div className="calendar-cells" style={calendar.grid}>
                     {card.metrics.calendar.map((day) => (
                       <div
                         key={day.date}
@@ -477,9 +606,10 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
               <i className="level-3" /> More
             </span>
           </div>
+          <ChartInsight items={insight.calendarInsights(report)} />
         </section>
-      </div>
-      <div className="report-page report-page-three">
+      </Reveal>
+      <Reveal className="report-page report-page-three">
         <section className="engagement-section">
           <div className="panel">
             <SectionTitle
@@ -495,17 +625,17 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
                     engagement: c.metrics.engagement,
                     platform: c.platform,
                   }))}
-                  margin={{ left: -20, right: 8, top: 22, bottom: 0 }}
+                  margin={{ left: -8, right: 8, top: 22, bottom: 0 }}
                 >
                   <CartesianGrid stroke="var(--line)" vertical={false} strokeDasharray="3 5" />
                   <XAxis
                     dataKey="name"
-                    tick={{ fill: 'var(--muted)', fontSize: 10 }}
+                    tick={{ fill: 'var(--muted)', fontSize: 16 }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <YAxis
-                    tick={{ fill: 'var(--muted)', fontSize: 10 }}
+                    tick={{ fill: 'var(--muted)', fontSize: 16 }}
                     tickFormatter={(v) => `${v}%`}
                     axisLine={false}
                     tickLine={false}
@@ -536,6 +666,7 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
                 </div>
               ))}
             </div>
+            <ChartInsight items={insight.engagementInsights(report)} />
           </div>
         </section>
         <section className="panel content-panel">
@@ -589,9 +720,10 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
               </div>
             ))}
           </div>
+          <ChartInsight items={insight.mixInsights(report)} />
         </section>
-      </div>
-      <div className="report-page report-page-posts">
+      </Reveal>
+      <Reveal className="report-page report-page-posts">
         <section className="panel top-posts-panel">
           <SectionTitle
             title="Content that connected"
@@ -622,7 +754,9 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
                             View post <ArrowUpRight size={11} />
                           </a>
                         ) : (
-                          <span className="mock-post-note">Illustrative post · no live link</span>
+                          <span className="mock-post-note">
+                            {live ? 'Post link not available' : 'Sample post · no live link'}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -633,9 +767,30 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
               </div>
             ))}
           </div>
+          <ChartInsight items={insight.topPostInsights(report)} />
         </section>
-      </div>
-      <div className="report-page report-page-four">
+      </Reveal>
+      {siteChannel && (
+        <Reveal className="report-page report-page-website" id="sec-website">
+          {!print && <SectionDownload auditId={id} brand={brand} section="website" />}
+          <WebsiteSection report={report} website={siteChannel} print={print} />
+        </Reveal>
+      )}
+      {/* Reports from before the status groups existed have no SEO section to show. */}
+      {report.seo?.groups && (
+        <Reveal className="report-page report-page-seo" id="sec-seo">
+          {!print && <SectionDownload auditId={id} brand={brand} section="seo" />}
+          <SeoSection report={report} seo={report.seo} print={print} />
+        </Reveal>
+      )}
+      {gbpChannel && (
+        <Reveal className="report-page report-page-gbp" id="sec-gbp">
+          {!print && <SectionDownload auditId={id} brand={brand} section="gbp" />}
+          <GbpSection report={report} gbp={gbpChannel} print={print} />
+        </Reveal>
+      )}
+      <Reveal className="report-page report-page-four" id="sec-actions">
+        {!print && <SectionDownload auditId={id} brand={brand} section="opportunities" />}
         <section className="opportunities">
           <div className="section-heading">
             <div>
@@ -645,51 +800,40 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
             </div>
             <span className="tag">{report.gaps.length} quick wins</span>
           </div>
-          <div className="gap-grid">
+          <Stagger className="gap-grid">
             {report.gaps.length ? (
               report.gaps.map((gap, i) => (
-                <div className="panel gap-card" key={`${gap.platform}-${gap.component}`}>
+                <StaggerItem kind="pop" className="panel gap-card" key={`${gap.platform}-${gap.component}`}>
                   <div className="gap-header">
                     <span className="gap-index">0{i + 1}</span>
                     <span className="tag">
-                      {platformNames[gap.platform as Platform]} · {gap.score.toFixed(0)}/100
+                      {gapSource(gap.platform)} · {gap.score.toFixed(0)}/100
                     </span>
                   </div>
-                  <h3>
-                    {gap.component === 'missing'
-                      ? `Build a presence on ${platformNames[gap.platform as Platform]}`
-                      : gap.component === 'video'
-                        ? 'Bring the story to life with video'
-                        : gap.component === 'activity'
-                          ? 'Close the gaps in your calendar'
-                          : gap.component === 'engagement'
-                            ? 'Give your audience a reason to respond'
-                            : gap.component === 'audience'
-                              ? 'Reach more of the right people'
-                              : 'Make the first impression complete'}
-                  </h3>
+                  <h3>{gapTitle(gap)}</h3>
                   <div className="gap-measure">{gap.measured}</div>
                   <p>{gap.explanation}</p>
                   <div className="service-link">
-                    {gap.service}
+                    <span>
+                      <small>Tier2 service</small>
+                      {gap.service}
+                    </span>
                     <ArrowRight size={14} />
                   </div>
-                </div>
+                </StaggerItem>
               ))
             ) : (
               <div className="panel">
                 <Check size={20} />
-                <h3>
-                  {report.social === null ? 'No measured opportunities yet' : 'A strong starting point'}
-                </h3>
+                <h3>{headline === null ? 'No measured opportunities yet' : 'A strong starting point'}</h3>
                 <p>
-                  {report.social === null
+                  {headline === null
                     ? 'Collect usable data before drawing conclusions.'
                     : 'No measured component falls below the configured threshold.'}
                 </p>
               </div>
             )}
-          </div>
+          </Stagger>
         </section>
         <section className="panel data-notes">
           <SectionTitle
@@ -700,12 +844,45 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
           <div className="data-note-intro">
             <Info size={16} />
             <p>
-              This is a mock report, built from stored synthetic fixtures. Benchmarks are placeholders, not
-              industry research. Website and Google Business Profile have not been measured. No live accuracy
-              or coverage claim is made.
+              Benchmarks are Tier2 targets set near top-quartile performance from published 2025–26 industry
+              research, not industry averages.{' '}
+              {siteChannel || gbpChannel
+                ? 'Website and Google Business Profile results are included where shown.'
+                : 'Website and Google Business Profile were not measured.'}{' '}
+              {live
+                ? `Figures reflect what public sources returned on ${date(report.asOf)}; accounts can change after that date.`
+                : 'This is a demo report built from stored sample data, not collected from a live source.'}
             </p>
           </div>
           <div className="notes-grid">
+            {(
+              [
+                ['website', siteChannel],
+                ['gbp', gbpChannel],
+              ] as const
+            ).map(([key, ch]) =>
+              ch ? (
+                <div key={key}>
+                  <strong>
+                    <ChannelIcon channel={key} size={13} /> {channelNames[key]}
+                  </strong>
+                  <ul>
+                    {ch.warnings.map((note, i) => (
+                      <li key={i}>{note}</li>
+                    ))}
+                    {Object.entries(ch.criteria)
+                      .filter(([, v]) => v === null)
+                      .map(([k]) => (
+                        <li key={k}>{k[0].toUpperCase() + k.slice(1)} not measured; excluded from score.</li>
+                      ))}
+                  </ul>
+                  <small>
+                    Data timestamp:{' '}
+                    {new Date(ch.fetchedAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST
+                  </small>
+                </div>
+              ) : null,
+            )}
             {report.cards.map((c) => (
               <div key={c.platform}>
                 <strong>{platformNames[c.platform]}</strong>
@@ -743,9 +920,157 @@ export function SocialReport({ id, brand, website, report, print = false }: Repo
           </div>
           <span>tier2.digital</span>
         </div>
-      </div>
+      </Reveal>
       {print && <PrintMethodology report={report} />}
     </article>
+  );
+}
+function gapSource(source: string) {
+  if (source === 'seo') return 'SEO';
+  return source === 'website' || source === 'gbp'
+    ? channelNames[source]
+    : (platformNames[source as Platform] ?? source);
+}
+const channelGapTitles: Record<string, Record<string, string>> = {
+  website: {
+    performance: 'Make the site feel instant',
+    seo: 'Fix the foundations search engines read',
+    tracking: 'Measure what your marketing earns',
+    conversion: 'Give visitors a clear next step',
+    freshness: 'Keep the site current',
+  },
+  seo: {
+    visibility: 'Get found when people search for you',
+    technical: 'Make the site easy for Google to crawl',
+    onpage: 'Sharpen titles, headings and descriptions',
+    content: 'Give search engines more to rank',
+    experience: 'Speed up the page experience',
+  },
+  gbp: {
+    missing: 'Get found on Google Maps',
+    rating: 'Lift the star rating',
+    reviews: 'Earn more reviews',
+    replies: 'Answer your reviews',
+    completeness: 'Complete the Google listing',
+  },
+};
+function channelGapTitle(source: string, component: string): string | null {
+  return channelGapTitles[source]?.[component] ?? null;
+}
+function gapTitle(gap: Report['gaps'][number]) {
+  return (
+    channelGapTitle(gap.platform, gap.component) ??
+    (gap.component === 'missing'
+      ? `Build a presence on ${platformNames[gap.platform as Platform]}`
+      : gap.component === 'video'
+        ? 'Bring the story to life with video'
+        : gap.component === 'activity'
+          ? 'Close the gaps in your calendar'
+          : gap.component === 'engagement'
+            ? 'Give your audience a reason to respond'
+            : gap.component === 'audience'
+              ? 'Reach more of the right people'
+              : 'Make the first impression complete')
+  );
+}
+const serviceIcons: [RegExp, typeof Sparkles][] = [
+  [/video|animation/i, Clapperboard],
+  [/local|reputation/i, MapPin],
+  [/seo|aeo|geo/i, Search],
+  [/web|ui|cro/i, MonitorSmartphone],
+  [/growth|performance/i, TrendingUp],
+  [/copy|content/i, PenLine],
+  [/b2b/i, Briefcase],
+  [/social/i, Megaphone],
+  [/brand/i, Palette],
+  [/strategy/i, Compass],
+];
+const serviceIcon = (service: string) => serviceIcons.find(([re]) => re.test(service))?.[1] ?? Sparkles;
+const priority = (score: number) =>
+  score < 35
+    ? { label: 'High priority', tone: 'high' }
+    : score < 60
+      ? { label: 'Medium priority', tone: 'medium' }
+      : { label: 'Worth doing', tone: 'low' };
+function Tier2Services({ gaps, brand, print }: { gaps: Report['gaps']; brand: string; print: boolean }) {
+  // One card per Tier2 service, ordered by the weakest score it would fix.
+  const byService = new Map<string, Report['gaps']>();
+  for (const g of gaps) byService.set(g.service, [...(byService.get(g.service) ?? []), g]);
+  const services = [...byService]
+    .map(([service, items]) => ({
+      service,
+      items,
+      worst: Math.min(...items.map((g) => g.score)),
+      explanation: items[0].explanation,
+    }))
+    .sort((a, b) => a.worst - b.worst);
+  return (
+    <section className="tier2-services" id="tier2-services">
+      <div className="tier2-services-head">
+        <div>
+          <span className="eyebrow">HOW TIER2 CAN HELP</span>
+          <h2>
+            A clear plan to grow {brand}
+            {/s$/i.test(brand) ? '’' : '’s'} presence<span className="brand-dot">.</span>
+          </h2>
+          <p>
+            Every gap in this report maps to a Tier2 service. Start with the highest priority and build from
+            there.
+          </p>
+        </div>
+        <div className="tier2-services-count">
+          <strong>{services.length}</strong>
+          <span>
+            Tier2 service{services.length === 1 ? '' : 's'}
+            <br />
+            recommended
+          </span>
+        </div>
+      </div>
+      <div className="tier2-service-grid">
+        {services.map(({ service, items, worst, explanation }, i) => {
+          const Icon = serviceIcon(service);
+          const p = priority(worst);
+          return (
+            <div className={`tier2-service-card ${i === 0 ? 'featured' : ''}`} key={service}>
+              <div className="tier2-service-top">
+                <span className="tier2-service-icon">
+                  <Icon size={18} />
+                </span>
+                <span className={`priority-tag ${p.tone}`}>{p.label}</span>
+              </div>
+              <h3>{service}</h3>
+              <p>{explanation}</p>
+              <span className="tier2-fixes-label">What this fixes</span>
+              <ul>
+                {items.map((g) => (
+                  <li key={`${g.platform}-${g.component}`}>
+                    <Check size={12} />
+                    <span>
+                      {gapTitle(g)} <small>· {gapSource(g.platform)}</small>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+      <div className="tier2-cta">
+        <div>
+          <strong>Ready to turn these gaps into growth?</strong>
+          <span>Book a free strategy call and we&rsquo;ll walk through this plan together.</span>
+        </div>
+        {print ? (
+          <span className="tier2-cta-url">tier2.digital</span>
+        ) : (
+          <a className="button primary" href="https://www.tier2.digital" target="_blank" rel="noreferrer">
+            Talk to Tier2
+            <ArrowUpRight size={15} />
+          </a>
+        )}
+      </div>
+    </section>
   );
 }
 function SectionTitle({ title, subtitle, number }: { title: string; subtitle: string; number: string }) {

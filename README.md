@@ -6,11 +6,11 @@ An internal Next.js workspace that turns a website or confirmed social handles i
 
 - Password login with expiring, hashed session tokens, HTTP-only cookies, origin checks and login throttling.
 - Website/handle input, editable account confirmation, three synthetic scenarios, and explicit present / unknown / no-account states.
-- Durable SQLite/Prisma job queue with parallel platform jobs, atomic claims, crash recovery leases, one retry and a 180-second attempt timeout.
+- Durable Postgres/Prisma job queue with parallel platform jobs, atomic claims, crash recovery leases, one retry and a 180-second attempt timeout.
 - Snapshot-based metrics and scores, missing-value re-normalization, industry relevance and service recommendations.
 - Dark responsive reports, all requested charts, raw source inspection and light A4 PDF exports with branding on every page and a score-reference appendix.
 - Audit history, cache reuse, fresh re-runs, collection costs and permanent deletion of audits plus their raw records.
-- Seeded weights, placeholder benchmarks, service mappings and three demo reports, all editable on the configuration page.
+- Seeded weights, researched benchmarks (see `researchedBenchmarks` in `src/lib/scoring/config.ts`), service mappings and three demo reports, all editable on the configuration page.
 - Website and Google Business Profile scoring functions are ready for future collectors.
 - Real website crawling that discovers social handles, with guards against reaching private or internal addresses.
 - An accuracy harness that grades a collector against hand-entered truth and exports CSV.
@@ -99,17 +99,24 @@ npx.cmd tsx scripts/recheck-live.ts
 
 ## Local setup (Windows PowerShell)
 
-Requires Node.js **22.18 or later**, npm, and Chromium's OS dependencies. Run from `lead-audit`:
+Requires Node.js **22.18 or later**, npm, Docker (for Postgres), and Chromium's OS dependencies. Run from
+`lead-audit`:
 
 ```powershell
 npm.cmd ci
 Copy-Item .env.example .env
-# Set APP_PASSWORD in .env to your own workspace password.
-npm.cmd run db:setup
+# Set APP_PASSWORD and POSTGRES_PASSWORD in .env to your own values.
+docker compose up -d postgres        # Postgres on 127.0.0.1:5432
+npm.cmd run db:setup                 # migrate, generate, seed
 $env:PLAYWRIGHT_BROWSERS_PATH='./.browsers'
 npx.cmd playwright install chromium
 npm.cmd run dev:all
 ```
+
+If you would rather not run Docker locally, point `DATABASE_URL` and `DIRECT_URL` at any Postgres you can
+reach, including a free Supabase or Neon database, and skip the `docker compose` line. **The app no longer
+supports SQLite**: Prisma allows one provider per schema, and production runs Postgres, so local development
+runs Postgres too rather than testing against a different engine than it ships on.
 
 Open http://localhost:3000 and enter the `APP_PASSWORD` from `.env`. The sample `.env.example` uses `change-me` for local development; production rejects this placeholder. `npm.cmd` avoids PowerShell execution-policy restrictions on npm.ps1.
 
@@ -121,18 +128,26 @@ The seed is idempotent: it preserves configured values and existing audits. If a
 
 ## Environment
 
-| Variable                        | Purpose                                                                                                                                    |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| DATABASE_URL                    | `file:./dev.db`, resolved relative to the Prisma schema directory.                                                                         |
-| USE_MOCK_DATA                   | `true` uses synthetic fixtures and needs no keys. `false` switches collection to live. Discovery crawls for real either way.               |
-| APP_PASSWORD                    | Shared internal password. Never sent in report payloads.                                                                                   |
-| APP_ORIGIN                      | Exact app origin, default `http://localhost:3000`. Used for origin checks and trusted PDF navigation. Open the app using this same origin. |
-| PLAYWRIGHT_BROWSERS_PATH        | `./.browsers`; install and run Chromium with the same path.                                                                                |
-| AUDIT_CACHE_DAYS                | Cache offer window, default 7. Cache keys include confirmed handles, brand context, industry, fixture scenario and scoring configuration.  |
-| APIFY_TOKEN                     | Server-only. Enables the Instagram collector. Real runs spend Apify credit.                                                                |
-| YOUTUBE_API_KEY                 | Server-only. Enables the YouTube collector. Free quota; no money is spent.                                                                 |
-| APIFY_ACTOR_INSTAGRAM           | `hpix/instagram-scraper`. Swapping the ID alone is not enough if the output schema changes; capture and test the new response.             |
-| APIFY_ACTOR_FACEBOOK / LINKEDIN | Intentionally blank until actors are proposed and approved. Blank means those platforms fail cleanly rather than guessing.                 |
+| Variable                         | Purpose                                                                                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| DATABASE_URL / DIRECT_URL        | Postgres connection strings. `DIRECT_URL` bypasses a pooler for migrations; identical when self-hosted.                                    |
+| POSTGRES_USER / PASSWORD / DB    | Credentials for the Postgres container in `docker-compose.yml`.                                                                            |
+| EXTERNAL_DATABASE_URL / \_DIRECT | Optional. Point the containers at Supabase or another managed Postgres instead of the bundled one.                                         |
+| USE_MOCK_DATA                    | `true` uses synthetic fixtures and needs no keys. `false` switches collection to live. Discovery crawls for real either way.               |
+| APP_PASSWORD                     | Shared internal password. Never sent in report payloads.                                                                                   |
+| APP_ORIGIN                       | Exact app origin, default `http://localhost:3000`. Used for origin checks and trusted PDF navigation. Open the app using this same origin. |
+| PLAYWRIGHT_BROWSERS_PATH         | `./.browsers`; install and run Chromium with the same path.                                                                                |
+| AUDIT_CACHE_DAYS                 | Cache offer window, default 7. Cache keys include confirmed handles, brand context, industry, fixture scenario and scoring configuration.  |
+| APIFY_TOKEN                      | Server-only. Enables the Instagram collector. Real runs spend Apify credit.                                                                |
+| YOUTUBE_API_KEY                  | Server-only. Enables the YouTube collector. Free quota; no money is spent.                                                                 |
+| APIFY_ACTOR_INSTAGRAM            | `hpix/instagram-scraper`. Swapping the ID alone is not enough if the output schema changes; capture and test the new response.             |
+| APIFY_ACTOR_FACEBOOK / LINKEDIN  | Intentionally blank until actors are proposed and approved. Blank means those platforms fail cleanly rather than guessing.                 |
+| APIFY_ACTOR_GBP                  | `compass/crawler-google-places` for Google Business Profile. About $0.009 per audit (one place + 10 reviews). Reviewer data is off.        |
+| APIFY_ACTOR_SERP                 | `apify/google-search-scraper` for the SEO audit's Google visibility checks (`site:` query + brand-name query, 2 SERP pages per audit). Blank = visibility not measured. |
+| GBP_COUNTRY_CODE                 | Optional ISO code (e.g. `in`) to bias Google Maps searches.                                                                                |
+| GEMINI_API_KEY                   | Server-only. Enables the AI plain-language summary (Google Gemini). Blank means reports simply have no summary.                            |
+| GEMINI_MODEL                     | Optional. Defaults to `gemini-flash-latest`; set a fixed model name to pin behaviour.                                                      |
+| PAGESPEED_API_KEY                | Server-only, free. Needed in practice for the website audit: the keyless PageSpeed quota is shared and usually exhausted (HTTP 429).       |
 
 `USE_MOCK_DATA=false` switches collection to live. Discovery crawls real websites in either mode.
 
@@ -184,9 +199,26 @@ The visual checker renders every page and checks page branding and nonempty text
 - Calendars show observed posts, not a claim of complete coverage. Partial history can underestimate gaps. All dates displayed in reports use Asia/Kolkata.
 - Unknown profile checks are excluded; known absent checks fail. Every measured profile check is equally weighted.
 - Private/failed/unknown platforms are excluded. A team-confirmed missing platform scores zero only if it matters for the selected industry and is enabled. No-account confirmations are user assertions, not scraper observations.
-- Settings and service copy live in the DB; each audit snapshots them. The full editing UI is deliberately deferred to milestone 11. Placeholder benchmarks are not market claims.
-- Future website freshness is accepted as a nullable normalized score because the brief specifies no freshness threshold and gives it weight zero. Define that policy before enabling a nonzero weight.
+- Settings and service copy live in the DB; each audit snapshots them. The full editing UI is deliberately deferred to milestone 11. Benchmarks are top-quartile targets, not market averages.
+- Website freshness (weight 0 by default, shown only): a dated blog post ≤ 30 days old scores 100, falling linearly to 0 at 365 days; a current footer copyright year scores 100, last year 50, older 0; known parts are averaged. Review this policy before giving it a nonzero weight.
+- Website and Google Business Profile are channels, not platforms. Each is one collector run (`platform` = `website` / `gbp`) and feeds the section 7.2 / 7.3 scoring. A channel with weight 0 is not collected. A failed or unmeasured channel is left out of the overall score and the rest re-weighted; a team-confirmed missing GBP scores 0 only for industries listed in `gbpRelevant` (General and D2C by default).
+- Website: mobile PageSpeed runs 3 times in parallel (median performance; Core Web Vitals from Chrome field data when Google has it, otherwise lab LCP/CLS with INP unmeasured), plus an SSRF-guarded crawl of the homepage, contact page, blog, robots.txt and sitemap. Tags are detected before any cookie-consent click, so consent-gated tags can be missed; the report says so.
+- Google Business Profile: a search such as "Brand, City" or a Google Maps link. The report names the matched business so the team can confirm it. A place with zero reviews has no rating (not a rating of 0) and nothing to reply to.
 - Costs are known USD totals, with unmeasured runs called out. Monthly history includes retained audits only; deleting an audit also removes its cost records.
+
+## AI summary
+
+When `GEMINI_API_KEY` is set, the worker writes a plain-language summary as soon as an audit completes:
+a headline, a short verdict, up to three strengths and problems, the one thing to fix first, and one
+"In plain words" line under the score, social, website and Google Business Profile sections. It appears at
+the top of the report and in the PDF; "Regenerate" writes a fresh one (one Gemini request each time).
+
+- Gemini receives only the finished, rounded report numbers (`buildFacts` in `src/lib/ai/summary.ts`), never
+  raw scraped posts or reviews.
+- The response must match a fixed JSON schema. Every number in it is checked against the facts; if any
+  number is not in the audit, the model is asked once to correct it, and if it still invents one the
+  summary is withheld with the reason shown. Small counts (0–10) are allowed.
+- A failed or missing summary never affects the audit, its scores or the PDF.
 
 ## Accuracy harness (`/accuracy`)
 
@@ -234,8 +266,124 @@ pages, a 25-second page timeout, a 75-second total budget and two concurrent cra
 `src/lib/accuracy` holds the pure grading functions and the CSV writer, which prefixes leading `=`, `+`, `-`
 and `@` to neutralise spreadsheet formula injection from scraped text. `metrics`, `scoring` and `recommendations` are pure modules. `jobs/worker.ts` runs independently of Next.js. `src/components/report` is shared between screen and print. `src/lib/pdf` uses an authenticated Chromium context limited to APP_ORIGIN; it never accepts a caller-supplied rendering URL. Chromium instances are closed in finally blocks; at most two exports render concurrently per server process.
 
-For a local production smoke run, set a non-placeholder APP_PASSWORD, then `npm run build` and `npm run start`, with a worker in a second terminal. Keep the configured APP_ORIGIN reachable by Chromium. HTTPS origins use secure session cookies. This version needs a persistent Node process, writable database storage and Chromium; a stateless serverless deployment will need a separately hosted worker and database.
+This app needs three things a serverless platform cannot give it: a **process that stays alive** (the
+worker), **Chromium** (PDF export and website discovery), and a **persistent Postgres**. That is why it
+deploys as containers rather than to Vercel. HTTPS origins automatically use secure session cookies.
 
-SQLite is the allowed local-development choice. PostgreSQL deployment requires changing the Prisma provider and generating a PostgreSQL migration from the same logical model; do not apply the SQLite SQL migration to PostgreSQL. Plan data transfer before moving existing audits. No live production deployment is claimed at this checkpoint.
+A `deepmerge-ts` override addresses a transitive advisory; migration, generation and build checks cover that
+override. Commit the lockfile and use `npm ci` for reproducibility.
 
-Prisma 6 is pinned for its SQLite workflow. A `deepmerge-ts` override addresses its transitive advisory; migration/generation/build checks cover that override. Vitest and Node types were updated together. Commit the lockfile and use `npm ci` for reproducibility.
+## Deploying to Oracle Cloud (Always Free)
+
+Oracle's Always Free Ampere tier gives an always-on ARM VM at no cost, which suits an internal tool that
+must keep a worker running. The Docker image is built on the official Playwright base so Chromium works on
+`arm64`, and Prisma's `binaryTargets` includes the matching engine.
+
+### 1. Create the instance
+
+In the OCI console: **Compute → Instances → Create**.
+
+- **Shape:** `VM.Standard.A1.Flex` (Ampere ARM), 2 OCPU and 8 GB RAM is plenty. Always Free allows up to 2
+  OCPU / 12 GB across all A1 instances (halved from 4 OCPU / 24 GB on June 15, 2026; instances above
+  the limit are stopped until resized).
+- **Image:** Ubuntu 22.04 or 24.04.
+- Save the SSH private key when prompted.
+
+> Always Free ARM capacity is frequently exhausted in popular regions. "Out of host capacity" is normal;
+> retry, or pick a different availability domain or home region.
+
+### 2. Open the port, in both places
+
+This is the most common reason a fresh Oracle VM appears unreachable — there are **two** firewalls.
+
+**a. VCN security list:** Networking → Virtual Cloud Networks → your VCN → Subnet → Security List → Add
+Ingress Rule. Source `0.0.0.0/0`, IP protocol TCP, destination port `3000` (or `80` and `443` behind a
+proxy).
+
+**b. The instance's own iptables**, which Oracle's Ubuntu images preconfigure to drop almost everything:
+
+```bash
+sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 3000 -j ACCEPT
+sudo netfilter-persistent save
+```
+
+### 3. Install Docker
+
+```bash
+sudo apt-get update && sudo apt-get install -y ca-certificates curl git
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/keyrings/docker.asc > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo usermod -aG docker $USER && newgrp docker
+```
+
+### 4. Configure and start
+
+```bash
+git clone <your-repo-url> && cd lead-audit
+cp .env.example .env
+nano .env
+```
+
+Set at minimum:
+
+| Variable                         | Value                                                          |
+| -------------------------------- | -------------------------------------------------------------- |
+| `APP_PASSWORD`                   | a real password; the app refuses `change-me` in production     |
+| `POSTGRES_PASSWORD`              | a strong password                                              |
+| `APP_ORIGIN`                     | `http://<public-ip>:3000`, or your HTTPS domain behind a proxy |
+| `USE_MOCK_DATA`                  | `false` for live collection                                    |
+| `APIFY_TOKEN`, `YOUTUBE_API_KEY` | your keys                                                      |
+
+Then:
+
+```bash
+docker compose up -d --build
+docker compose logs -f worker
+```
+
+The first build takes several minutes on ARM. The `migrate` service applies migrations and seeds
+configuration, then exits; web and worker wait for it to finish. A healthy worker logs:
+
+```json
+{
+  "event": "worker.started",
+  "mode": "live",
+  "liveCollectors": ["instagram", "facebook", "linkedin", "youtube"]
+}
+```
+
+### 5. Verify
+
+Open `http://<public-ip>:3000` and sign in with `APP_PASSWORD`.
+
+**`APP_ORIGIN` must be the exact URL you open**, because it is used for both the origin check on mutations
+and for PDF rendering — the server launches Chromium and navigates to that URL itself, so the VM must be
+able to reach its own public address. If PDF export fails while the rest of the app works, that is almost
+always the cause.
+
+### Operations
+
+```bash
+docker compose logs -f web worker     # follow logs
+docker compose up -d --build          # deploy a new version
+docker compose down                   # stop (the pgdata volume survives)
+docker compose exec postgres pg_dump -U leadaudit leadaudit > backup.sql
+```
+
+Nothing backs up the database automatically. For an internal tool a periodic `pg_dump` to object storage is
+usually enough; add it to cron.
+
+### HTTPS
+
+Session cookies are marked `Secure` only when `APP_ORIGIN` starts with `https://`, so plain HTTP is fine on
+a trusted network but should not be used over the internet. To add TLS, point a domain at the instance, put
+Caddy or nginx in front of port 3000, and set `APP_ORIGIN` to the `https://` URL.
+
+### Using Supabase instead of the bundled Postgres
+
+Set `EXTERNAL_DATABASE_URL` (Supabase's pooled URI, port 6543, with `&pgbouncer=true`) and
+`EXTERNAL_DIRECT_URL` (the direct URI, port 5432) in `.env`. The containers prefer those over the bundled
+database. Note that Supabase's free tier pauses a project after 7 days of inactivity, which for an
+occasionally used audit tool means a manual restore from their dashboard.

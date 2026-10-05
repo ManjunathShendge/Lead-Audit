@@ -1,6 +1,7 @@
-import { chromium, type Browser } from 'playwright';
+import type { Browser } from 'playwright';
+import { launchGuarded } from './browser';
 import { extractHandles, missingPlatforms, type ExtractResult } from './extract';
-import { assertPublicUrl, isPrivateAddress } from './net';
+import { assertPublicUrl } from './net';
 
 export { UnsafeUrlError } from './net';
 export type { Discovered, ExtractResult } from './extract';
@@ -20,9 +21,19 @@ export type DiscoveryResult = ExtractResult & {
   brand: string | null;
   pagesVisited: string[];
   warnings: string[];
+  /** Words from the visited pages, used to suggest a target audience. Never shown as-is. */
+  siteText: string;
 };
 
-type PageHarvest = { links: string[]; siteName: string | null; title: string | null };
+type PageHarvest = {
+  links: string[];
+  siteName: string | null;
+  title: string | null;
+  description: string | null;
+  headings: string[];
+  body: string;
+};
+const SITE_TEXT_LIMIT = 6000;
 
 export async function discoverFromWebsite(input: string): Promise<DiscoveryResult> {
   const start = new URL((await assertPublicUrl(normalizeInput(input))).href);
@@ -33,33 +44,12 @@ export async function discoverFromWebsite(input: string): Promise<DiscoveryResul
   const pagesVisited: string[] = [];
   let result: ExtractResult = { handles: {}, other: [] };
   let brand: string | null = null;
+  let siteText = '';
   let browser: Browser | undefined;
 
   try {
-    browser = await chromium.launch({ headless: true });
-    const context = await browser.newContext({
-      viewport: { width: 1280, height: 900 },
-      userAgent:
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
-      reducedMotion: 'reduce',
-      javaScriptEnabled: true,
-    });
-    context.setDefaultTimeout(PAGE_TIMEOUT_MS);
-
-    const hostAllowed = new Map<string, boolean>();
-    await context.route('**/*', async (route) => {
-      const request = route.request();
-      const url = new URL(request.url());
-      if (['image', 'media', 'font'].includes(request.resourceType())) return route.abort();
-      if (!['http:', 'https:'].includes(url.protocol)) return route.abort();
-      const host = url.hostname.toLowerCase();
-      let allowed = hostAllowed.get(host);
-      if (allowed === undefined) {
-        allowed = request.resourceType() === 'document' ? await isPublicHost(host) : !isLiteralPrivate(host);
-        hostAllowed.set(host, allowed);
-      }
-      return allowed ? route.continue() : route.abort();
-    });
+    let context;
+    ({ browser, context } = await launchGuarded(PAGE_TIMEOUT_MS));
 
     const page = await context.newPage();
     const targets = [start.href, ...FOLLOW_UP_PATHS.map((p) => new URL(p, start).href)];
@@ -79,6 +69,17 @@ export async function discoverFromWebsite(input: string): Promise<DiscoveryResul
       pagesVisited.push(page.url());
       result = extractHandles(harvest.links, result);
       if (!brand) brand = cleanBrand(harvest.siteName ?? harvest.title);
+      siteText = [
+        siteText,
+        `Page: ${page.url()}`,
+        harvest.title && `Title: ${harvest.title}`,
+        harvest.description && `Description: ${harvest.description}`,
+        harvest.headings.length ? `Headings: ${harvest.headings.join(' | ')}` : null,
+        harvest.body && `Text: ${harvest.body}`,
+      ]
+        .filter(Boolean)
+        .join('\n')
+        .slice(0, SITE_TEXT_LIMIT);
     }
 
     for (const [platform, found] of Object.entries(result.handles))
@@ -93,7 +94,7 @@ export async function discoverFromWebsite(input: string): Promise<DiscoveryResul
         `No link found for ${missing.join(', ')} on ${pagesVisited.length} page(s). Absence of a link is not proof the account does not exist.`,
       );
 
-    return { ...result, website: start.origin, brand, pagesVisited, warnings };
+    return { ...result, website: start.origin, brand, pagesVisited, warnings, siteText: siteText.trim() };
   } finally {
     try {
       await browser?.close();
@@ -113,6 +114,18 @@ async function visit(page: import('playwright').Page, target: string): Promise<P
       siteName:
         document.querySelector('meta[property="og:site_name"]')?.getAttribute('content')?.trim() || null,
       title: document.title?.trim() || null,
+      description:
+        document.querySelector('meta[name="description" i]')?.getAttribute('content')?.trim() || null,
+      headings: Array.from(document.querySelectorAll('h1, h2'), (h) =>
+        (h.textContent ?? '').replace(/\s+/g, ' ').trim(),
+      )
+        .filter((h) => h.length > 1 && h.length < 160)
+        .slice(0, 12),
+      body:
+        ((document.querySelector('main') ?? document.body) as HTMLElement | null)?.innerText
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, 2000) ?? '',
     }));
   } catch {
     return null;
@@ -122,19 +135,6 @@ async function visit(page: import('playwright').Page, target: string): Promise<P
 function normalizeInput(input: string) {
   const text = input.trim();
   return /^https?:\/\//i.test(text) ? text : `https://${text}`;
-}
-
-function isLiteralPrivate(host: string) {
-  return host === 'localhost' || host.endsWith('.localhost') || isPrivateAddress(host);
-}
-
-async function isPublicHost(host: string) {
-  try {
-    await assertPublicUrl(`https://${host}/`);
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 /** "Acme Co. | Best widgets in Bengaluru" -> "Acme Co." */

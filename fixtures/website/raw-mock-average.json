@@ -1,0 +1,205 @@
+{
+  "synthetic": true,
+  "fixtureVersion": 1,
+  "channel": "website",
+  "tier": "average",
+  "status": "ok",
+  "pagespeed": {
+    "runs": [
+      {
+        "performance": 52,
+        "seo": 83
+      },
+      {
+        "performance": 58,
+        "seo": 83
+      },
+      {
+        "performance": 55,
+        "seo": 83
+      }
+    ],
+    "lcpMs": 3400,
+    "inpMs": 180,
+    "cls": 0.08,
+    "vitalsSource": "origin"
+  },
+  "seo": {
+    "title": true,
+    "metaDescription": true,
+    "singleH1": false,
+    "h1Count": 3,
+    "imageAltRatio": 0.72,
+    "imageCount": 41,
+    "schema": false,
+    "sitemap": true,
+    "robots": true,
+    "https": true
+  },
+  "tracking": {
+    "analytics": true,
+    "meta": true,
+    "ads": false,
+    "linkedin": false
+  },
+  "conversion": {
+    "form": true,
+    "cta": true,
+    "whatsapp": true,
+    "phone": false
+  },
+  "ctaText": "Get in touch",
+  "freshness": {
+    "latestPostDaysAgo": 75,
+    "blogPath": "/blog",
+    "copyrightYearsAgo": 1
+  },
+  "warnings": [
+    "Core Web Vitals use field data for the whole origin, not just the homepage."
+  ],
+  "seoAudit": {
+    "statusCode": 200,
+    "titleLength": 72,
+    "descriptionLength": 182,
+    "canonical": true,
+    "viewport": true,
+    "lang": true,
+    "openGraph": true,
+    "twitterCard": false,
+    "noindex": false,
+    "hreflang": false,
+    "favicon": true,
+    "h2Count": 3,
+    "wordCount": 520,
+    "internalLinks": 6,
+    "externalLinks": 4,
+    "schemaTypes": [],
+    "ttfbMs": 1100,
+    "fcpMs": 2400,
+    "lighthouse": [
+      {
+        "id": "document-title",
+        "title": "Document has a <title> element",
+        "passed": true
+      },
+      {
+        "id": "meta-description",
+        "title": "Document has a meta description",
+        "passed": true
+      },
+      {
+        "id": "http-status-code",
+        "title": "Page has successful HTTP status code",
+        "passed": true
+      },
+      {
+        "id": "link-text",
+        "title": "Links have descriptive text",
+        "passed": false
+      },
+      {
+        "id": "crawlable-anchors",
+        "title": "Links are crawlable",
+        "passed": true
+      },
+      {
+        "id": "is-crawlable",
+        "title": "Page is not blocked from indexing",
+        "passed": true
+      },
+      {
+        "id": "robots-txt",
+        "title": "robots.txt is valid",
+        "passed": true
+      },
+      {
+        "id": "image-alt",
+        "title": "Image elements have [alt] attributes",
+        "passed": false
+      },
+      {
+        "id": "hreflang",
+        "title": "Document has a valid hreflang",
+        "passed": true
+      },
+      {
+        "id": "canonical",
+        "title": "Document has a valid rel=canonical",
+        "passed": true
+      }
+    ],
+    "search": {
+      "indexedPages": 37,
+      "indexedLowerBound": false,
+      "brandQuery": "Sample brand",
+      "brandPosition": 2,
+      "brandSitelinks": false,
+      "topResults": [
+        {
+          "position": 1,
+          "title": "Sample result: Home",
+          "url": "https://example.org/home",
+          "own": false
+        },
+        {
+          "position": 2,
+          "title": "Sample result: Instagram",
+          "url": "https://brand.example/instagram",
+          "own": true
+        },
+        {
+          "position": 3,
+          "title": "Sample result: LinkedIn",
+          "url": "https://example.org/linkedin",
+          "own": false
+        },
+        {
+          "position": 4,
+          "title": "Sample result: Facebook",
+          "url": "https://example.org/facebook",
+          "own": false
+        },
+        {
+          "position": 5,
+          "title": "Sample result: Reviews",
+          "url": "https://example.org/reviews",
+          "own": false
+        },
+        {
+          "position": 6,
+          "title": "Sample result: Directory",
+          "url": "https://example.org/directory",
+          "own": false
+        },
+        {
+          "position": 7,
+          "title": "Sample result: News",
+          "url": "https://example.org/news",
+          "own": false
+        },
+        {
+          "position": 8,
+          "title": "Sample result: YouTube",
+          "url": "https://example.org/youtube",
+          "own": false
+        },
+        {
+          "position": 9,
+          "title": "Sample result: Careers",
+          "url": "https://example.org/careers",
+          "own": false
+        },
+        {
+          "position": 10,
+          "title": "Sample result: Blog",
+          "url": "https://example.org/blog",
+          "own": false
+        }
+      ],
+      "peopleAlsoAsk": [
+        "Is the brand legit?",
+        "How do I contact the brand?"
+      ]
+    }
+  }
+}

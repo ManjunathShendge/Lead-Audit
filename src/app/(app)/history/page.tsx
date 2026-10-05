@@ -1,10 +1,20 @@
 import Link from 'next/link';
-import { Plus, ArrowUpRight, ScanLine, ChartNoAxesCombined, Wallet, CheckCheck } from 'lucide-react';
+import {
+  Plus,
+  ListPlus,
+  ArrowUpRight,
+  ScanLine,
+  ChartNoAxesCombined,
+  Wallet,
+  CheckCheck,
+} from 'lucide-react';
 import { db } from '@/lib/db';
 import type { Report } from '@/lib/report';
 import { band } from '@/lib/scoring';
 import { HistoryTable } from '@/components/history-table';
+import { currentMode } from '@/lib/collectors';
 export default async function History() {
+  const liveWorkspace = currentMode() === 'live';
   const audits = await db.audit.findMany({
     orderBy: { createdAt: 'desc' },
     include: { runs: { select: { costUsd: true } } },
@@ -17,6 +27,7 @@ export default async function History() {
       website: a.website,
       industry: a.industry,
       state: a.state,
+      mode: a.mode === 'live' ? ('live' as const) : ('mock' as const),
       createdAt: a.createdAt.toISOString(),
       score: r?.social ?? null,
       band: band(r?.social ?? null, r?.config),
@@ -55,10 +66,16 @@ export default async function History() {
           </h1>
           <p>Explore the presence. Uncover the gaps. Start a better conversation.</p>
         </div>
-        <Link className="button primary" href="/audits/new">
-          <Plus size={16} />
-          New audit
-        </Link>
+        <span className="actions">
+          <Link className="button" href="/audits/bulk">
+            <ListPlus size={16} />
+            Bulk audit
+          </Link>
+          <Link className="button primary" href="/audits/new">
+            <Plus size={16} />
+            New audit
+          </Link>
+        </span>
       </div>
       <section className="library-banner">
         <div>
@@ -99,7 +116,7 @@ export default async function History() {
             Icon: ChartNoAxesCombined,
             title: 'Average social score',
             value: average === null ? '—' : `${average}`,
-            note: 'Across measured mock reports',
+            note: 'Across measured reports',
           },
           {
             Icon: Wallet,
@@ -109,7 +126,11 @@ export default async function History() {
                 ? 'Not measured'
                 : `$${monthCost.toFixed(2)}+`
               : `$${monthCost.toFixed(2)}`,
-            note: unknown ? `${unknown} collection costs not measured` : 'Mock data. Zero API spend.',
+            note: unknown
+              ? `${unknown} collection costs not measured`
+              : liveWorkspace
+                ? 'Live collection spend'
+                : 'Mock data. Zero API spend.',
           },
         ].map(({ Icon, title, value, note }) => (
           <div className="panel library-stat" key={title}>
@@ -124,8 +145,10 @@ export default async function History() {
       </div>
       <HistoryTable audits={items} />
       <p className="library-footnote">
-        Mock workspace · All sample data is illustrative. Costs cover retained audits; deleted records are
-        excluded.
+        {liveWorkspace
+          ? 'Live workspace · New audits collect real public data. Reports tagged Demo use sample data.'
+          : 'Mock workspace · New audits use sample data, not real accounts.'}{' '}
+        Costs cover retained audits; deleted records are excluded.
       </p>
     </>
   );

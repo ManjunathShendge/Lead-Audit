@@ -63,7 +63,13 @@ const videosSchema = z.object({
     .array(
       z.object({
         id: z.string(),
-        snippet: z.object({ title: z.string().optional(), publishedAt: z.string().optional() }).optional(),
+        snippet: z
+          .object({
+            title: z.string().optional(),
+            description: z.string().optional(),
+            publishedAt: z.string().optional(),
+          })
+          .optional(),
         statistics: z
           .object({
             viewCount: z.string().optional(),
@@ -151,7 +157,7 @@ async function resolveChannel(handle: string, signal?: AbortSignal) {
 export function youtubeCollector(asOf = new Date()): Collector {
   return {
     platform: 'youtube',
-    async collect(handle, { postsLimit, signal }) {
+    async collect(handle, { postsLimit, signal, window }) {
       signal?.throwIfAborted();
       const warnings: string[] = [];
       const fetchedAt = asOf.toISOString();
@@ -181,34 +187,66 @@ export function youtubeCollector(asOf = new Date()): Collector {
       if (hidden) warnings.push('Subscriber count is hidden on this channel.');
 
       const uploads = channel.contentDetails?.relatedPlaylists?.uploads;
-      const want = Math.min(Math.max(postsLimit, 1), PAGE);
       let playlistResponse: z.infer<typeof playlistItemsSchema> = { items: [] };
       let videosResponse: z.infer<typeof videosSchema> = { items: [] };
       let calls = quota;
+      // Set once a chosen period has been paged past, which proves every upload inside it was seen.
+      let reachedStart = false;
 
       if (!uploads) {
         warnings.push('This channel exposes no uploads playlist; video activity is not measured.');
-      } else {
+      } else if (!window) {
         playlistResponse = await call(
           'playlistItems',
-          { part: 'contentDetails', playlistId: uploads, maxResults: String(want) },
+          {
+            part: 'contentDetails',
+            playlistId: uploads,
+            maxResults: String(Math.min(Math.max(postsLimit, 1), PAGE)),
+          },
           playlistItemsSchema,
           signal,
         );
         calls++;
-        const ids = playlistResponse.items
-          .map((i) => i.contentDetails?.videoId)
-          .filter((id): id is string => !!id);
-        if (ids.length) {
-          // One batched videos.list call for every fetched upload, as the brief requires.
-          videosResponse = await call(
-            'videos',
-            { part: 'snippet,statistics,contentDetails', id: ids.join(',') },
-            videosSchema,
+      } else {
+        // Uploads come newest first: page back until the period's start, keeping only uploads inside it.
+        const at = (i: (typeof playlistResponse.items)[number]) =>
+          Date.parse(i.contentDetails?.videoPublishedAt ?? '');
+        let pageToken: string | undefined;
+        const kept: typeof playlistResponse.items = [];
+        do {
+          const page = await call(
+            'playlistItems',
+            {
+              part: 'contentDetails',
+              playlistId: uploads,
+              maxResults: String(PAGE),
+              ...(pageToken && { pageToken }),
+            },
+            playlistItemsSchema,
             signal,
           );
           calls++;
-        }
+          for (const item of page.items) {
+            const t = at(item);
+            if (t < window.start.getTime()) reachedStart = true;
+            else if (t <= window.end.getTime()) kept.push(item);
+          }
+          pageToken = page.nextPageToken;
+        } while (pageToken && !reachedStart && kept.length < postsLimit);
+        if (!pageToken) reachedStart = true;
+        playlistResponse = { items: kept.slice(0, postsLimit), nextPageToken: reachedStart ? undefined : pageToken };
+      }
+      const ids = playlistResponse.items.map((i) => i.contentDetails?.videoId).filter((id): id is string => !!id);
+      // videos.list takes at most 50 ids per call.
+      for (let i = 0; i < ids.length; i += PAGE) {
+        const batch = await call(
+          'videos',
+          { part: 'snippet,statistics,contentDetails', id: ids.slice(i, i + PAGE).join(',') },
+          videosSchema,
+          signal,
+        );
+        calls++;
+        videosResponse = { items: [...videosResponse.items, ...batch.items] };
       }
 
       const published = new Map(
@@ -233,14 +271,18 @@ export function youtubeCollector(asOf = new Date()): Collector {
           views: count(video.statistics?.viewCount),
           isPinned: false,
           captionPreview: video.snippet?.title?.slice(0, 180) ?? null,
+          caption:
+            [video.snippet?.title, video.snippet?.description].filter(Boolean).join(' — ').slice(0, 1000) ||
+            null,
         };
       });
 
       const totalVideos = count(stats?.videoCount);
       // The sample is complete only when every upload the channel reports was actually fetched.
-      const sampleComplete =
-        totalVideos !== null && posts.length >= totalVideos && !playlistResponse.nextPageToken;
-      if (!sampleComplete && posts.length)
+      const sampleComplete = window
+        ? reachedStart
+        : totalVideos !== null && posts.length >= totalVideos && !playlistResponse.nextPageToken;
+      if (!sampleComplete && posts.length && !window)
         warnings.push(
           `Fetched the ${posts.length} most recent uploads of ${totalVideos ?? 'an unknown number of'} total.`,
         );

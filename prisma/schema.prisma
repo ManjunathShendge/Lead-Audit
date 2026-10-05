@@ -1,100 +1,129 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // Oracle Cloud's Always Free tier is Ampere ARM, so the arm64 engine must be present in the image.
+  binaryTargets = ["native", "linux-arm64-openssl-3.0.x", "debian-openssl-3.0.x"]
 }
+
 datasource db {
-  provider = "sqlite"
-  url = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Migrations cannot run through a connection pooler; DIRECT_URL bypasses it.
+  // With a self-hosted Postgres both values are the same connection string.
+  directUrl = env("DIRECT_URL")
 }
+
 model Audit {
-  id String @id @default(cuid())
-  brand String
-  website String?
-  industry String
-  handles Json
-  tier String @default("average")
-  mode String @default("mock")
-  state String @default("queued")
-  config Json
-  report Json?
-  cacheKey String
-  createdAt DateTime @default(now())
-  completedAt DateTime?
-  runs CollectorRun[]
+  id             String         @id @default(cuid())
+  brand          String
+  website        String?
+  industry       String
+  handles        Json
+  /// Website audit switch and Google Business Profile search, see ChannelTargets.
+  channels       Json?
+  tier           String         @default("average")
+  mode           String         @default("mock")
+  state          String         @default("queued")
+  config         Json
+  report         Json?
+  /// AI summary written from report numbers only, see StoredSummary.
+  summary        Json?
+  /// Target audience entered by the team, see TargetAudience. Null = inferred by the analysis.
+  targetAudience Json?
+  /// Audience-alignment analysis of the collected posts, see StoredAlignment.
+  alignment      Json?
+  /// Calendar months the social metrics cover, see Period. Null = the default recent window.
+  period         Json?
+  cacheKey       String
+  createdAt      DateTime       @default(now())
+  completedAt    DateTime?
+  runs           CollectorRun[]
+
   @@index([cacheKey, createdAt])
 }
+
 model CollectorRun {
-  id String @id @default(cuid())
-  auditId String
-  audit Audit @relation(fields: [auditId], references: [id], onDelete: Cascade)
-  platform String
-  handle String
-  state String @default("queued")
-  attempts Int @default(0)
+  id         String    @id @default(cuid())
+  auditId    String
+  audit      Audit     @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  platform   String
+  handle     String
+  state      String    @default("queued")
+  attempts   Int       @default(0)
   leaseUntil DateTime?
-  result Json?
-  raw Json?
-  costUsd Float?
-  error String?
+  result     Json?
+  raw        Json?
+  costUsd    Float?
+  error      String?
+
   @@unique([auditId, platform])
   @@index([state, leaseUntil])
 }
+
 model Config {
-  id String @id @default("default")
+  id    String @id @default("default")
   value Json
 }
+
 model Benchmark {
-  id String @id @default(cuid())
-  industry String
-  platform String
-  postsTarget Float
+  id               String  @id @default(cuid())
+  industry         String
+  platform         String
+  postsTarget      Float
   engagementTarget Float
-  followerLow Float
-  followerHigh Float
-  reviewLow Float
-  reviewHigh Float
-  placeholder Boolean @default(true)
+  followerLow      Float
+  followerHigh     Float
+  reviewLow        Float
+  reviewHigh       Float
+  placeholder      Boolean @default(true)
+
   @@unique([industry, platform])
 }
+
 model ServiceMapping {
-  key String @id
-  service String
+  key         String @id
+  service     String
   explanation String
 }
+
 model Session {
-  tokenHash String @id
+  tokenHash String   @id
   expiresAt DateTime
 }
+
 model LoginThrottle {
-  key String @id
-  attempts Int @default(0)
-  resetAt DateTime
+  key      String   @id
+  attempts Int      @default(0)
+  resetAt  DateTime
 }
+
 model AccuracyRun {
-  id String @id @default(cuid())
-  createdAt DateTime @default(now())
-  label String @default("")
-  mode String @default("live")
-  results Json
-  costUsd Float?
-  items AccuracyItem[]
+  id        String         @id @default(cuid())
+  createdAt DateTime       @default(now())
+  label     String         @default("")
+  mode      String         @default("live")
+  results   Json
+  costUsd   Float?
+  items     AccuracyItem[]
 }
+
 model AccuracyItem {
-  id String @id @default(cuid())
-  runId String
-  run AccuracyRun @relation(fields: [runId], references: [id], onDelete: Cascade)
-  platform String
-  handle String
-  state String @default("queued")
-  attempts Int @default(0)
-  leaseUntil DateTime?
-  followers Int?
-  totalPosts Int?
-  lastPostAt String?
-  costUsd Float?
-  error String?
-  trueFollowers Int?
+  id             String      @id @default(cuid())
+  runId          String
+  run            AccuracyRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  platform       String
+  handle         String
+  state          String      @default("queued")
+  attempts       Int         @default(0)
+  leaseUntil     DateTime?
+  followers      Int?
+  totalPosts     Int?
+  lastPostAt     String?
+  costUsd        Float?
+  error          String?
+  trueFollowers  Int?
   trueTotalPosts Int?
   trueLastPostAt String?
+
   @@unique([runId, platform, handle])
   @@index([state, leaseUntil])
 }

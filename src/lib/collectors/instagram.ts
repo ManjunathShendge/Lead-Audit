@@ -1,3 +1,4 @@
+import { fetchBounds } from '../period';
 import { runActor } from './apify';
 import { FieldPicker } from './fields';
 import { profileUrl, resultSchema, type Collector, type CollectorResult, type NormalizedPost } from './types';
@@ -112,6 +113,7 @@ export function normalizeInstagram(
       views: f.number('views', [...IG_FIELDS.views]),
       isPinned: f.bool('pinned', [...IG_FIELDS.pinned]) === true,
       captionPreview: f.text('caption', [...IG_FIELDS.caption])?.slice(0, 180) ?? null,
+      caption: f.text('caption', [...IG_FIELDS.caption])?.slice(0, 1000) ?? null,
     };
     f.missing.forEach((miss) => postMisses.add(miss));
     return post;
@@ -173,7 +175,7 @@ export function normalizeInstagram(
 export function instagramCollector(asOf = new Date()): Collector {
   return {
     platform: 'instagram',
-    async collect(handle, { postsLimit, signal }) {
+    async collect(handle, { postsLimit, signal, window }) {
       signal?.throwIfAborted();
       const { items, costUsd } = await runActor(
         process.env.APIFY_ACTOR_INSTAGRAM ?? '',
@@ -183,6 +185,7 @@ export function instagramCollector(asOf = new Date()): Collector {
           scrape_posts: true,
           scrape_reels: true,
           posts_per_account: postsLimit,
+          ...(window && { fromDate: fetchBounds(window).from, toDate: fetchBounds(window).to }),
           include_raw_data: true,
           // scrape_detailed_data and scrape_restricted_posts are paid add-ons and stay off.
         },

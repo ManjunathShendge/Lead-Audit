@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { db } from './db';
 import { platforms } from './collectors/types';
-import { configSchema, benchmarkSchema } from './scoring/config';
+import { configSchema, benchmarkSchema, placeholderBenchmark } from './scoring/config';
 import type { Snapshot } from './report';
 export async function loadSnapshot(industry: string): Promise<Snapshot> {
   const [config, benchmarks, mappings] = await Promise.all([
@@ -18,6 +18,7 @@ export async function loadSnapshot(industry: string): Promise<Snapshot> {
         return [p, benchmarkSchema.parse(value)];
       }),
     ) as Snapshot['benchmarks'],
+    gbpBenchmark: benchmarkSchema.parse(benchmarks.find((b) => b.platform === 'gbp') ?? placeholderBenchmark),
     services: z
       .record(z.string(), z.object({ service: z.string(), explanation: z.string() }))
       .parse(

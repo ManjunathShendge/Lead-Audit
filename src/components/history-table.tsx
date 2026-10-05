@@ -9,6 +9,7 @@ export interface HistoryItem {
   website: string | null;
   industry: string;
   state: string;
+  mode: 'live' | 'mock';
   createdAt: string;
   score: number | null;
   band: string;
@@ -100,7 +101,10 @@ export function HistoryTable({ audits }: { audits: HistoryItem[] }) {
                         .join('')}
                     </span>
                     <span>
-                      <strong>{a.brand}</strong>
+                      <strong>
+                        {a.brand}{' '}
+                        <span className={`data-tag ${a.mode}`}>{a.mode === 'live' ? 'Live' : 'Demo'}</span>
+                      </strong>
                       <small>{a.website ? new URL(a.website).hostname : 'Social handles only'}</small>
                     </span>
                   </Link>

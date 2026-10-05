@@ -26,6 +26,32 @@ const BENCHMARK_FIELDS = [
   ['reviewHigh', 'Review high'],
 ] as const;
 
+/** Readable names for config keys shown on this page; unknown keys fall back to "Sentence case". */
+const fieldLabels: Record<string, string> = {
+  gbp: 'Google Business Profile',
+  seo: 'SEO',
+  cwv: 'Core Web Vitals',
+  lcp: 'Largest Contentful Paint (s)',
+  inp: 'Interaction to Next Paint (ms)',
+  cls: 'Cumulative Layout Shift',
+  altRatio: 'Image alt text ratio',
+  gapDays: 'Posting gap (days)',
+  gapPenalty: 'Posting gap penalty',
+  gapScore: 'Opportunity below score',
+  ratingLow: 'Rating scoring 0',
+  ratingHigh: 'Rating scoring 100',
+  needsWork: 'Needs work from',
+  good: 'Good from',
+  strong: 'Strong from',
+  replies: 'Owner replies',
+  completeness: 'Profile completeness',
+};
+function fieldLabel(field: string) {
+  if (fieldLabels[field]) return fieldLabels[field];
+  const words = field.replace(/([A-Z])/g, ' $1').toLowerCase();
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 export function SettingsForm({
   initialConfig,
   initialBenchmarks,
@@ -84,14 +110,14 @@ export function SettingsForm({
       <section className="panel">
         <h2>{title}</h2>
         {hint && <p className="field-help">{hint}</p>}
-        <table>
+        <table className="weights-table">
           <tbody>
             {Object.entries(values).map(([field, value]) => (
               <tr key={field}>
-                <td style={{ textTransform: 'capitalize' }}>
-                  <label htmlFor={`${String(key)}-${field}`}>{field}</label>
+                <td>
+                  <label htmlFor={`${String(key)}-${field}`}>{fieldLabel(field)}</label>
                 </td>
-                <td style={{ width: 110 }}>
+                <td className="weight-cell">
                   <input
                     id={`${String(key)}-${field}`}
                     inputMode="decimal"
@@ -115,15 +141,15 @@ export function SettingsForm({
 
   return (
     <>
-      <div className="grid-2">
+      <div className="grid-2 settings-panel">
         {weightGroup(
           'channels',
           'Channel weights',
-          'A channel with no collector is excluded and the rest are re-normalised.',
+          'A channel that is not measured is excluded and the rest are re-normalised. Weight 0 also skips collection.',
         )}
         {weightGroup('components', 'Social component weights')}
-        {weightGroup('website', 'Website criteria · collector later')}
-        {weightGroup('gbp', 'Google Business Profile · collector later')}
+        {weightGroup('website', 'Website criteria')}
+        {weightGroup('gbp', 'Google Business Profile criteria')}
       </div>
 
       <section className="panel settings-panel">
@@ -230,9 +256,7 @@ export function SettingsForm({
         <div className="threshold-grid">
           {Object.entries(config.thresholds).map(([field, value]) => (
             <div key={field}>
-              <label htmlFor={`th-${field}`} style={{ textTransform: 'capitalize' }}>
-                {field.replace(/([A-Z])/g, ' $1')}
-              </label>
+              <label htmlFor={`th-${field}`}>{fieldLabel(field)}</label>
               <input
                 id={`th-${field}`}
                 inputMode="decimal"
