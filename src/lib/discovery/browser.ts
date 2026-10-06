@@ -1,5 +1,9 @@
-import { chromium, type Browser, type BrowserContext } from 'playwright';
+import type { Browser, BrowserContext } from 'playwright-core';
+import { openBrowser } from '../browser';
 import { assertPublicUrl, isPrivateAddress } from './net';
+
+/** Longest a crawl may hold a remote browser: the 180 second collector timeout plus margin. */
+const SESSION_MS = 200_000;
 
 export const USER_AGENT =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
@@ -13,7 +17,7 @@ export async function launchGuarded(
   timeoutMs: number,
   onRequest?: (url: string) => void,
 ): Promise<{ browser: Browser; context: BrowserContext }> {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await openBrowser(SESSION_MS);
   try {
     const context = await browser.newContext({
       viewport: { width: 1280, height: 900 },

@@ -1,20 +1,25 @@
-import { chromium } from 'playwright';
-import { SESSION_COOKIE } from '../auth';
+import type { Browser } from 'playwright-core';
+import { SESSION_COOKIE, createPrintSession } from '../auth';
+import { openBrowser, remoteBrowserConfigured } from '../browser';
 import { pdfSections, type PdfSection } from './sections';
 let active = 0;
 export class PdfBusyError extends Error {}
-export async function renderAuditPdf(
-  id: string,
-  sessionToken: string,
-  mode: 'live' | 'mock',
-  section: PdfSection | null = null,
-) {
+export class PdfConfigError extends Error {}
+const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]', '0.0.0.0']);
+export async function renderAuditPdf(id: string, mode: 'live' | 'mock', section: PdfSection | null = null) {
   if (active >= 2) throw new PdfBusyError('PDF renderer is busy. Please try again shortly.');
+  const origin = new URL(process.env.APP_ORIGIN || 'http://localhost:3000').origin;
+  // Browserless loads the print page over the internet, so it can never reach a loopback origin.
+  if (remoteBrowserConfigured() && LOCAL_HOSTS.has(new URL(origin).hostname))
+    throw new PdfConfigError(
+      'Set APP_ORIGIN to the public HTTPS address so the remote browser can open the report.',
+    );
   active++;
-  let browser: Awaited<ReturnType<typeof chromium.launch>> | undefined;
+  let browser: Browser | undefined;
+  let print: Awaited<ReturnType<typeof createPrintSession>> | undefined;
   try {
-    const origin = new URL(process.env.APP_ORIGIN || 'http://localhost:3000').origin;
-    browser = await chromium.launch({ headless: true });
+    print = await createPrintSession();
+    browser = await openBrowser(90_000);
     const context = await browser.newContext({
       viewport: { width: 794, height: 1123 },
       reducedMotion: 'reduce',
@@ -22,7 +27,7 @@ export async function renderAuditPdf(
     await context.addCookies([
       {
         name: SESSION_COOKIE,
-        value: sessionToken,
+        value: print.token,
         url: origin,
         httpOnly: true,
         sameSite: 'Strict',
@@ -58,10 +63,17 @@ export async function renderAuditPdf(
     });
     return pdf;
   } finally {
-    try {
-      await browser?.close();
-    } finally {
-      active--;
-    }
+    const cleanupFailed = (step: string) => (error: unknown) =>
+      console.error(
+        JSON.stringify({
+          event: 'pdf.cleanup_failed',
+          auditId: id,
+          step,
+          message: error instanceof Error ? error.message.slice(0, 300) : String(error),
+        }),
+      );
+    await browser?.close().catch(cleanupFailed('browser'));
+    await print?.revoke().catch(cleanupFailed('print_session'));
+    active--;
   }
 }

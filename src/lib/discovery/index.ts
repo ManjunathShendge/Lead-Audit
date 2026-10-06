@@ -1,4 +1,4 @@
-import type { Browser } from 'playwright';
+import type { Browser } from 'playwright-core';
 import { launchGuarded } from './browser';
 import { extractHandles, missingPlatforms, type ExtractResult } from './extract';
 import { assertPublicUrl } from './net';
@@ -104,7 +104,7 @@ export async function discoverFromWebsite(input: string): Promise<DiscoveryResul
   }
 }
 
-async function visit(page: import('playwright').Page, target: string): Promise<PageHarvest | null> {
+async function visit(page: import('playwright-core').Page, target: string): Promise<PageHarvest | null> {
   try {
     const response = await page.goto(target, { waitUntil: 'domcontentloaded', timeout: PAGE_TIMEOUT_MS });
     if (!response || response.status() >= 400) return null;

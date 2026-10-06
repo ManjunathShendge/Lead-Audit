@@ -1,6 +1,8 @@
+import { after } from 'next/server';
 import { db } from '@/lib/db';
 import { apiGuard } from '@/lib/http';
 import { idSchema } from '@/lib/validation';
+import { kickJobs } from '@/lib/jobs/runner';
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const guard = await apiGuard(request);
   if (guard) return guard;
@@ -16,6 +18,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     },
   });
   if (!audit) return Response.json({ error: 'Audit not found.' }, { status: 404 });
+  // Progress polls keep the job loop alive, so an audit resumes even after a restart.
+  if (audit.state === 'queued' || audit.state === 'running') after(() => void kickJobs('audit.poll'));
   return Response.json(audit, { headers: { 'Cache-Control': 'no-store' } });
 }
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {

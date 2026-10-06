@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { after } from 'next/server';
 import { Prisma } from '@prisma/client';
 import { db } from '@/lib/db';
 import { apiGuard, jsonInput } from '@/lib/http';
@@ -10,6 +11,7 @@ import { channelAvailability } from '@/lib/collectors/channels';
 import { normalizeGbpQuery, type Channel } from '@/lib/collectors/channel-types';
 import { audienceProvided } from '@/lib/ai/alignment-types';
 import { periodAllowed } from '@/lib/period';
+import { kickJobs } from '@/lib/jobs/runner';
 const json = (value: unknown) => JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
 export async function POST(request: Request) {
   const guard = await apiGuard(request, true);
@@ -120,6 +122,7 @@ export async function POST(request: Request) {
         },
       },
     });
+    after(() => void kickJobs('audit.created'));
     return Response.json({ id: audit.id }, { status: 201 });
   } catch {
     console.error(JSON.stringify({ event: 'audit.create_failed' }));

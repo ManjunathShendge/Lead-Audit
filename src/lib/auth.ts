@@ -32,6 +32,18 @@ export async function createSession() {
     maxAge: 8 * 3600,
   });
 }
+/**
+ * A session that lives only for one PDF render. The browser printing the report runs on Browserless,
+ * so it gets this throwaway token instead of the user's own 8 hour session cookie.
+ */
+export async function createPrintSession(ttlMs = 3 * 60_000) {
+  const token = randomBytes(32).toString('hex');
+  await db.session.create({ data: { tokenHash: hash(token), expiresAt: new Date(Date.now() + ttlMs) } });
+  return {
+    token,
+    revoke: () => db.session.deleteMany({ where: { tokenHash: hash(token) } }).then(() => undefined),
+  };
+}
 export async function destroySession() {
   const store = await cookies();
   const token = store.get(SESSION_COOKIE)?.value;

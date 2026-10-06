@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { after } from 'next/server';
 import { Prisma } from '@prisma/client';
 import { db } from '@/lib/db';
 import { apiGuard, jsonInput } from '@/lib/http';
@@ -6,6 +7,7 @@ import { platformSchema } from '@/lib/collectors/types';
 import { normalizeHandle } from '@/lib/validation';
 import { currentMode, liveAvailability } from '@/lib/collectors';
 import { summarize } from '@/lib/accuracy';
+import { kickJobs } from '@/lib/jobs/runner';
 
 const MAX_ACCOUNTS = 50;
 
@@ -85,5 +87,6 @@ export async function POST(request: Request) {
     },
   });
   console.log(JSON.stringify({ event: 'accuracy.created', runId: run.id, items: accounts.length, mode }));
+  after(() => void kickJobs('accuracy.created'));
   return Response.json({ id: run.id, items: accounts.length, mode }, { status: 201 });
 }

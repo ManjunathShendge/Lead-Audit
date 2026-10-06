@@ -1,9 +1,7 @@
-import { cookies } from 'next/headers';
 import { db } from '@/lib/db';
 import { apiGuard } from '@/lib/http';
-import { SESSION_COOKIE } from '@/lib/auth';
 import { idSchema } from '@/lib/validation';
-import { renderAuditPdf, PdfBusyError } from '@/lib/pdf/render';
+import { renderAuditPdf, PdfBusyError, PdfConfigError } from '@/lib/pdf/render';
 import { isPdfSection, sectionAvailable, sectionFilename } from '@/lib/pdf/sections';
 import { storedAlignmentSchema } from '@/lib/ai/alignment-types';
 import type { Report } from '@/lib/report';
@@ -37,8 +35,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   )
     return Response.json({ error: 'This section was not measured for this audit.' }, { status: 404 });
   try {
-    const token = (await cookies()).get(SESSION_COOKIE)!.value;
-    const pdf = await renderAuditPdf(parsed.data, token, audit.mode === 'live' ? 'live' : 'mock', section);
+    const pdf = await renderAuditPdf(parsed.data, audit.mode === 'live' ? 'live' : 'mock', section);
     return new Response(new Uint8Array(pdf), {
       headers: {
         'Content-Type': 'application/pdf',
@@ -47,13 +44,19 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       },
     });
   } catch (error) {
-    console.error(JSON.stringify({ event: 'pdf.failed', auditId: parsed.data }));
+    console.error(
+      JSON.stringify({
+        event: 'pdf.failed',
+        auditId: parsed.data,
+        message: error instanceof Error ? error.message.slice(0, 300) : String(error),
+      }),
+    );
     return Response.json(
       {
         error:
-          error instanceof PdfBusyError
+          error instanceof PdfBusyError || error instanceof PdfConfigError
             ? error.message
-            : 'PDF could not be rendered. Verify the Chromium installation and APP_ORIGIN, then retry.',
+            : 'PDF could not be rendered. Verify BROWSERLESS_TOKEN and APP_ORIGIN, then retry.',
       },
       { status: 503 },
     );

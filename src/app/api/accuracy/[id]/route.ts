@@ -1,8 +1,10 @@
 import { z } from 'zod';
+import { after } from 'next/server';
 import { db } from '@/lib/db';
 import { apiGuard, jsonInput } from '@/lib/http';
 import { idSchema } from '@/lib/validation';
 import { summarize } from '@/lib/accuracy';
+import { kickJobs } from '@/lib/jobs/runner';
 
 const truthSchema = z
   .object({
@@ -32,6 +34,8 @@ export async function GET(request: Request, ctx: RouteContext<'/api/accuracy/[id
     include: { items: { orderBy: [{ platform: 'asc' }, { handle: 'asc' }] } },
   });
   if (!run) return Response.json({ error: 'Not found.' }, { status: 404 });
+  if (run.items.some((i) => i.state === 'queued' || i.state === 'running'))
+    after(() => void kickJobs('accuracy.poll'));
   return Response.json({
     id: run.id,
     label: run.label,
